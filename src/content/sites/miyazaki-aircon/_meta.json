@@ -1,0 +1,27 @@
+{
+  "siteKey": "miyazaki-aircon",
+  "basePath": "miyazaki/aircon-bunkai",
+  "siteName": "宮崎エアコンクリーンナビ",
+  "siteShortName": "宮崎エアコンクリーンナビ",
+  "tagline": "宮崎市のエアコン分解洗浄を、即日対応でサポート",
+  "city": "宮崎市",
+  "prefecture": "宮崎県",
+  "niche": "エアコン分解洗浄",
+  "areaServed": ["宮崎市", "宮崎市佐土原町", "宮崎市清武町", "宮崎市田野町"],
+  "phone": "050-XXXX-XXXX",
+  "phoneHoursLabel": "受付 9:00-20:00（年中無休）",
+  "priceRangeLabel": "壁掛けタイプ 12,000円〜",
+  "responseLabel": "最短即日対応",
+  "contactFormUrl": "",
+  "owner": {
+    "name": "（運営者本名・後で _meta.json か環境変数 SITE_OWNER_NAME で設定）",
+    "address": "（所在地・後で _meta.json か環境変数 SITE_OWNER_ADDRESS で設定）",
+    "email": "（連絡先・後で Cloudflare Email Routing で設定）"
+  },
+  "legal": {
+    "tokushohoUrl": "/miyazaki/aircon-bunkai/legal/tokushoho/",
+    "privacyUrl": "/miyazaki/aircon-bunkai/legal/privacy/"
+  },
+  "ogImage": "/og/miyazaki-aircon.png",
+  "logoPath": "/favicon.svg"
+}

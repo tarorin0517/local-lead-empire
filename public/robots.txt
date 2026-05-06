@@ -1,0 +1,25 @@
+# Googlebot 等の主要検索クローラは許可
+User-agent: *
+Allow: /
+
+# AI クローラは除外（任意・コメントアウトすると許可になる）
+User-agent: CCBot
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+# サイトマップ（SITE_URL に合わせて差し替え）
+Sitemap: https://machi-no-pro.com/sitemap-index.xml

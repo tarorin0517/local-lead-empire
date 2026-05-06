@@ -1,0 +1,7 @@
+# Cloudflare Pages: リダイレクト設定
+# https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# 形式: <source>  <destination>  <status>
+# 例（コメントアウト）:
+# /old-path        /miyazaki/aircon-bunkai/         301
+# /miyazaki/aircon /miyazaki/aircon-bunkai/         301

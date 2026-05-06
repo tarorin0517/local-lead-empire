@@ -1,0 +1,148 @@
+---
+import type { SiteMeta } from '../lib/sites';
+import { buildCanonical } from '../lib/sites';
+import { SITE_URL } from '../lib/site-url';
+
+export type PageKind = 'top' | 'article' | 'service' | 'area' | 'symptom';
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface BreadcrumbItem {
+  name: string;
+  urlPath: string;
+}
+
+interface Props {
+  site: SiteMeta;
+  kind: PageKind;
+  pageTitle: string;
+  pageDescription: string;
+  urlPath: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author: string;
+  faqs?: FaqItem[];
+  breadcrumbs?: BreadcrumbItem[];
+}
+
+const {
+  site,
+  kind,
+  pageTitle,
+  pageDescription,
+  urlPath,
+  publishedTime,
+  modifiedTime,
+  author,
+  faqs,
+  breadcrumbs,
+} = Astro.props;
+
+const canonical = buildCanonical(SITE_URL, urlPath);
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#localbusiness`,
+  name: site.siteName,
+  description: site.tagline,
+  url: buildCanonical(SITE_URL, site.baseUrlPath),
+  telephone: site.phone,
+  areaServed: (site.areaServed ?? [site.city]).map((name) => ({
+    '@type': 'City',
+    name,
+  })),
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'JP',
+    addressRegion: site.prefecture ?? site.city,
+    addressLocality: site.city,
+    streetAddress: site.owner.address,
+  },
+  ...(site.priceRangeLabel ? { priceRange: site.priceRangeLabel } : {}),
+};
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#service`,
+  serviceType: site.niche,
+  provider: { '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#localbusiness` },
+  areaServed: (site.areaServed ?? [site.city]).map((name) => ({
+    '@type': 'City',
+    name,
+  })),
+  name: `${site.city}の${site.niche}`,
+  description: site.tagline,
+};
+
+const article =
+  kind !== 'top'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: pageTitle,
+        description: pageDescription,
+        mainEntityOfPage: canonical,
+        inLanguage: 'ja',
+        author: { '@type': 'Person', name: author },
+        publisher: {
+          '@type': 'Organization',
+          name: site.siteName,
+          logo: site.logoPath
+            ? {
+                '@type': 'ImageObject',
+                url: buildCanonical(SITE_URL, site.logoPath),
+              }
+            : undefined,
+        },
+        ...(publishedTime ? { datePublished: publishedTime } : {}),
+        ...(modifiedTime ? { dateModified: modifiedTime } : {}),
+      }
+    : null;
+
+const faqPage =
+  faqs && faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.answer,
+          },
+        })),
+      }
+    : null;
+
+const breadcrumbList =
+  breadcrumbs && breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((b, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: b.name,
+          item: buildCanonical(SITE_URL, b.urlPath),
+        })),
+      }
+    : null;
+
+const blocks = [
+  localBusiness,
+  service,
+  article,
+  faqPage,
+  breadcrumbList,
+].filter((b): b is NonNullable<typeof b> => b !== null);
+---
+
+{blocks.map((block) => (
+  <script type="application/ld+json" set:html={JSON.stringify(block)} />
+))}

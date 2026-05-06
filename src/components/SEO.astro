@@ -1,0 +1,53 @@
+---
+import type { SiteMeta } from '../lib/sites';
+import { buildCanonical } from '../lib/sites';
+import { SITE_URL } from '../lib/site-url';
+
+interface Props {
+  title: string;
+  description: string;
+  urlPath: string;
+  site: SiteMeta;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  ogImagePath?: string;
+}
+
+const {
+  title,
+  description,
+  urlPath,
+  site,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  ogImagePath,
+} = Astro.props;
+
+const canonical = buildCanonical(SITE_URL, urlPath);
+const ogImage = ogImagePath ?? site.ogImage;
+const absoluteOgImage = ogImage
+  ? buildCanonical(SITE_URL, ogImage)
+  : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={site.siteName} />
+<meta property="og:locale" content="ja_JP" />
+{absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{absoluteOgImage && <meta name="twitter:image" content={absoluteOgImage} />}
