@@ -1,0 +1,53 @@
+---
+import type { SiteMeta } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const areas = site.areas;
+---
+
+{areas && (
+  <section class="bg-bg-section px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
+        対応エリア
+      </h2>
+      <p class="mt-2 text-center text-sm text-ink-muted">
+        下記エリア外についても対応可能な場合があります。お気軽にご相談ください。
+      </p>
+
+      {areas.cityWards.length > 0 && (
+        <div class="mt-8">
+          <h3 class="text-base font-bold text-primary-900 sm:text-lg">
+            {site.city}内
+          </h3>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {areas.cityWards.map((name) => (
+              <li class="rounded-full border border-primary-100 bg-white px-3 py-1 text-sm font-semibold text-primary-700 shadow-sm">
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {areas.outsideCity.length > 0 && (
+        <div class="mt-8">
+          <h3 class="text-base font-bold text-primary-900 sm:text-lg">
+            {site.prefecture ?? site.city}内 その他対応市町村
+          </h3>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {areas.outsideCity.map((name) => (
+              <li class="rounded-full border border-primary-100 bg-white px-3 py-1 text-sm font-semibold text-primary-700 shadow-sm">
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+)}

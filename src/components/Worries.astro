@@ -1,0 +1,32 @@
+---
+import type { SiteMeta } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const items = site.worries ?? [];
+---
+
+{items.length > 0 && (
+  <section class="bg-bg-soft px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
+        こんなお悩みありませんか？
+      </h2>
+      <p class="mt-2 text-center text-sm text-ink-muted">
+        当てはまる項目があれば、エアコン分解洗浄のサインかもしれません。
+      </p>
+
+      <ul class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+        {items.map((text) => (
+          <li class="flex items-start gap-2 rounded-lg border border-primary-100 bg-white p-4 shadow-sm">
+            <span aria-hidden="true" class="mt-0.5 text-accent-500">✓</span>
+            <span class="text-sm leading-relaxed text-ink sm:text-base">{text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

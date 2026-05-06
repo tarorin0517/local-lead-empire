@@ -1,0 +1,110 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { getPrimarySite } from '../../lib/sites';
+
+const site = getPrimarySite();
+const urlPath = '/legal/tokushoho/';
+const title = `特定商取引法に基づく表記｜${site.siteName}`;
+const description = `${site.siteName}の特定商取引法に基づく表記です。販売事業者・所在地・支払・引渡・返品キャンセルポリシー等を記載しています。`;
+---
+
+<SiteLayout
+  site={site}
+  title={title}
+  description={description}
+  urlPath={urlPath}
+  kind="article"
+  author={site.owner.name}
+  hideAutoContactForm={true}
+  breadcrumbs={[
+    { name: site.siteShortName ?? site.siteName, urlPath: site.baseUrlPath },
+    { name: '特定商取引法に基づく表記', urlPath },
+  ]}
+>
+  <h1 class="text-2xl font-bold text-primary-900 sm:text-3xl">
+    特定商取引法に基づく表記
+  </h1>
+  <p class="mt-2 text-sm text-ink-muted">
+    特定商取引に関する法律 第11条（通信販売についての広告）に基づき、以下のとおり表示します。
+  </p>
+
+  <dl class="mt-8 divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">販売事業者</dt>
+      <dd class="text-sm text-ink">{site.siteName}</dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">運営責任者</dt>
+      <dd class="text-sm text-ink">{site.owner.name}</dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">所在地</dt>
+      <dd class="text-sm text-ink">{site.owner.address}</dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">電話番号</dt>
+      <dd class="text-sm text-ink">{site.phone}（{site.phoneHoursLabel ?? '受付時間内'}）</dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">メールアドレス</dt>
+      <dd class="break-all text-sm text-ink">{site.owner.email}</dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">販売価格</dt>
+      <dd class="text-sm text-ink">
+        各サービスページに記載の金額（すべて税込・出張費込み）。<br />
+        当日の現地状況により料金変更が必要な場合は、必ず作業着手前に再見積もりをご提示し、ご了承いただいてから着手します。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">価格以外の必要料金</dt>
+      <dd class="text-sm text-ink">
+        駐車場代等の実費が発生する場合は事前にお見積もりに含めてご案内します。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">支払方法</dt>
+      <dd class="text-sm text-ink">
+        現金／銀行振込／主要クレジットカード（VISA・Master・JCB・AMEX）／PayPay。<br />
+        法人のお客様は請求書払いも承ります。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">支払時期</dt>
+      <dd class="text-sm text-ink">
+        作業完了後、その場でお支払いいただきます。請求書払いは別途指定期日までにお振込みください。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">役務の提供時期</dt>
+      <dd class="text-sm text-ink">
+        ご予約日時にスタッフがご指定の場所へ訪問し、当日中に作業を完了します。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">キャンセルポリシー</dt>
+      <dd class="text-sm text-ink">
+        前日17:00まで：無料。<br />
+        前日17:00以降〜当日着手前：見積金額の30%。<br />
+        作業着手後：見積金額の100%。<br />
+        雨天等の当社都合による順延・キャンセルは料金を頂戴しません。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">役務の保証</dt>
+      <dd class="text-sm text-ink">
+        施工後30日間の動作保証を設けています。当社施工に起因する不具合が確認された場合は、無償で再点検・再施工にお伺いします。
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">加入保険</dt>
+      <dd class="text-sm text-ink">
+        {(site.insurance ?? ['請負業者賠償責任保険', 'PL保険']).join('／')}
+      </dd>
+    </div>
+  </dl>
+
+  <p class="mt-6 text-xs text-ink-muted">
+    本表記は雛形を含みます。実際の運用前に、運営者本名・所在地・連絡先・支払・キャンセルポリシーを最新の事業実態に合わせて見直してください。
+  </p>
+</SiteLayout>

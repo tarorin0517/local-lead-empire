@@ -1,45 +1,65 @@
 ---
 import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
 
 interface Props {
   site: SiteMeta;
 }
 
 const { site } = Astro.props;
-const telHref = `tel:${site.phone.replace(/[^\d+]/g, '')}`;
-const hasForm = Boolean(site.contactFormUrl);
+const hasGoogleForm = Boolean(site.contactFormUrl);
+const hasLine = Boolean(site.lineUrl);
 ---
 
-<section id="contact" class="mt-16 scroll-mt-20">
-  <div class="mx-auto max-w-3xl px-4">
-    <h2 class="text-2xl font-bold text-brand-900 sm:text-3xl">
+<section id="contact" class="bg-bg-section px-4 py-12 sm:py-16">
+  <div class="mx-auto max-w-3xl">
+    <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
       お問い合わせ
     </h2>
-    <p class="mt-2 text-sm text-slate-600">
-      症状・希望日時・お住まいのエリアをお書き添えください。
+    <p class="mt-2 text-center text-sm text-ink-muted">
+      症状・希望日・台数をお書き添えください。
       受付時間内であれば、最短当日中に折り返しご連絡します。
     </p>
 
-    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+    <div class={hasLine ? 'mt-8 grid gap-3 sm:grid-cols-3' : 'mt-8 grid gap-3 sm:grid-cols-2'}>
       <a
-        href={telHref}
-        class="flex flex-col items-center rounded-lg border border-brand-200 bg-white p-5 text-center shadow-sm hover:border-brand-400"
+        href={telHref(site.phone)}
+        class="flex flex-col items-center justify-center rounded-lg border border-primary-100 bg-white p-5 text-center shadow-sm hover:border-primary-700"
       >
-        <span class="text-xs text-slate-500">電話で相談</span>
-        <span class="mt-1 text-xl font-bold text-brand-700">{site.phone}</span>
-        <span class="mt-1 text-xs text-slate-500">{site.phoneHoursLabel ?? '受付時間内'}</span>
+        <span class="text-xs text-ink-muted">電話で相談</span>
+        <span class="mt-1 text-xl font-bold text-primary-700">{site.phone}</span>
+        <span class="mt-1 text-xs text-ink-muted">{site.phoneHoursLabel ?? '受付時間内'}</span>
       </a>
       <a
         href="#contact-form"
-        class="flex flex-col items-center justify-center rounded-lg bg-accent-500 p-5 text-center text-white shadow-sm hover:bg-accent-600"
+        class="flex flex-col items-center justify-center rounded-lg bg-accent-500 p-5 text-center text-white shadow hover:bg-accent-600"
       >
-        <span class="text-xs">フォームから相談</span>
-        <span class="mt-1 text-base font-bold">下のフォームへ</span>
+        <span class="text-xs">フォームで相談</span>
+        <span class="mt-1 text-base font-bold">下のフォームから</span>
       </a>
+      {hasLine ? (
+        <a
+          href={site.lineUrl}
+          rel="noopener"
+          target="_blank"
+          class="flex flex-col items-center justify-center rounded-lg p-5 text-center text-white shadow hover:opacity-90"
+          style="background-color:#06C755"
+        >
+          <span class="text-xs">{site.ctaCopy?.lineLabel ?? 'LINEで相談'}</span>
+          <span class="mt-1 text-base font-bold">トーク開始</span>
+        </a>
+      ) : (
+        <div
+          class="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-white/60 p-5 text-center text-xs text-ink-muted sm:col-span-1"
+        >
+          <span class="font-semibold text-ink">LINE 相談（準備中）</span>
+          <span class="mt-1">_meta.json の <code class="rounded bg-slate-100 px-1">lineUrl</code> に設定すると有効化</span>
+        </div>
+      )}
     </div>
 
-    <div id="contact-form" class="mt-8 rounded-lg border border-slate-200 bg-white p-4">
-      {hasForm ? (
+    <div id="contact-form" class="mt-8 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      {hasGoogleForm ? (
         <iframe
           src={site.contactFormUrl}
           width="100%"
@@ -51,18 +71,92 @@ const hasForm = Boolean(site.contactFormUrl);
           title="お問い合わせフォーム"
         >読み込み中...</iframe>
       ) : (
-        <div class="rounded border border-dashed border-slate-300 bg-slate-50 p-6 text-sm text-slate-600">
-          <p class="font-semibold text-slate-800">
-            お問い合わせフォーム（Google Forms）埋め込み枠
+        <form
+          action="#"
+          method="post"
+          class="grid gap-4"
+          aria-label="お問い合わせフォーム（仮置き）"
+        >
+          <p class="rounded border border-dashed border-slate-300 bg-bg-soft p-3 text-xs text-ink-muted">
+            このフォームは仮置きです。<code class="rounded bg-slate-100 px-1">_meta.json</code> の
+            <code class="rounded bg-slate-100 px-1">contactFormUrl</code> に Google Forms の埋め込み URL
+            （<code class="rounded bg-slate-100 px-1">.../viewform?embedded=true</code>）を設定すると、
+            ここに iframe が表示されます。
           </p>
-          <p class="mt-2">
-            <code class="rounded bg-white px-1.5 py-0.5 text-xs">_meta.json</code> の
-            <code class="rounded bg-white px-1.5 py-0.5 text-xs">contactFormUrl</code>
-            に Google Forms の埋め込み URL（
-            <code class="rounded bg-white px-1.5 py-0.5 text-xs">.../viewform?embedded=true</code>
-            ）を設定すると、ここに iframe が表示されます。
-          </p>
-        </div>
+
+          <div>
+            <label for="cf-name" class="block text-sm font-semibold text-ink">お名前 <span class="text-accent-500">*</span></label>
+            <input
+              id="cf-name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              class="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-primary-700"
+              placeholder="例：宮崎 太郎"
+              aria-required="true"
+            />
+          </div>
+
+          <div>
+            <label for="cf-tel" class="block text-sm font-semibold text-ink">電話番号 <span class="text-accent-500">*</span></label>
+            <input
+              id="cf-tel"
+              name="tel"
+              type="tel"
+              required
+              autocomplete="tel"
+              inputmode="tel"
+              class="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-primary-700"
+              placeholder="例：090-1234-5678"
+              aria-required="true"
+            />
+          </div>
+
+          <div>
+            <label for="cf-area" class="block text-sm font-semibold text-ink">住所（市区町村・町名）<span class="text-accent-500">*</span></label>
+            <input
+              id="cf-area"
+              name="area"
+              type="text"
+              required
+              autocomplete="address-level2"
+              class="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-primary-700"
+              placeholder={`例：${site.city}橘通西`}
+              aria-required="true"
+            />
+          </div>
+
+          <div>
+            <label for="cf-date" class="block text-sm font-semibold text-ink">希望日</label>
+            <input
+              id="cf-date"
+              name="preferred_date"
+              type="date"
+              class="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-primary-700"
+            />
+          </div>
+
+          <div>
+            <label for="cf-units" class="block text-sm font-semibold text-ink">台数・機種</label>
+            <textarea
+              id="cf-units"
+              name="units_models"
+              rows="3"
+              class="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm focus:border-primary-700"
+              placeholder="例：壁掛け 1台（パナソニック・お掃除機能付き）／天井埋込 1台"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            disabled
+            class="rounded-lg bg-primary-700 px-5 py-3 text-sm font-bold text-white opacity-60"
+            aria-label="送信ボタン（プレースホルダ・現在は無効）"
+          >
+            送信（埋め込み完了後に有効化）
+          </button>
+        </form>
       )}
     </div>
   </div>

@@ -1,0 +1,31 @@
+---
+import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-50 flex border-t border-primary-100 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.08)] md:hidden"
+  style="padding-bottom: env(safe-area-inset-bottom)"
+>
+  <a
+    href={telHref(site.phone)}
+    class="flex flex-1 items-center justify-center gap-2 bg-accent-500 px-3 py-3 text-sm font-bold text-white"
+    aria-label={`電話で相談する ${site.phone}`}
+  >
+    <span aria-hidden="true">📞</span>
+    電話で相談
+  </a>
+  <a
+    href="#contact"
+    class="flex flex-1 items-center justify-center gap-2 bg-primary-700 px-3 py-3 text-sm font-bold text-white"
+  >
+    <span aria-hidden="true">✉️</span>
+    無料見積もり
+  </a>
+</div>

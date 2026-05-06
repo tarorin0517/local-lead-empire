@@ -1,38 +1,38 @@
 ---
 import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
 
 interface Props {
   site: SiteMeta;
 }
 
 const { site } = Astro.props;
-const telHref = `tel:${site.phone.replace(/[^\d+]/g, '')}`;
 ---
 
-<header class="sticky top-0 z-40 border-b border-brand-100 bg-white/90 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-primary-100 bg-white/95 backdrop-blur">
   <div class="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3 sm:gap-4">
     <a
       href={site.baseUrlPath}
       class="flex min-w-0 flex-col leading-tight"
     >
-      <span class="text-xs text-brand-700 sm:text-sm">{site.city}・{site.niche}</span>
-      <span class="truncate text-base font-bold text-brand-900 sm:text-lg">
+      <span class="text-xs text-primary-700 sm:text-sm">{site.city}・{site.niche}</span>
+      <span class="truncate text-base font-bold text-primary-900 sm:text-lg">
         {site.siteShortName ?? site.siteName}
       </span>
     </a>
 
     <div class="flex shrink-0 items-center gap-2 sm:gap-3">
       <a
-        href={telHref}
+        href={telHref(site.phone)}
         class="hidden flex-col items-end leading-tight sm:flex"
         aria-label={`電話で相談する ${site.phone}`}
       >
-        <span class="text-[10px] text-slate-500">{site.phoneHoursLabel ?? '受付時間内'}</span>
-        <span class="text-lg font-bold text-brand-700">{site.phone}</span>
+        <span class="text-[10px] text-ink-muted">{site.phoneHoursLabel ?? '受付時間内'}</span>
+        <span class="text-lg font-bold text-primary-700">{site.phone}</span>
       </a>
       <a
-        href={telHref}
-        class="inline-flex items-center justify-center rounded-md bg-brand-600 px-3 py-2 text-sm font-bold text-white shadow-sm hover:bg-brand-700 sm:hidden"
+        href={telHref(site.phone)}
+        class="inline-flex items-center justify-center rounded-md bg-primary-700 px-3 py-2 text-sm font-bold text-white shadow-sm hover:bg-primary-900 sm:hidden"
         aria-label={`電話で相談する ${site.phone}`}
       >
         電話

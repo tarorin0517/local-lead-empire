@@ -1,0 +1,123 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { getPrimarySite } from '../../lib/sites';
+
+const site = getPrimarySite();
+const urlPath = '/legal/privacy/';
+const title = `プライバシーポリシー｜${site.siteName}`;
+const description = `${site.siteName}のプライバシーポリシーです。個人情報の取得項目、利用目的、第三者提供、開示・訂正・削除請求の手順を記載しています。`;
+---
+
+<SiteLayout
+  site={site}
+  title={title}
+  description={description}
+  urlPath={urlPath}
+  kind="article"
+  author={site.owner.name}
+  hideAutoContactForm={true}
+  breadcrumbs={[
+    { name: site.siteShortName ?? site.siteName, urlPath: site.baseUrlPath },
+    { name: 'プライバシーポリシー', urlPath },
+  ]}
+>
+  <h1 class="text-2xl font-bold text-primary-900 sm:text-3xl">
+    プライバシーポリシー
+  </h1>
+  <p class="mt-2 text-sm text-ink-muted">
+    {site.siteName}（以下「当社」）は、お客様の個人情報の重要性を認識し、個人情報の保護に関する法律（個人情報保護法）を遵守するとともに、以下の方針に従って適切な取扱いに努めます。
+  </p>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">1. 取得する個人情報</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      当社は、お問い合わせフォーム・電話・LINE等を通じて、以下の情報を取得することがあります。
+    </p>
+    <ul class="mt-3 list-disc space-y-1 pl-6 text-sm text-ink">
+      <li>氏名・お住まいの市区町村・町名</li>
+      <li>電話番号・メールアドレス</li>
+      <li>ご希望の施工日・台数・機種</li>
+      <li>サービス提供に必要な範囲のお問い合わせ内容</li>
+    </ul>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">2. 個人情報の利用目的</h2>
+    <ul class="mt-3 list-disc space-y-1 pl-6 text-sm text-ink">
+      <li>お見積もり・ご予約・サービス提供のためのご連絡</li>
+      <li>サービス提供に伴う請求・決済処理</li>
+      <li>アフターフォロー・保証期間中の対応</li>
+      <li>当社サービス改善のためのアンケート（任意・ご同意いただいた場合のみ）</li>
+    </ul>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">3. 第三者提供</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      当社は、以下の場合を除き、ご本人の同意なく個人情報を第三者へ提供しません。
+    </p>
+    <ul class="mt-3 list-disc space-y-1 pl-6 text-sm text-ink">
+      <li>法令に基づく場合</li>
+      <li>人の生命・身体・財産の保護のために必要であり、ご本人の同意取得が困難な場合</li>
+      <li>業務委託先（決済・配送など）に必要な範囲で提供する場合（守秘義務契約を締結したうえで）</li>
+    </ul>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">4. 個人情報の管理</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      当社は、個人情報への不正アクセス・紛失・破壊・改ざん・漏洩等を防ぐため、適切な安全管理措置を講じます。
+    </p>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">5. 開示・訂正・削除のご請求</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      ご本人からの個人情報の開示・訂正・追加・削除・利用停止のご請求については、下記のお問い合わせ先までご連絡ください。本人確認のうえ、合理的な範囲で速やかに対応します。
+    </p>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">6. クッキー（Cookie）の利用</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      当サイトは、サイト改善のためのアクセス解析にクッキーを利用する場合があります。クッキーは個人を特定する情報を含みません。ブラウザの設定でクッキーの受け取りを拒否することも可能です。
+    </p>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">7. お問い合わせ窓口</h2>
+    <dl class="mt-3 rounded-lg border border-slate-200 bg-white p-5 text-sm shadow-sm">
+      <div class="flex gap-2">
+        <dt class="w-24 shrink-0 text-ink-muted">事業者名</dt>
+        <dd class="text-ink">{site.siteName}</dd>
+      </div>
+      <div class="mt-1 flex gap-2">
+        <dt class="w-24 shrink-0 text-ink-muted">運営責任者</dt>
+        <dd class="text-ink">{site.owner.name}</dd>
+      </div>
+      <div class="mt-1 flex gap-2">
+        <dt class="w-24 shrink-0 text-ink-muted">所在地</dt>
+        <dd class="text-ink">{site.owner.address}</dd>
+      </div>
+      <div class="mt-1 flex gap-2">
+        <dt class="w-24 shrink-0 text-ink-muted">電話番号</dt>
+        <dd class="text-ink">{site.phone}</dd>
+      </div>
+      <div class="mt-1 flex gap-2">
+        <dt class="w-24 shrink-0 text-ink-muted">メール</dt>
+        <dd class="break-all text-ink">{site.owner.email}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="text-xl font-bold text-primary-900">8. 改定</h2>
+    <p class="mt-3 text-sm leading-relaxed text-ink">
+      当社は、必要に応じて本ポリシーを改定することがあります。改定後の内容は本ページに掲載した時点から適用します。
+    </p>
+  </section>
+
+  <p class="mt-8 text-xs text-ink-muted">
+    本ポリシーは雛形です。実運用前に、貴事業の実情に合わせて文言を見直してください。
+  </p>
+</SiteLayout>

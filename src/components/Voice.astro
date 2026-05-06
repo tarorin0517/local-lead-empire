@@ -1,0 +1,44 @@
+---
+import type { SiteMeta } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const voices = site.voices ?? [];
+---
+
+{voices.length > 0 && (
+  <section class="px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
+        お客様の声
+      </h2>
+      <p class="mt-2 text-center text-sm text-ink-muted">
+        掲載は本人同意のうえ、エリア・施工月のみ表示しています。
+      </p>
+
+      <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {voices.map((v) => (
+          <li class="flex flex-col rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 font-bold text-primary-700">
+                {v.alias.charAt(0)}
+              </span>
+              <div>
+                <p class="text-sm font-bold text-ink">{v.alias}</p>
+                <p class="text-xs text-ink-muted">{v.area}／{v.date}</p>
+              </div>
+            </div>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-ink">「{v.body}」</p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="mt-4 text-center text-[11px] text-ink-muted">
+        ※ 上記はサイト構成のためのプレースホルダ表示です。本物の口コミに差し替え後、出典・取得日・本人同意を確認のうえ掲載します。
+      </p>
+    </div>
+  </section>
+)}

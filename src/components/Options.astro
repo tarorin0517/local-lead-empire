@@ -1,0 +1,29 @@
+---
+import type { SiteMeta } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const items = site.options ?? [];
+---
+
+{items.length > 0 && (
+  <section class="bg-bg-soft px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-5xl">
+      <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
+        オプションメニュー
+      </h2>
+
+      <ul class="mt-8 grid gap-4 sm:grid-cols-3">
+        {items.map((opt) => (
+          <li class="flex items-center justify-between rounded-lg border border-primary-100 bg-white px-5 py-4 shadow-sm">
+            <span class="text-base font-semibold text-ink">{opt.name}</span>
+            <span class="text-base font-bold text-primary-700">{opt.price}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

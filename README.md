@@ -171,11 +171,11 @@ draft: true              # true なら出力しない
 
 ## SEO・構造化データ
 
-| ページ種別      | 自動出力される JSON-LD                     |
-| --------------- | ------------------------------------------ |
-| トップ          | LocalBusiness + Service + (FAQ) + Breadcrumb |
-| 記事            | LocalBusiness + Service + Article + Breadcrumb |
-| FAQ あり        | 上記 + FAQPage                             |
+| ページ種別      | 自動出力される JSON-LD                                                           |
+| --------------- | -------------------------------------------------------------------------------- |
+| トップ          | HomeAndConstructionBusiness + Service(+Offer) + (FAQ) + Breadcrumb               |
+| 記事            | HomeAndConstructionBusiness + Service + Article + Breadcrumb                     |
+| FAQ あり        | 上記 + FAQPage                                                                   |
 
 `canonical` / OGP / Twitter Cards / `robots` メタは `src/components/SEO.astro`
 が自動付与します。サイトマップは `@astrojs/sitemap` でビルド時に生成され、
@@ -256,12 +256,114 @@ Cloudflare Pages 側でも同名の環境変数を設定すれば、本番ビル
 
 ---
 
+## トップページの構造（12 セクション）
+
+`/<basePath>/` のトップページは、業界トップ群（おそうじ本舗・ダスキン他）の
+構造を踏襲した 12 セクションで構成されます。データはすべて
+`_meta.json`（および記事 frontmatter の `faqs`）から供給されるので、
+別サイト追加時はテンプレ流用のまま値を差し替えるだけで完成します。
+
+| #   | セクション      | コンポーネント                       | データソース             |
+| --- | --------------- | ------------------------------------ | ------------------------ |
+| 1   | Hero            | `src/components/Hero.astro`          | `_meta.json` 全般        |
+| 2   | Worries         | `src/components/Worries.astro`       | `_meta.worries`          |
+| 3   | BeforeAfter     | `src/components/BeforeAfter.astro`   | `_meta.beforeAfter`      |
+| 4   | Reasons         | `src/components/Reasons.astro`       | `_meta.reasons`          |
+| 5   | PriceTable      | `src/components/PriceTable.astro`    | `_meta.priceTable`/`priceNote` |
+| 6   | Options         | `src/components/Options.astro`       | `_meta.options`          |
+| 7   | Flow            | `src/components/Flow.astro`          | `_meta.flow`             |
+| 8   | AreaList        | `src/components/AreaList.astro`      | `_meta.areas`            |
+| 9   | Voice           | `src/components/Voice.astro`         | `_meta.voices`           |
+| 10  | FAQ             | `src/components/FAQ.astro`           | 記事 frontmatter `faqs`  |
+| 11  | Company         | `src/components/Company.astro`       | `_meta.owner` 他         |
+| 12  | ContactForm     | `src/components/ContactForm.astro`   | `_meta.phone`/`lineUrl`/`contactFormUrl` |
+
+加えて、モバイル下部に `StickyCTA`（電話／フォーム並列）が常時表示されます。
+
+### 新しいセクションを追加するとき
+
+1. `src/components/<NewSection>.astro` を作成。Props は `{ site: SiteMeta }`
+   に統一し、データは `_meta.json` から取る（必要なら型を `src/lib/sites.ts` に追加）。
+2. 必要なフィールドを `src/lib/sites.ts` の `SiteMetaRaw` に追加し、各サイトの
+   `_meta.json` へ値を入れる。既存サイトに値が無い場合は条件分岐で
+   セクション全体を非表示にすること（`{items.length > 0 && (…)}` パターン）。
+3. `src/pages/[site]/[...slug].astro` の `isTop` 分岐に `<NewSection site={site} />`
+   を希望位置で差し込む。
+4. 必要なら `StructuredData.astro` に対応する JSON-LD を足す。
+
+### セクションを並べ替えるとき
+
+`src/pages/[site]/[...slug].astro` の `isTop` 分岐内、`<Hero>` から `<ContactForm>`
+までの並びがそのまま画面の上から下に対応します。順番を変えたい場合は
+ここ 1 か所を編集すれば全サイトに反映されます。
+
+---
+
+## デザイントークン（Tailwind v4 @theme）の編集
+
+色・フォント・スペーシングはすべて `src/styles/global.css` の `@theme {}` ブロックに
+集約しています。Tailwind v4 では設定ファイル（旧 `tailwind.config.js`）ではなく、
+CSS 内で `@theme` ディレクティブにより CSS 変数として定義します。
+
+```css
+@theme {
+  --color-primary-700: #1E40AF;   /* ブランドメインの濃い青 */
+  --color-accent-500: #F97316;    /* CTA オレンジ */
+  /* … */
+}
+```
+
+クラス名の規則：
+
+- `bg-primary-700` / `text-primary-700` / `border-primary-100` …
+  → `--color-primary-*` 変数を参照
+- `bg-accent-500` / `bg-trust` / `bg-bg-soft` …
+  → 対応する `--color-*` 変数
+
+### 業種ごとに配色を変えるには
+
+エアコン業種は青系がベストですが、別業種では別配色のほうが訴求力が出る場合があります。
+現状の構造ではトークンはグローバル 1 系統。業種別配色にする場合は次のいずれか：
+
+1. **CSS 変数を `_meta.json` から差し替え**: `SiteLayout.astro` で
+   `<style>:root { --color-primary-700: ...; }</style>` を `_meta.color` に応じて
+   出力（推奨。1 トークン群で全サイトを賄える）
+2. **業種別の global.css を分けて import**: 構造変更コストが高くなるため非推奨
+
+将来必要になったタイミングで実装します。
+
+### フォントを差し替えるには
+
+`SiteLayout.astro` の Google Fonts URL と `@theme` の `--font-sans` を同時に変更してください。
+日本語表示は `Noto Sans JP`（weight 400/500/700）が現行設定です。
+
+---
+
+## 法務ページ
+
+ドメイン共通の法務ページを `/legal/` 配下に置いています。
+複数サイトを同一運営者で運用する想定のため、ファイルは 1 つだけ存在します。
+
+| URL                  | ファイル                            |
+| -------------------- | ----------------------------------- |
+| `/legal/tokushoho/`  | `src/pages/legal/tokushoho.astro`   |
+| `/legal/privacy/`    | `src/pages/legal/privacy.astro`     |
+
+両ページとも `getPrimarySite()` でメタを取得し、`_meta.json` の `owner` ／環境変数で
+運営者情報を差し替えられる構造です。
+
+---
+
 ## 次にやること（次セッション）
 
 - [ ] 宮崎×エアコンの本記事（地区別・症状別・サービス別）を投入
 - [ ] 運営者情報（実名・所在地・メール）を `_meta.json` または環境変数に設定
 - [ ] Google Forms の埋め込み URL を `_meta.json` の `contactFormUrl` に設定
+- [ ] LINE 公式アカウント URL を `_meta.json` の `lineUrl` に設定
 - [ ] 電話番号を実番号に差し替え
-- [ ] OG 画像 `/public/og/miyazaki-aircon.png` を作成
+- [ ] 実績数字（`achievementsLabel` / `trustBadges[0].value`）を実数に差し替え
+- [ ] Hero および BeforeAfter の写真を本物の施工写真に差し替え（astro:assets `<Image />` 推奨）
+- [ ] お客様の声を本物の口コミに差し替え（出典・取得日・本人同意を確認）
+- [ ] OG 画像 `/public/og/miyazaki-aircon.svg` を実画像（PNG 1200×630 推奨）に差し替え
 - [ ] Cloudflare Pages にデプロイ・カスタムドメイン接続
 - [ ] Search Console / Bing Webmaster Tools にサイトマップ登録

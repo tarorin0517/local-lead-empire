@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  <rect x="24" y="24" width="109" height="39" rx="6" fill="#F59E0B"/>
+  <text x="35" y="49"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="17" font-weight="700" fill="#FFFFFF">BEFORE</text>
+  <text x="50%" y="46%" text-anchor="middle"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="42" font-weight="700" fill="#FFFFFF">Before #2</text>
+  <text x="50%" y="58%" text-anchor="middle"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="21" font-weight="500" fill="rgba(255,255,255,0.8)">宮崎市・熱交換器の汚れ除去（施工前）</text>
+</svg>

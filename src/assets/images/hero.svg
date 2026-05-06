@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+  <rect x="58" y="43" width="140" height="68" rx="6" fill="#F97316"/>
+  <text x="77" y="88"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="30" font-weight="700" fill="#FFFFFF">HERO</text>
+  <text x="50%" y="46%" text-anchor="middle"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="76" font-weight="700" fill="#FFFFFF">宮崎市・エアコン分解洗浄</text>
+  <text x="50%" y="58%" text-anchor="middle"
+        font-family="'Noto Sans JP','Hiragino Sans',sans-serif"
+        font-size="38" font-weight="500" fill="rgba(255,255,255,0.8)">1台目 9,800円〜（税込）／即日対応・損害保険加入</text>
+</svg>

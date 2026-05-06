@@ -19,6 +19,63 @@ export interface SiteLegalLinks {
   privacyUrl: string;
 }
 
+export interface SiteGeo {
+  latitude: number;
+  longitude: number;
+}
+
+export interface TrustBadge {
+  label: string;
+  value: string;
+}
+
+export interface BeforeAfterItem {
+  caption: string;
+  beforeAlt: string;
+  afterAlt: string;
+}
+
+export interface ReasonItem {
+  title: string;
+  description: string;
+}
+
+export interface PriceRow {
+  plan: string;
+  first: string;
+  additional: string;
+}
+
+export interface OptionItem {
+  name: string;
+  price: string;
+}
+
+export interface FlowStep {
+  title: string;
+  description: string;
+}
+
+export interface AreasGroup {
+  cityWards: string[];
+  outsideCity: string[];
+}
+
+export interface VoiceItem {
+  alias: string;
+  area: string;
+  date: string;
+  body: string;
+  note?: string;
+}
+
+export interface CtaCopy {
+  phonePrimary: string;
+  phoneSecondary: string;
+  formPrimary: string;
+  lineLabel: string;
+}
+
 export interface SiteMetaRaw {
   siteKey: string;
   basePath: string;
@@ -29,15 +86,40 @@ export interface SiteMetaRaw {
   prefecture?: string;
   niche: string;
   areaServed?: string[];
+
   phone: string;
   phoneHoursLabel?: string;
-  priceRangeLabel?: string;
-  responseLabel?: string;
+  openingHours?: string[];
+  lineUrl?: string;
   contactFormUrl?: string;
+
+  responseLabel?: string;
+  priceRangeLabel?: string;
+  priceRangeStructured?: string;
+  achievementsLabel?: string;
+  achievementsNote?: string;
+
+  geo?: SiteGeo;
+  sameAs?: string[];
+
   owner: SiteOwner;
   legal: SiteLegalLinks;
+  insurance?: string[];
+
   ogImage?: string;
   logoPath?: string;
+
+  trustBadges?: TrustBadge[];
+  worries?: string[];
+  beforeAfter?: BeforeAfterItem[];
+  reasons?: ReasonItem[];
+  priceTable?: PriceRow[];
+  priceNote?: string;
+  options?: OptionItem[];
+  flow?: FlowStep[];
+  areas?: AreasGroup;
+  voices?: VoiceItem[];
+  ctaCopy?: CtaCopy;
 }
 
 export interface SiteMeta extends SiteMetaRaw {
@@ -88,15 +170,21 @@ export function getSiteByKey(siteKey: string): SiteMeta | undefined {
 }
 
 /**
+ * 最初のサイトを返す。legal/tokushoho など、サイト共通の運営者情報を
+ * 出力するページで使う。複数サイトを 1 ドメインで運営しても、運営者は
+ * 同一前提のため、最初のサイトの owner / legal で代表させる。
+ */
+export function getPrimarySite(): SiteMeta {
+  const first = allSites[0];
+  if (!first) throw new Error('[sites] _meta.json が 1 つも見つかりません');
+  return first;
+}
+
+/**
  * Content Collection のエントリ ID から、所属サイトと相対パスを返す。
  *
  * Astro 6 の glob loader は index.md を "siteKey/index" ではなく
  * "siteKey" として登録するため、両形式に対応する。
- *
- * 例:
- * - "miyazaki-aircon"            → site=miyazaki-aircon, relativePath=""
- * - "miyazaki-aircon/index"      → site=miyazaki-aircon, relativePath=""
- * - "miyazaki-aircon/areas/foo"  → site=miyazaki-aircon, relativePath="areas/foo"
  */
 export function resolveEntry(entryId: string): {
   site: SiteMeta;
@@ -111,9 +199,7 @@ export function resolveEntry(entryId: string): {
     if (entryId.startsWith(prefix)) {
       const rel = entryId.slice(prefix.length);
       const isIndex = rel === 'index' || rel.endsWith('/index');
-      const relativePath = isIndex
-        ? rel.replace(/\/?index$/, '')
-        : rel;
+      const relativePath = isIndex ? rel.replace(/\/?index$/, '') : rel;
       return { site, relativePath, isIndex };
     }
   }
@@ -122,8 +208,6 @@ export function resolveEntry(entryId: string): {
 
 /**
  * 公開 URL（末尾スラッシュ付き）を組み立てる。
- * - top: /miyazaki/aircon-bunkai/
- * - article: /miyazaki/aircon-bunkai/areas/foo/
  */
 export function buildUrlPath(site: SiteMeta, relativePath: string): string {
   if (!relativePath) return site.baseUrlPath;
@@ -136,4 +220,11 @@ export function buildUrlPath(site: SiteMeta, relativePath: string): string {
 export function buildCanonical(siteUrl: string, urlPath: string): string {
   const base = siteUrl.replace(/\/$/, '');
   return `${base}${urlPath}`;
+}
+
+/**
+ * tel: リンク用に電話番号から区切り文字を除去。
+ */
+export function telHref(phone: string): string {
+  return `tel:${phone.replace(/[^\d+]/g, '')}`;
 }

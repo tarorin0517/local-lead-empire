@@ -10,6 +10,7 @@ import StructuredData, {
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ContactForm from '../components/ContactForm.astro';
+import StickyCTA from '../components/StickyCTA.astro';
 
 interface Props {
   site: SiteMeta;
@@ -23,6 +24,12 @@ interface Props {
   faqs?: FaqItem[];
   breadcrumbs?: BreadcrumbItem[];
   ogImagePath?: string;
+  /** トップページのように、本文側で ContactForm を埋め込み済みの場合は true */
+  hideAutoContactForm?: boolean;
+  /** フッターに表示する最終更新日 */
+  lastUpdated?: Date;
+  /** main の上下余白を抑制したい（フルブリードのトップページ向け） */
+  fullBleed?: boolean;
 }
 
 const {
@@ -37,7 +44,14 @@ const {
   faqs,
   breadcrumbs,
   ogImagePath,
+  hideAutoContactForm = false,
+  lastUpdated,
+  fullBleed = false,
 } = Astro.props;
+
+const mainClass = fullBleed
+  ? 'min-h-screen'
+  : 'mx-auto min-h-screen max-w-5xl px-4 py-8 sm:py-12';
 ---
 
 <!doctype html>
@@ -51,7 +65,7 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
@@ -79,12 +93,13 @@ const {
       breadcrumbs={breadcrumbs}
     />
   </head>
-  <body class="min-h-screen bg-white text-slate-900 antialiased">
+  <body class="has-sticky-cta min-h-screen bg-bg text-ink antialiased">
     <Header site={site} />
-    <main class="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+    <main class={mainClass}>
       <slot />
     </main>
-    <ContactForm site={site} />
-    <Footer site={site} />
+    {!hideAutoContactForm && <ContactForm site={site} />}
+    <Footer site={site} lastUpdated={lastUpdated} />
+    <StickyCTA site={site} />
   </body>
 </html>

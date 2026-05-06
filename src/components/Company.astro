@@ -1,0 +1,64 @@
+---
+import type { SiteMeta } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const insurance = site.insurance ?? [];
+---
+
+<section class="px-4 py-12 sm:py-16">
+  <div class="mx-auto max-w-3xl">
+    <h2 class="text-center text-2xl font-bold text-primary-900 sm:text-3xl">
+      運営者情報
+    </h2>
+
+    <dl class="mt-8 divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white shadow-sm">
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">屋号</dt>
+        <dd class="text-sm text-ink">{site.siteName}</dd>
+      </div>
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">代表者</dt>
+        <dd class="text-sm text-ink">{site.owner.name}</dd>
+      </div>
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">所在地</dt>
+        <dd class="text-sm text-ink">{site.owner.address}</dd>
+      </div>
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">電話番号</dt>
+        <dd class="text-sm text-ink">{site.phone}（{site.phoneHoursLabel ?? '受付時間内'}）</dd>
+      </div>
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">メール</dt>
+        <dd class="break-all text-sm text-ink">{site.owner.email}</dd>
+      </div>
+      <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+        <dt class="text-sm font-semibold text-ink-muted">対応エリア</dt>
+        <dd class="text-sm text-ink">{(site.areaServed ?? [site.city]).join('・')}</dd>
+      </div>
+      {insurance.length > 0 && (
+        <div class="grid grid-cols-[120px_1fr] gap-2 px-5 py-4">
+          <dt class="text-sm font-semibold text-ink-muted">加入保険</dt>
+          <dd class="text-sm text-ink">{insurance.join('／')}</dd>
+        </div>
+      )}
+    </dl>
+
+    <ul class="mt-6 flex flex-wrap justify-center gap-3 text-sm">
+      <li>
+        <a class="text-primary-700 underline hover:text-primary-900" href={site.legal.tokushohoUrl}>
+          特定商取引法に基づく表記
+        </a>
+      </li>
+      <li>
+        <a class="text-primary-700 underline hover:text-primary-900" href={site.legal.privacyUrl}>
+          プライバシーポリシー
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

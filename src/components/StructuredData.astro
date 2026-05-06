@@ -42,19 +42,32 @@ const {
 } = Astro.props;
 
 const canonical = buildCanonical(SITE_URL, urlPath);
+const businessUrl = buildCanonical(SITE_URL, site.baseUrlPath);
+const businessId = `${businessUrl}#localbusiness`;
+const serviceId = `${businessUrl}#service`;
 
-const localBusiness = {
+const businessImage = site.ogImage
+  ? buildCanonical(SITE_URL, site.ogImage)
+  : undefined;
+
+/**
+ * HomeAndConstructionBusiness（schema.org の LocalBusiness 派生型）。
+ * 住宅修繕・清掃・設備工事系の地域業者に最適。
+ */
+const business = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#localbusiness`,
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': businessId,
   name: site.siteName,
   description: site.tagline,
-  url: buildCanonical(SITE_URL, site.baseUrlPath),
+  url: businessUrl,
   telephone: site.phone,
-  areaServed: (site.areaServed ?? [site.city]).map((name) => ({
-    '@type': 'City',
-    name,
-  })),
+  ...(businessImage ? { image: businessImage } : {}),
+  ...(site.priceRangeStructured
+    ? { priceRange: site.priceRangeStructured }
+    : site.priceRangeLabel
+    ? { priceRange: site.priceRangeLabel }
+    : {}),
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'JP',
@@ -62,21 +75,48 @@ const localBusiness = {
     addressLocality: site.city,
     streetAddress: site.owner.address,
   },
-  ...(site.priceRangeLabel ? { priceRange: site.priceRangeLabel } : {}),
+  ...(site.geo
+    ? {
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: site.geo.latitude,
+          longitude: site.geo.longitude,
+        },
+      }
+    : {}),
+  areaServed: (site.areaServed ?? [site.city]).map((name) => ({
+    '@type': 'City',
+    name,
+  })),
+  ...(site.openingHours && site.openingHours.length > 0
+    ? { openingHours: site.openingHours }
+    : {}),
+  ...(site.sameAs && site.sameAs.length > 0 ? { sameAs: site.sameAs } : {}),
 };
+
+const offers =
+  site.priceTable && site.priceTable.length > 0
+    ? site.priceTable.map((row) => ({
+        '@type': 'Offer',
+        name: row.plan,
+        price: row.first.replace(/[^\d]/g, ''),
+        priceCurrency: 'JPY',
+      }))
+    : undefined;
 
 const service = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#service`,
+  '@id': serviceId,
   serviceType: site.niche,
-  provider: { '@id': `${buildCanonical(SITE_URL, site.baseUrlPath)}#localbusiness` },
+  provider: { '@id': businessId },
   areaServed: (site.areaServed ?? [site.city]).map((name) => ({
     '@type': 'City',
     name,
   })),
   name: `${site.city}の${site.niche}`,
   description: site.tagline,
+  ...(offers ? { offers } : {}),
 };
 
 const article =
@@ -135,7 +175,7 @@ const breadcrumbList =
     : null;
 
 const blocks = [
-  localBusiness,
+  business,
   service,
   article,
   faqPage,
