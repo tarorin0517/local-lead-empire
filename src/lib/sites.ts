@@ -199,7 +199,8 @@ export function resolveEntry(entryId: string): {
     if (entryId.startsWith(prefix)) {
       const rel = entryId.slice(prefix.length);
       const isIndex = rel === 'index' || rel.endsWith('/index');
-      const relativePath = isIndex ? rel.replace(/\/?index$/, '') : rel;
+      let relativePath = isIndex ? rel.replace(/\/?index$/, '') : rel;
+      relativePath = relativePath.replace(/^(areas|services|symptoms)\//, '');
       return { site, relativePath, isIndex };
     }
   }
