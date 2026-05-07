@@ -1,5 +1,6 @@
 ---
 import type { SiteMeta } from '../lib/sites';
+import { buildUrlPath } from '../lib/sites';
 
 interface Props {
   site: SiteMeta;
@@ -25,9 +26,20 @@ const areas = site.areas;
             {site.city}内
           </h3>
           <ul class="mt-3 flex flex-wrap gap-2">
-            {areas.cityWards.map((name) => (
-              <li class="rounded-full border border-primary-100 bg-white px-3 py-1 text-sm font-semibold text-primary-700 shadow-sm">
-                {name}
+            {areas.cityWards.map((item) => (
+              <li>
+                {item.areaKey ? (
+                  <a
+                    href={buildUrlPath(site, item.areaKey)}
+                    class="block rounded-full border border-primary-100 bg-white px-3 py-1 text-sm font-semibold text-primary-700 shadow-sm transition hover:border-primary-700 hover:bg-primary-50"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <span class="block rounded-full border border-primary-100 bg-white px-3 py-1 text-sm font-semibold text-primary-700 shadow-sm">
+                    {item.name}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

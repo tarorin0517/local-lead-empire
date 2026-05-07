@@ -56,8 +56,14 @@ export interface FlowStep {
   description: string;
 }
 
+export interface AreaWardItem {
+  name: string;
+  /** 地区別ページのスラッグ。設定されていれば AreaList でリンク化される。 */
+  areaKey?: string;
+}
+
 export interface AreasGroup {
-  cityWards: string[];
+  cityWards: AreaWardItem[];
   outsideCity: string[];
 }
 

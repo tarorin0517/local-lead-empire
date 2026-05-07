@@ -108,7 +108,22 @@
   ],
 
   "areas": {
-    "cityWards": ["橘通", "中村", "清武", "生目台", "佐土原", "高岡", "田野", "青島", "大塚", "大淀", "檍", "木花"],
+    "cityWards": [
+      { "name": "清武", "areaKey": "kiyotake" },
+      { "name": "佐土原", "areaKey": "sadowara" },
+      { "name": "田野", "areaKey": "tano" },
+      { "name": "高岡", "areaKey": "takaoka" },
+      { "name": "青島", "areaKey": "aoshima" },
+      { "name": "大塚台", "areaKey": "otsukatai" },
+      { "name": "恒久", "areaKey": "tokihisa" },
+      { "name": "江平", "areaKey": "ehira" },
+      { "name": "橘通" },
+      { "name": "中村" },
+      { "name": "生目台" },
+      { "name": "大淀" },
+      { "name": "檍" },
+      { "name": "木花" }
+    ],
     "outsideCity": ["宮崎市", "都城市", "日南市", "西都市"]
   },
 

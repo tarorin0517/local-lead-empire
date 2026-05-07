@@ -108,7 +108,20 @@
   ],
 
   "areas": {
-    "cityWards": ["道後", "三津浜", "衣山", "余戸", "石手", "北条", "久米", "空港通", "和気", "安城寺", "南吉田", "東野"],
+    "cityWards": [
+      { "name": "道後", "areaKey": "dogo" },
+      { "name": "三津浜", "areaKey": "mitsuhama" },
+      { "name": "衣山", "areaKey": "kinuyama" },
+      { "name": "余戸", "areaKey": "yogo" },
+      { "name": "北条", "areaKey": "hojo" },
+      { "name": "久米", "areaKey": "kume" },
+      { "name": "和気", "areaKey": "wake" },
+      { "name": "安城寺", "areaKey": "anshoji" },
+      { "name": "石手" },
+      { "name": "空港通" },
+      { "name": "南吉田" },
+      { "name": "東野" }
+    ],
     "outsideCity": ["松山市", "今治市", "東温市", "伊予市"]
   },
 
