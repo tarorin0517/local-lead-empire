@@ -1,0 +1,154 @@
+{
+  "siteKey": "kurashiki-aircon",
+  "basePath": "kurashiki/aircon-bunkai",
+  "siteName": "倉敷エアコン分解洗浄センター",
+  "siteShortName": "まちのプロ｜倉敷エアコン",
+  "tagline": "倉敷市のエアコン分解洗浄を、即日対応でサポート",
+  "city": "倉敷市",
+  "prefecture": "岡山県",
+  "niche": "エアコン分解洗浄",
+  "areaServed": ["倉敷市", "総社市", "早島町", "岡山市"],
+
+  "phone": "050-8886-8236",
+  "phoneHoursLabel": "受付 9:00-19:00（年中無休）",
+  "openingHours": ["Mo-Su 09:00-19:00"],
+  "lineUrl": "",
+  "contactFormUrl": "",
+
+  "responseLabel": "即日対応可",
+  "priceRangeLabel": "1台目 9,800円〜（税込）",
+  "priceRangeStructured": "¥¥",
+  "achievementsLabel": "施工実績 ●●台",
+  "achievementsNote": "自社調べ・2026年5月時点（プレースホルダ・後で実数に差し替え）",
+
+  "geo": {
+    "latitude": 34.5851,
+    "longitude": 133.7715
+  },
+  "sameAs": [],
+
+  "owner": {
+    "name": "（運営者本名・後で _meta.json か環境変数 SITE_OWNER_NAME で設定）",
+    "address": "（所在地・後で _meta.json か環境変数 SITE_OWNER_ADDRESS で設定）",
+    "email": "（連絡先・後で Cloudflare Email Routing で設定）"
+  },
+  "legal": {
+    "tokushohoUrl": "/legal/tokushoho/",
+    "privacyUrl": "/legal/privacy/"
+  },
+  "insurance": ["請負業者賠償責任保険", "PL保険（生産物賠償責任保険）"],
+
+  "ogImage": "/og/kurashiki-aircon.svg",
+  "logoPath": "/favicon.svg",
+
+  "trustBadges": [
+    { "label": "施工実績", "value": "●●台" },
+    { "label": "損害保険", "value": "加入済" },
+    { "label": "対応速度", "value": "即日対応可" }
+  ],
+
+  "worries": [
+    "エアコンから酸っぱいような異臭がする",
+    "瀬戸内の高温多湿で冷房の効きが悪い",
+    "工業地帯近くで排気・粉塵がフィルターに詰まる",
+    "繊維ホコリがエアコンに溜まりやすい（児島・繊維関連）",
+    "吹き出し口に黒いポツポツ（カビ）",
+    "お掃除機能付きで自分では掃除できない"
+  ],
+
+  "beforeAfter": [
+    { "caption": "ファン部分のカビ除去", "beforeAlt": "倉敷市 エアコン分解洗浄 ファン部分 施工前", "afterAlt": "倉敷市 エアコン分解洗浄 ファン部分 施工後" },
+    { "caption": "熱交換器の汚れ除去", "beforeAlt": "倉敷市 エアコン分解洗浄 熱交換器 施工前", "afterAlt": "倉敷市 エアコン分解洗浄 熱交換器 施工後" },
+    { "caption": "ドレンパンの汚れ除去", "beforeAlt": "倉敷市 エアコン分解洗浄 ドレンパン 施工前", "afterAlt": "倉敷市 エアコン分解洗浄 ドレンパン 施工後" }
+  ],
+
+  "reasons": [
+    {
+      "title": "●●台の施工実績",
+      "description": "倉敷市内を中心に多くのご家庭・店舗を施工。地元密着で経験豊富なスタッフが対応します（自社調べ・2026年5月時点）。"
+    },
+    {
+      "title": "完全分解で奥のカビまで除去",
+      "description": "エアコン本体を分解し、ファン・熱交換器・ドレンパンを直接洗浄。表面拭きでは届かない内部のカビ・汚れを徹底除去します。"
+    },
+    {
+      "title": "瀬戸内・工業地帯の汚れに強い洗浄",
+      "description": "水島コンビナート周辺の工業排気・繊維の街児島の繊維ホコリ・玉島の海風塩害など、倉敷特有の汚れに合わせた洗浄プロセスをご提案します。"
+    },
+    {
+      "title": "損害賠償保険＋PL保険加入",
+      "description": "請負業者賠償責任保険およびPL保険に加入済。万が一の故障・破損にも保険で対応する体制を整えています。"
+    },
+    {
+      "title": "追加料金一切なし・明朗会計",
+      "description": "事前のお見積もりに記載の金額のみ。出張費・養生費・処分費を含んだ税込価格でご案内します。"
+    }
+  ],
+
+  "priceTable": [
+    { "plan": "壁掛け（お掃除機能なし）", "first": "9,800円", "additional": "8,800円" },
+    { "plan": "壁掛け（お掃除機能付き）", "first": "18,800円", "additional": "17,800円" },
+    { "plan": "完全分解（脱着方式）", "first": "24,800円", "additional": "23,800円" },
+    { "plan": "天井埋込（1・2方向）", "first": "22,000円", "additional": "20,000円" }
+  ],
+  "priceNote": "富士通ノクリアX／シャープAirest等の特殊機種は +7,700円。すべて税込・出張費込み。",
+
+  "options": [
+    { "name": "防カビコート", "price": "1,100円〜" },
+    { "name": "室外機洗浄", "price": "3,300円〜" },
+    { "name": "エコ洗剤対応", "price": "無料" }
+  ],
+
+  "flow": [
+    { "title": "お問い合わせ・ご予約", "description": "電話またはフォームでお問い合わせください。台数・機種・希望日をお伺いします。" },
+    { "title": "当日訪問・養生", "description": "ご指定の時間にお伺いし、床・家具を専用シートで養生します。作業前に仕上がりイメージを共有します。" },
+    { "title": "取り外し・分解", "description": "エアコン本体を壁から取り外し（または部分分解）、ファン・熱交換器・ドレンパンを分解します。" },
+    { "title": "高圧洗浄・乾燥", "description": "専用洗剤と高圧洗浄機で内部のカビ・汚れを徹底除去。すすぎ・乾燥工程まで丁寧に行います。" },
+    { "title": "組み立て・動作確認・お引き渡し", "description": "元通りに組み立て、冷暖房の動作確認まで実施。施工前後の写真をお渡ししてご確認いただきます。" }
+  ],
+
+  "areas": {
+    "cityWards": [
+      { "name": "倉敷駅周辺", "areaKey": "ekimae" },
+      { "name": "水島", "areaKey": "mizushima" },
+      { "name": "児島", "areaKey": "kojima" },
+      { "name": "玉島", "areaKey": "tamashima" },
+      { "name": "茶屋町", "areaKey": "chayamachi" },
+      { "name": "庄", "areaKey": "sho" },
+      { "name": "笹沖", "areaKey": "sasaoki" },
+      { "name": "連島", "areaKey": "tsurajima" }
+    ],
+    "outsideCity": ["倉敷市", "総社市", "早島町", "岡山市"]
+  },
+
+  "voices": [
+    {
+      "alias": "F様",
+      "area": "水島エリア",
+      "date": "2025年7月施工",
+      "body": "コンビナート近くで工場排気の影響かフィルターがすぐ詰まる悩みがありました。分解洗浄で熱交換器の奥まできれいになり、冷房の効きが格段に改善しました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "N様",
+      "area": "児島エリア",
+      "date": "2025年8月施工",
+      "body": "ジーンズ工房を兼ねた自宅で、エアコン内部に繊維ホコリが大量に蓄積していました。お願いしてよかったです。仕事場の空気も改善しました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "K様",
+      "area": "玉島エリア",
+      "date": "2025年8月施工",
+      "body": "海から近く湿気と塩分でカビ臭がひどかったのですが、洗浄後は嫌な臭いがなくなりました。室外機洗浄もセットでお願いして満足しています。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    }
+  ],
+
+  "ctaCopy": {
+    "phonePrimary": "電話で相談",
+    "phoneSecondary": "受付 9:00-19:00（年中無休）",
+    "formPrimary": "30秒で見積もり依頼",
+    "lineLabel": "LINEで相談"
+  }
+}
