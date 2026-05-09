@@ -28,9 +28,10 @@
   "sameAs": [],
 
   "owner": {
-    "name": "（運営者本名・後で _meta.json か環境変数 SITE_OWNER_NAME で設定）",
-    "address": "（所在地・後で _meta.json か環境変数 SITE_OWNER_ADDRESS で設定）",
-    "email": "（連絡先・後で Cloudflare Email Routing で設定）"
+    "businessName": "マチのプロ",
+    "name": "野中倫太郎",
+    "address": "鹿児島県（詳細はご請求があり次第、遅滞なく開示します）",
+    "email": "contact@machi-no-pro.com"
   },
   "legal": {
     "tokushohoUrl": "/legal/tokushoho/",

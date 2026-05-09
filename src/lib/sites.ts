@@ -9,6 +9,8 @@ const metaModules = import.meta.glob<{ default: SiteMetaRaw }>(
 );
 
 export interface SiteOwner {
+  /** 販売事業者として表示する屋号（個人事業主の屋号） */
+  businessName?: string;
   name: string;
   address: string;
   email: string;

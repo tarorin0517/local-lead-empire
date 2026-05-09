@@ -31,7 +31,17 @@ const description = `${site.siteName}の特定商取引法に基づく表記で�
   <dl class="mt-8 divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white shadow-sm">
     <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
       <dt class="text-sm font-semibold text-ink-muted">販売事業者</dt>
-      <dd class="text-sm text-ink">{site.siteName}</dd>
+      <dd class="text-sm text-ink">
+        {site.owner.businessName ?? site.siteName}（屋号）<br />
+        運営：{site.owner.name}（個人事業主）
+      </dd>
+    </div>
+    <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
+      <dt class="text-sm font-semibold text-ink-muted">ブランド名</dt>
+      <dd class="text-sm text-ink">
+        {site.siteName}<br />
+        <span class="text-xs text-ink-muted">※当事業者が運営する地域別サービスブランドです</span>
+      </dd>
     </div>
     <div class="grid gap-2 px-5 py-4 sm:grid-cols-[180px_1fr]">
       <dt class="text-sm font-semibold text-ink-muted">運営責任者</dt>
