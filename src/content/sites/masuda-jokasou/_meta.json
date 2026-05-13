@@ -1,0 +1,118 @@
+{
+  "siteKey": "masuda-jokasou",
+  "basePath": "masuda/jokasou",
+  "siteName": "益田浄化槽クリーンナビ",
+  "siteShortName": "まちのプロ｜益田浄化槽",
+  "tagline": "益田市の浄化槽清掃・保守点検を、法定期限内にサポート",
+  "city": "益田市",
+  "prefecture": "島根県",
+  "niche": "浄化槽清掃",
+  "areaServed": ["益田市", "津和野町", "吉賀町"],
+
+  "phone": "050-8886-8243",
+  "phoneHoursLabel": "受付 9:00-18:00（年中無休）",
+  "openingHours": ["Mo-Su 09:00-18:00"],
+  "lineUrl": "",
+  "contactFormUrl": "",
+
+  "responseLabel": "年間管理対応可",
+  "priceRangeLabel": "5人槽清掃 25,000円〜（税込）",
+  "priceRangeStructured": "¥¥",
+  "achievementsLabel": "管理実績 ●●基",
+  "achievementsNote": "自社調べ・2025年5月時点（プレースホルダ・後で実数に差し替え）",
+
+  "geo": {
+    "latitude": 34.6733,
+    "longitude": 131.8453
+  },
+  "sameAs": [],
+
+  "owner": {
+    "businessName": "マチのプロ",
+    "name": "野中倫太郎",
+    "address": "鹿児島県（詳細はご請求があり次第、遅滞なく開示します）",
+    "email": "contact@machi-no-pro.com"
+  },
+  "legal": {
+    "tokushohoUrl": "/legal/tokushoho/",
+    "privacyUrl": "/legal/privacy/"
+  },
+  "insurance": ["請負業者賠償責任保険", "PL保険（生産物賠償責任保険）"],
+
+  "ogImage": "/og/masuda-jokasou.svg",
+  "logoPath": "/favicon.svg",
+
+  "trustBadges": [
+    { "label": "管理実績", "value": "●●基" },
+    { "label": "損害保険", "value": "加入済" },
+    { "label": "冬期対応", "value": "降雪時も対応可" }
+  ],
+
+  "worries": [
+    "浄化槽から嫌な臭いがする",
+    "清掃業者から連絡が来て何をすればいいか分からない",
+    "法定検査の通知が届いた",
+    "冬の積雪で点検を先延ばしにしていた",
+    "農家で大型浄化槽を使っている",
+    "山間部に住んでいて業者が来てくれるか不安"
+  ],
+
+  "priceTable": [
+    { "plan": "5人槽（清掃）", "price": "25,000円〜35,000円" },
+    { "plan": "7人槽（清掃）", "price": "30,000円〜45,000円" },
+    { "plan": "10人槽（清掃）", "price": "45,000円〜60,000円" },
+    { "plan": "保守点検（月額）", "price": "3,000円〜5,000円" }
+  ],
+  "priceNote": "料金は浄化槽の種類・規模・汚泥量により異なります。無料見積もり後にご案内します。",
+
+  "flow": [
+    { "title": "お問い合わせ・ご予約", "description": "電話またはフォームでお問い合わせください。浄化槽の種類・設置年数・お困りの症状をお伺いします。" },
+    { "title": "現地確認・見積もり", "description": "ご指定の日時に訪問し、浄化槽の規模・状態を確認します。作業前に費用と作業内容をご説明します。" },
+    { "title": "汚泥の引き抜き・清掃", "description": "バキューム車で堆積した汚泥を引き抜きます。槽内の洗浄・清掃も同時に実施します。" },
+    { "title": "放流水の水質確認", "description": "清掃後に放流水の透明度・においを確認し、正常に機能しているかをチェックします。" },
+    { "title": "作業報告書のお渡し", "description": "清掃記録・汚泥量・機能状態を記載した作業報告書をお渡しします。法定検査の際に必要となる書類です。" }
+  ],
+
+  "areas": {
+    "cityWards": [
+      { "name": "益田", "areaKey": "masuda-city" },
+      { "name": "高津", "areaKey": "takatsu" },
+      { "name": "美都", "areaKey": "mito" },
+      { "name": "匹見", "areaKey": "hikimi" },
+      { "name": "須子", "areaKey": "suko" },
+      { "name": "小野", "areaKey": "ono" }
+    ],
+    "outsideCity": ["益田市", "津和野町", "吉賀町"]
+  },
+
+  "voices": [
+    {
+      "alias": "G様",
+      "area": "益田市街エリア",
+      "date": "2025年4月対応",
+      "body": "法定検査の通知が来たが何をすれば良いか分からず電話しました。清掃から検査の段取りまでまとめて対応してもらえ助かりました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "H様",
+      "area": "美都エリア",
+      "date": "2025年5月対応",
+      "body": "農家で大型の浄化槽を使っています。冬に清掃が遅れてしまい、春になってすぐに電話しました。迅速に来ていただきました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "I様",
+      "area": "匹見エリア",
+      "date": "2025年6月対応",
+      "body": "匹見の山奥まで来てくれる業者がいなくて困っていました。問い合わせしたら快く引き受けてもらえました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    }
+  ],
+
+  "ctaCopy": {
+    "phonePrimary": "電話で相談",
+    "phoneSecondary": "受付 9:00-18:00（年中無休）",
+    "formPrimary": "30秒で見積もり依頼",
+    "lineLabel": "LINEで相談"
+  }
+}

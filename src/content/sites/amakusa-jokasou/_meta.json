@@ -1,0 +1,122 @@
+{
+  "siteKey": "amakusa-jokasou",
+  "basePath": "amakusa/jokasou",
+  "siteName": "天草浄化槽クリーンナビ",
+  "siteShortName": "まちのプロ｜天草浄化槽",
+  "tagline": "天草市の浄化槽清掃・保守点検を、法定期限内にサポート",
+  "city": "天草市",
+  "prefecture": "熊本県",
+  "niche": "浄化槽清掃",
+  "areaServed": ["天草市", "上天草市", "苓北町"],
+
+  "phone": "050-8886-8241",
+  "phoneHoursLabel": "受付 9:00-18:00（年中無休）",
+  "openingHours": ["Mo-Su 09:00-18:00"],
+  "lineUrl": "",
+  "contactFormUrl": "",
+
+  "responseLabel": "年間管理対応可",
+  "priceRangeLabel": "5人槽清掃 25,000円〜（税込）",
+  "priceRangeStructured": "¥¥",
+  "achievementsLabel": "管理実績 ●●基",
+  "achievementsNote": "自社調べ・2025年5月時点（プレースホルダ・後で実数に差し替え）",
+
+  "geo": {
+    "latitude": 32.4597,
+    "longitude": 130.1982
+  },
+  "sameAs": [],
+
+  "owner": {
+    "businessName": "マチのプロ",
+    "name": "野中倫太郎",
+    "address": "鹿児島県（詳細はご請求があり次第、遅滞なく開示します）",
+    "email": "contact@machi-no-pro.com"
+  },
+  "legal": {
+    "tokushohoUrl": "/legal/tokushoho/",
+    "privacyUrl": "/legal/privacy/"
+  },
+  "insurance": ["請負業者賠償責任保険", "PL保険（生産物賠償責任保険）"],
+
+  "ogImage": "/og/amakusa-jokasou.svg",
+  "logoPath": "/favicon.svg",
+
+  "trustBadges": [
+    { "label": "管理実績", "value": "●●基" },
+    { "label": "損害保険", "value": "加入済" },
+    { "label": "離島対応", "value": "出張対応可" }
+  ],
+
+  "worries": [
+    "浄化槽から嫌な臭いがする",
+    "清掃業者から連絡が来て何をすればいいか分からない",
+    "法定検査の通知が届いた",
+    "浄化槽がいっぱいになってあふれそう",
+    "老朽化した浄化槽を交換・更新したい",
+    "漁業・養殖業を営んでいて水質が気になる"
+  ],
+
+  "priceTable": [
+    { "plan": "5人槽（清掃）", "price": "25,000円〜35,000円" },
+    { "plan": "7人槽（清掃）", "price": "30,000円〜45,000円" },
+    { "plan": "10人槽（清掃）", "price": "45,000円〜60,000円" },
+    { "plan": "保守点検（月額）", "price": "3,000円〜5,000円" }
+  ],
+  "priceNote": "料金は浄化槽の種類・規模・汚泥量により異なります。無料見積もり後にご案内します。",
+
+  "flow": [
+    { "title": "お問い合わせ・ご予約", "description": "電話またはフォームでお問い合わせください。浄化槽の種類・設置年数・お困りの症状をお伺いします。" },
+    { "title": "現地確認・見積もり", "description": "ご指定の日時に訪問し、浄化槽の規模・状態を確認します。作業前に費用と作業内容をご説明します。" },
+    { "title": "汚泥の引き抜き・清掃", "description": "バキューム車で堆積した汚泥を引き抜きます。槽内の洗浄・清掃も同時に実施します。" },
+    { "title": "放流水の水質確認", "description": "清掃後に放流水の透明度・においを確認し、正常に機能しているかをチェックします。" },
+    { "title": "作業報告書のお渡し", "description": "清掃記録・汚泥量・機能状態を記載した作業報告書をお渡しします。法定検査の際に必要となる書類です。" }
+  ],
+
+  "areas": {
+    "cityWards": [
+      { "name": "本渡", "areaKey": "hondo" },
+      { "name": "牛深", "areaKey": "ushifuka" },
+      { "name": "有明", "areaKey": "ariake" },
+      { "name": "御所浦", "areaKey": "goshоura" },
+      { "name": "倉岳", "areaKey": "kuratak" },
+      { "name": "栖本", "areaKey": "sumoto" },
+      { "name": "新和", "areaKey": "shinwa" },
+      { "name": "五和", "areaKey": "itsuwa" },
+      { "name": "天草", "areaKey": "amakusa-town" },
+      { "name": "苓北", "areaKey": "reihoku" }
+    ],
+    "outsideCity": ["天草市", "上天草市", "苓北町"]
+  },
+
+  "voices": [
+    {
+      "alias": "A様",
+      "area": "本渡エリア",
+      "date": "2025年6月対応",
+      "body": "法定検査の通知が届いたものの、どの業者に頼めばよいか分からず困っていました。電話したその日のうちに段取りしてもらえて助かりました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "B様",
+      "area": "牛深エリア",
+      "date": "2025年8月対応",
+      "body": "漁師町なので潮風と生活排水が混ざって臭いが強く悩んでいました。清掃後は格段に改善され、近所からのクレームもなくなりました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "C様",
+      "area": "御所浦エリア",
+      "date": "2025年9月対応",
+      "body": "離島なので来てもらえるか心配でしたが、快く対応してもらえました。今後は年間管理契約でお願いしようと思います。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    }
+  ],
+
+  "ctaCopy": {
+    "phonePrimary": "電話で相談",
+    "phoneSecondary": "受付 9:00-18:00（年中無休）",
+    "formPrimary": "30秒で見積もり依頼",
+    "lineLabel": "LINEで相談"
+  }
+}
