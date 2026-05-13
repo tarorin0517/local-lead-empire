@@ -92,6 +92,29 @@ const mainClass = fullBleed
       faqs={faqs}
       breadcrumbs={breadcrumbs}
     />
+
+    {/* Google Tag (gtag.js) - Google Ads コンバージョン計測
+        AW-IDの確認方法: Google広告 → 目標 → コンバージョン → 新しいコンバージョンアクション
+        → ウェブサイト → 「Googleタグを設置する」ステップに表示される AW-XXXXXXXXXX を下記に設定する
+        ※ 現在はプレースホルダー。実際のAW-IDに差し替えること。
+    */}
+    {import.meta.env.PUBLIC_GOOGLE_ADS_TAG && (
+      <Fragment>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GOOGLE_ADS_TAG}`}
+        ></script>
+        <script
+          is:inline
+          define:vars={{ gtagId: import.meta.env.PUBLIC_GOOGLE_ADS_TAG }}
+        >
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gtagId);
+        </script>
+      </Fragment>
+    )}
   </head>
   <body class="has-sticky-cta min-h-screen bg-bg text-ink antialiased">
     <Header site={site} />
