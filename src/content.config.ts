@@ -26,7 +26,7 @@ const sites = defineCollection({
     author: z.string().min(1),
     faqs: z.array(faqSchema).optional(),
     /** 特定ページの構造化データ種別を上書きしたい場合 */
-    pageType: z.enum(['top', 'article', 'service', 'area', 'symptom']).optional(),
+    pageType: z.enum(['top', 'article', 'service', 'area', 'symptom', 'column']).optional(),
     /** 一覧やパンくずでの並び順 */
     order: z.number().optional(),
     /** 下書き */

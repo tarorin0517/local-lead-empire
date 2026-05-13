@@ -44,8 +44,12 @@ export interface ReasonItem {
 
 export interface PriceRow {
   plan: string;
-  first: string;
-  additional: string;
+  /** 初回料金（エアコン洗浄など台数別価格） */
+  first?: string;
+  /** 2台目以降料金 */
+  additional?: string;
+  /** 単一価格帯（浄化槽など初回/追加の区別がないケース） */
+  price?: string;
 }
 
 export interface OptionItem {

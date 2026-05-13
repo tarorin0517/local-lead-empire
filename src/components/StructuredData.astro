@@ -3,7 +3,7 @@ import type { SiteMeta } from '../lib/sites';
 import { buildCanonical } from '../lib/sites';
 import { SITE_URL } from '../lib/site-url';
 
-export type PageKind = 'top' | 'article' | 'service' | 'area' | 'symptom';
+export type PageKind = 'top' | 'article' | 'service' | 'area' | 'symptom' | 'column';
 
 export interface FaqItem {
   question: string;
@@ -96,12 +96,15 @@ const business = {
 
 const offers =
   site.priceTable && site.priceTable.length > 0
-    ? site.priceTable.map((row) => ({
-        '@type': 'Offer',
-        name: row.plan,
-        price: row.first.replace(/[^\d]/g, ''),
-        priceCurrency: 'JPY',
-      }))
+    ? site.priceTable.map((row) => {
+        const rawPrice = row.first ?? row.price ?? '';
+        return {
+          '@type': 'Offer',
+          name: row.plan,
+          price: rawPrice.replace(/[^\d]/g, ''),
+          priceCurrency: 'JPY',
+        };
+      })
     : undefined;
 
 const service = {
