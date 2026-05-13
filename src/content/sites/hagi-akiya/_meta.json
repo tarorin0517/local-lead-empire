@@ -1,0 +1,110 @@
+{
+  "siteKey": "hagi-akiya",
+  "basePath": "hagi/akiya-kanri",
+  "siteName": "萩市空き家管理サポート",
+  "siteShortName": "まちのプロ｜萩空き家",
+  "tagline": "萩市の空き家管理・空き家対策を、安心・丁寧にサポート",
+  "city": "萩市",
+  "prefecture": "山口県",
+  "niche": "空き家管理",
+
+  "phone": "050-8886-8252",
+  "phoneHoursLabel": "受付 9:00-18:00（年中無休）",
+  "openingHours": ["Mo-Su 09:00-18:00"],
+  "lineUrl": "",
+  "contactFormUrl": "",
+
+  "responseLabel": "現地確認依頼から最短3日対応",
+  "priceRangeLabel": "月額5,000円〜（内容・頻度による）",
+  "priceRangeStructured": "¥¥",
+  "achievementsLabel": "管理実績 ●●件",
+  "achievementsNote": "自社調べ・2026年5月時点（プレースホルダ・後で実数に差し替え）",
+
+  "geo": {
+    "latitude": 34.4046,
+    "longitude": 131.3997
+  },
+  "sameAs": [],
+
+  "owner": {
+    "businessName": "マチのプロ",
+    "name": "野中倫太郎",
+    "address": "鹿児島県（詳細はご請求があり次第、遅滞なく開示します）",
+    "email": "contact@machi-no-pro.com"
+  },
+  "legal": {
+    "tokushohoUrl": "/legal/tokushoho/",
+    "privacyUrl": "/legal/privacy/"
+  },
+  "insurance": ["請負業者賠償責任保険", "PL保険（生産物賠償責任保険）"],
+
+  "ogImage": "/og/hagi-akiya.svg",
+  "logoPath": "/favicon.svg",
+
+  "trustBadges": [
+    { "label": "管理実績", "value": "●●件" },
+    { "label": "損害保険", "value": "加入済" },
+    { "label": "対応速度", "value": "最短3日" }
+  ],
+
+  "worries": [
+    "相続した萩市の古民家が遠方から管理できない",
+    "萩城下町エリアの歴史的建物をどう維持するか",
+    "冬の降雪や強風で建物が傷んでいないか心配",
+    "特定空家に指定され解体命令が来ないか不安",
+    "農地付き物件の草刈りと農業委員会への対応",
+    "移住・リノベーション活用を検討したいが何から始めれば"
+  ],
+
+  "priceTable": [
+    { "plan": "定期巡回（月1回）", "price": "月額5,000円〜" },
+    { "plan": "定期巡回（月2回）", "price": "月額8,000円〜" },
+    { "plan": "草刈り（単発）", "price": "15,000円〜50,000円" },
+    { "plan": "冬季・緊急確認（積雪・台風後など）", "price": "8,000円〜" },
+    { "plan": "売却・移住活用相談", "price": "初回無料" }
+  ],
+  "priceNote": "料金は物件の広さ・立地・サービス内容により変動します。現地確認後に正式お見積もりをご提示します。すべて税込。",
+
+  "flow": [
+    { "title": "お問い合わせ・ヒアリング", "description": "電話またはフォームでご連絡ください。物件の状況・管理ご希望内容・現在の悩みをお聞きします。" },
+    { "title": "現地確認・お見積もり", "description": "萩市内の物件を実際に訪問し、現状を確認のうえ管理プランとお見積もりをご提示します。" },
+    { "title": "管理契約の締結", "description": "内容・料金にご納得いただけたらご契約。管理内容・巡回頻度・冬季対応・緊急時の連絡フローを確認します。" },
+    { "title": "定期管理の開始", "description": "ご契約後、定期巡回点検・郵便物整理・換気・草刈り・積雪後確認などをご契約プランに沿って実施します。" },
+    { "title": "レポート報告・相談", "description": "巡回後は写真付きレポートをお送りします。城下町エリアの景観対応・移住活用の相談もいつでも受け付けます。" }
+  ],
+
+  "areas": {
+    "cityWards": [
+      { "name": "萩", "areaKey": "hagi-city" },
+      { "name": "田万川", "areaKey": "tamagawa" },
+      { "name": "むつみ", "areaKey": "mutsumi" },
+      { "name": "川上", "areaKey": "kawakami" },
+      { "name": "旭", "areaKey": "asahi" }
+    ],
+    "outsideCity": ["萩市", "長門市", "阿武町"]
+  },
+
+  "voices": [
+    {
+      "alias": "K様",
+      "area": "萩城下町エリア",
+      "date": "2026年2月管理開始",
+      "body": "東京在住で相続した城下町の古民家の管理に困っていました。歴史的な建物なので普通の業者に頼むのが不安でしたが、定期巡回と写真レポートで状態が把握でき、冬の積雪後も迅速に確認していただけて助かっています。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "S様",
+      "area": "むつみ・川上エリア",
+      "date": "2026年3月管理開始",
+      "body": "農地付きの空き家を相続しましたが、農業委員会への対応や草刈りをどうすればよいか分かりませんでした。管理と並行して移住活用の相談にも乗っていただき、萩市の補助金情報まで教えてもらえました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    }
+  ],
+
+  "ctaCopy": {
+    "phonePrimary": "電話で相談",
+    "phoneSecondary": "受付 9:00-18:00（年中無休）",
+    "formPrimary": "無料相談を依頼する",
+    "lineLabel": "LINEで相談"
+  }
+}
