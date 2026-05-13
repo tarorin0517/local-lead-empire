@@ -1,0 +1,110 @@
+{
+  "siteKey": "usa-akiya",
+  "basePath": "usa/akiya-kanri",
+  "siteName": "宇佐市空き家管理サポート",
+  "siteShortName": "まちのプロ｜宇佐空き家",
+  "tagline": "宇佐市の空き家管理・空き家対策を、安心・丁寧にサポート",
+  "city": "宇佐市",
+  "prefecture": "大分県",
+  "niche": "空き家管理",
+
+  "phone": "050-8886-8251",
+  "phoneHoursLabel": "受付 9:00-18:00（年中無休）",
+  "openingHours": ["Mo-Su 09:00-18:00"],
+  "lineUrl": "",
+  "contactFormUrl": "",
+
+  "responseLabel": "現地確認依頼から最短3日対応",
+  "priceRangeLabel": "月額5,000円〜（内容・頻度による）",
+  "priceRangeStructured": "¥¥",
+  "achievementsLabel": "管理実績 ●●件",
+  "achievementsNote": "自社調べ・2026年5月時点（プレースホルダ・後で実数に差し替え）",
+
+  "geo": {
+    "latitude": 33.4713,
+    "longitude": 131.3502
+  },
+  "sameAs": [],
+
+  "owner": {
+    "businessName": "マチのプロ",
+    "name": "野中倫太郎",
+    "address": "鹿児島県（詳細はご請求があり次第、遅滞なく開示します）",
+    "email": "contact@machi-no-pro.com"
+  },
+  "legal": {
+    "tokushohoUrl": "/legal/tokushoho/",
+    "privacyUrl": "/legal/privacy/"
+  },
+  "insurance": ["請負業者賠償責任保険", "PL保険（生産物賠償責任保険）"],
+
+  "ogImage": "/og/usa-akiya.svg",
+  "logoPath": "/favicon.svg",
+
+  "trustBadges": [
+    { "label": "管理実績", "value": "●●件" },
+    { "label": "損害保険", "value": "加入済" },
+    { "label": "対応速度", "value": "最短3日" }
+  ],
+
+  "worries": [
+    "相続した実家が宇佐市にあるが遠方で管理できない",
+    "空き家に雑草が生え近隣から苦情が来た",
+    "台風や大雨で建物が傷んでいないか心配",
+    "宇佐市から「特定空家」に指定されそうで怖い",
+    "売却・活用したいが何から始めればよいか分からない",
+    "宇佐神宮周辺の古民家をどう維持すればよいか"
+  ],
+
+  "priceTable": [
+    { "plan": "定期巡回（月1回）", "price": "月額5,000円〜" },
+    { "plan": "定期巡回（月2回）", "price": "月額8,000円〜" },
+    { "plan": "草刈り（単発）", "price": "15,000円〜50,000円" },
+    { "plan": "緊急確認（台風後など）", "price": "8,000円〜" },
+    { "plan": "売却・活用相談", "price": "初回無料" }
+  ],
+  "priceNote": "料金は物件の広さ・立地・サービス内容により変動します。現地確認後に正式お見積もりをご提示します。すべて税込。",
+
+  "flow": [
+    { "title": "お問い合わせ・ヒアリング", "description": "電話またはフォームでご連絡ください。物件の状況・管理ご希望内容・現在の悩みをお聞きします。" },
+    { "title": "現地確認・お見積もり", "description": "宇佐市内の物件を実際に訪問し、現状を確認のうえ管理プランとお見積もりをご提示します。" },
+    { "title": "管理契約の締結", "description": "内容・料金にご納得いただけたらご契約。管理内容・巡回頻度・緊急時の連絡フローを確認します。" },
+    { "title": "定期管理の開始", "description": "ご契約後、定期巡回点検・郵便物整理・換気・草刈りなどをご契約プランに沿って実施します。" },
+    { "title": "レポート報告・相談", "description": "巡回後は写真付きレポートをお送りします。気になる点はいつでもご相談ください。" }
+  ],
+
+  "areas": {
+    "cityWards": [
+      { "name": "宇佐", "areaKey": "usa" },
+      { "name": "院内", "areaKey": "innai" },
+      { "name": "安心院", "areaKey": "ajimu" },
+      { "name": "四日市", "areaKey": "yokkaichi" },
+      { "name": "長洲", "areaKey": "nagasu" }
+    ],
+    "outsideCity": ["宇佐市", "豊後高田市", "中津市"]
+  },
+
+  "voices": [
+    {
+      "alias": "M様",
+      "area": "宇佐・院内エリア",
+      "date": "2026年1月管理開始",
+      "body": "大阪在住で相続した実家の管理が全くできていませんでした。定期巡回と写真レポートのおかげで安心できています。草刈りも合わせて依頼し、近隣の方からのクレームもなくなりました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    },
+    {
+      "alias": "T様",
+      "area": "安心院エリア",
+      "date": "2026年2月管理開始",
+      "body": "相続で農地付き古民家を引き継ぎましたが、維持方法が全く分からず相談しました。管理と並行して売却活用の相談にも乗っていただき、道筋が見えてきました。",
+      "note": "本人の同意を得たうえで掲載。表記は仮placeholder。後で実口コミに差し替え。"
+    }
+  ],
+
+  "ctaCopy": {
+    "phonePrimary": "電話で相談",
+    "phoneSecondary": "受付 9:00-18:00（年中無休）",
+    "formPrimary": "無料相談を依頼する",
+    "lineLabel": "LINEで相談"
+  }
+}
