@@ -18,6 +18,17 @@ const { site } = Astro.props;
       受付時間内であれば、最短当日中に折り返しご連絡します。
     </p>
 
+    <div class="mx-auto mt-6 max-w-xl rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm">
+      <p class="font-semibold text-amber-800">お問合せの際は下記をご記入ください</p>
+      <p class="mt-1 text-ink">
+        メッセージ欄の冒頭に
+        <code class="rounded bg-white px-2 py-0.5 font-mono text-primary-900">
+          【{site.siteKey}】
+        </code>
+        とご記入いただけますとスムーズです。
+      </p>
+    </div>
+
     <div class="mt-8 flex justify-center">
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSeVrY9NOxR9IVv9cpjKLEOdGuJd4JqLw1tqKwa2D521qtTS3A/viewform?embedded=true"
