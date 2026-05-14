@@ -94,18 +94,24 @@ const business = {
   ...(site.sameAs && site.sameAs.length > 0 ? { sameAs: site.sameAs } : {}),
 };
 
-const offers =
-  site.priceTable && site.priceTable.length > 0
-    ? site.priceTable.map((row) => {
-        const rawPrice = row.first ?? row.price ?? '';
-        return {
-          '@type': 'Offer',
-          name: row.plan,
-          price: rawPrice.replace(/[^\d]/g, ''),
-          priceCurrency: 'JPY',
-        };
-      })
-    : undefined;
+const offers = (() => {
+  if (!site.priceTable || site.priceTable.length === 0) return undefined;
+  const items = site.priceTable.flatMap((row) => {
+    const rawPrice = row.first ?? row.price ?? '';
+    // 最初の連続する数字列のみ抽出（範囲表記の桁連結を防ぐ）
+    const match = rawPrice.match(/[\d,]+/);
+    if (!match) return []; // 「初回無料」「要相談」等は offer 化しない
+    return [
+      {
+        '@type': 'Offer',
+        name: row.plan,
+        price: match[0].replace(/,/g, ''),
+        priceCurrency: 'JPY',
+      },
+    ];
+  });
+  return items.length > 0 ? items : undefined;
+})();
 
 const service = {
   '@context': 'https://schema.org',
