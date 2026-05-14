@@ -79,7 +79,10 @@
       { "name": "香北", "areaKey": "kohoku" },
       { "name": "物部", "areaKey": "monobe" },
       { "name": "大宮", "areaKey": "omiya" },
-      { "name": "韮生野", "areaKey": "nirouno" }
+      { "name": "韮生野", "areaKey": "nirouno" },
+      { "name": "楠目", "areaKey": "kusume" },
+      { "name": "美良布", "areaKey": "birafu" },
+      { "name": "大栃", "areaKey": "otochi" }
     ],
     "outsideCity": ["香美市", "南国市", "香南市", "高知市"]
   },

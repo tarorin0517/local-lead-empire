@@ -79,7 +79,10 @@
       { "name": "院内", "areaKey": "innai" },
       { "name": "安心院", "areaKey": "ajimu" },
       { "name": "四日市", "areaKey": "yokkaichi" },
-      { "name": "長洲", "areaKey": "nagasu" }
+      { "name": "長洲", "areaKey": "nagasu" },
+      { "name": "柳ヶ浦", "areaKey": "yanagigaura" },
+      { "name": "西馬城", "areaKey": "nishibaki" },
+      { "name": "高家", "areaKey": "takake" }
     ],
     "outsideCity": ["宇佐市", "豊後高田市", "中津市"]
   },

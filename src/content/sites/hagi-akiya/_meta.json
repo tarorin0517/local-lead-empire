@@ -79,7 +79,10 @@
       { "name": "田万川", "areaKey": "tamagawa" },
       { "name": "むつみ", "areaKey": "mutsumi" },
       { "name": "川上", "areaKey": "kawakami" },
-      { "name": "旭", "areaKey": "asahi" }
+      { "name": "旭", "areaKey": "asahi" },
+      { "name": "椿東", "areaKey": "tsubaki-higashi" },
+      { "name": "越ヶ浜", "areaKey": "koshigahama" },
+      { "name": "須佐", "areaKey": "susa" }
     ],
     "outsideCity": ["萩市", "長門市", "阿武町"]
   },
