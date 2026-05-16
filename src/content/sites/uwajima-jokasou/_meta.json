@@ -79,7 +79,10 @@
       { "name": "吉田", "areaKey": "yoshida" },
       { "name": "津島", "areaKey": "tsushima" },
       { "name": "三間", "areaKey": "mima" },
-      { "name": "九島", "areaKey": "kushima" }
+      { "name": "九島", "areaKey": "kushima" },
+      { "name": "立間", "areaKey": "tachima" },
+      { "name": "岩松", "areaKey": "iwamatsu" },
+      { "name": "丸之内", "areaKey": "marounochi" }
     ],
     "outsideCity": ["宇和島市", "愛南町", "鬼北町"]
   },

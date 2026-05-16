@@ -80,7 +80,9 @@
       { "name": "美都", "areaKey": "mito" },
       { "name": "匹見", "areaKey": "hikimi" },
       { "name": "須子", "areaKey": "suko" },
-      { "name": "小野", "areaKey": "ono" }
+      { "name": "小野", "areaKey": "ono" },
+      { "name": "吉田", "areaKey": "yoshida" },
+      { "name": "二川", "areaKey": "futakawa" }
     ],
     "outsideCity": ["益田市", "津和野町", "吉賀町"]
   },
