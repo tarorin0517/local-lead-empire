@@ -43,3 +43,16 @@ const { site } = Astro.props;
     </div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', () => {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'form_submit', {
+          event_category: 'conversion',
+          event_label: 'contact_form'
+        });
+      }
+    });
+  });
+</script>

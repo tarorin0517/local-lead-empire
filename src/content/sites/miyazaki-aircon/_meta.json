@@ -16,10 +16,10 @@
   "contactFormUrl": "",
 
   "responseLabel": "即日対応可",
-  "priceRangeLabel": "1台目 9,800円〜（税込）",
+  "priceRangeLabel": "まずは無料見積もり",
   "priceRangeStructured": "¥¥",
-  "achievementsLabel": "施工実績 ●●台",
-  "achievementsNote": "自社調べ・2025年5月時点（プレースホルダ・後で実数に差し替え）",
+  "achievementsLabel": "無料見積もり・即日受付",
+  "achievementsNote": "まずはお気軽にご相談ください",
 
   "geo": {
     "latitude": 31.9077,
@@ -43,7 +43,7 @@
   "logoPath": "/favicon.svg",
 
   "trustBadges": [
-    { "label": "施工実績", "value": "●●台" },
+    { "label": "見積もり", "value": "無料" },
     { "label": "損害保険", "value": "加入済" },
     { "label": "対応速度", "value": "即日対応可" }
   ],
@@ -65,8 +65,8 @@
 
   "reasons": [
     {
-      "title": "●●台の施工実績",
-      "description": "宮崎市内を中心に多くのご家庭・店舗を施工。地元密着で経験豊富なスタッフが対応します（自社調べ・2025年5月時点）。"
+      "title": "地域密着・丁寧な施工",
+      "description": "宮崎市を中心に活動する地元密着スタッフが対応します。お見積もりは無料・当日ご回答可能。追加費用なしの明朗会計です。"
     },
     {
       "title": "完全分解で奥のカビまで除去",
