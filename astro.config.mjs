@@ -19,7 +19,25 @@ export default defineConfig({
         const url = new URL(page);
         if (url.pathname === '/') return false;
         if (url.pathname.startsWith('/admin/')) return false;
+        if (url.pathname.startsWith('/legal/')) return false;
         return true;
+      },
+      serialize(item) {
+        const url = new URL(item.url);
+        const parts = url.pathname.replace(/^\/|\/$/g, '').split('/');
+        // /city/niche/ → トップページ（最重要）
+        const isTop = parts.length === 2;
+        // /city/niche/areas|symptoms|services/slug → 中ページ
+        const isMid = parts.length === 4 && ['areas', 'symptoms', 'services'].includes(parts[2]);
+        // /city/niche/columns/slug → コラム（SEO集客記事）
+        const isColumn = parts.length === 4 && parts[2] === 'columns';
+
+        return {
+          ...item,
+          priority: isTop ? 1.0 : isMid ? 0.8 : isColumn ? 0.7 : 0.6,
+          changefreq: isTop ? 'weekly' : 'monthly',
+          lastmod: new Date().toISOString().split('T')[0],
+        };
       },
     }),
   ],

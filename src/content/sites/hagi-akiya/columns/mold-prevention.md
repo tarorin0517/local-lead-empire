@@ -4,7 +4,7 @@ description: 萩市の日本海側気候で空き家のカビ・湿気被害を�
 city: 萩市
 niche: 空き家管理
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

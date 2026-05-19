@@ -5,7 +5,7 @@ city: 宇佐市
 niche: 空き家管理
 symptom: 不審者侵入・空き巣
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: symptom
 ---

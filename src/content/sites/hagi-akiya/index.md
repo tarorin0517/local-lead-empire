@@ -4,7 +4,7 @@ description: 萩市の空き家管理・空き家対策を月額5,000円〜で�
 city: 萩市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: top
 faqs:

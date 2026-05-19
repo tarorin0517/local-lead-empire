@@ -4,7 +4,7 @@ description: 香美市の空き家敷地・農地・ゆず畑・山林接道の�
 city: 香美市
 niche: 空き家管理
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: service
 ---

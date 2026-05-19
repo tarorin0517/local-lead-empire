@@ -4,7 +4,7 @@ description: 宇和島市の浄化槽法第11条検査（法定検査）の義�
 city: 宇和島市
 niche: 浄化槽清掃
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

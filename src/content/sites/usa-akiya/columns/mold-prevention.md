@@ -4,7 +4,7 @@ description: 宇佐市の温暖多湿な気候で空き家のカビ・湿気被�
 city: 宇佐市
 niche: 空き家管理
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

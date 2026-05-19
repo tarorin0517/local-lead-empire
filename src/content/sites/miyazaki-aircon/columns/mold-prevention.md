@@ -4,7 +4,7 @@ description: 年間降水量2,500mm・高温多湿の宮崎市でエアコンの
 city: 宮崎市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

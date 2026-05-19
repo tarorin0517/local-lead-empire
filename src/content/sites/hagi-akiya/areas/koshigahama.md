@@ -5,7 +5,7 @@ city: 萩市
 niche: 空き家管理
 area: 越ヶ浜
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: area
 ---

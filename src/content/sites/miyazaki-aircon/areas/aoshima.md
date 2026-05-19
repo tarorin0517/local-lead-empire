@@ -5,8 +5,8 @@ city: 宮崎市
 niche: エアコン分解洗浄
 area: 青島
 pubDate: 2026-05-08
-updatedDate: 2026-05-08
-author: 運営者本名（_meta.json または環境変数で上書き）
+updatedDate: 2026-05-19
+author: 野中倫太郎
 pageType: area
 ---
 

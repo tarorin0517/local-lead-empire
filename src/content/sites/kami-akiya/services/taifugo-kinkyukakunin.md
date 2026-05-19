@@ -4,7 +4,7 @@ description: 香美市の空き家の台風・大雨後緊急確認。屋根破�
 city: 香美市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: service
 ---

@@ -4,7 +4,7 @@ description: 壁掛け型・天井カセット型・業務用エアコンの分�
 city: 倉敷市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

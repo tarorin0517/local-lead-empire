@@ -4,7 +4,7 @@ description: 天草市の浄化槽の臭い原因を漁業・農業地域の特�
 city: 天草市
 niche: 浄化槽清掃
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

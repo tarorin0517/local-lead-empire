@@ -4,7 +4,7 @@ description: 萩市の空き家を月1〜2回巡回点検。換気・郵便物�
 city: 萩市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: service
 ---

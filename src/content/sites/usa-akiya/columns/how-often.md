@@ -4,7 +4,7 @@ description: 宇佐市の空き家管理の巡回頻度はどれくらいが適�
 city: 宇佐市
 niche: 空き家管理
 pubDate: 2026-05-14
-updatedDate: 2026-05-14
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

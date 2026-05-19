@@ -4,7 +4,7 @@ description: 萩市の空き家・農地付き物件の草刈り・除草・樹�
 city: 萩市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: service
 ---

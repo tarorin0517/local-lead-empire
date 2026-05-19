@@ -4,7 +4,7 @@ description: 市販スプレーでのDIY洗浄と業者による分解洗浄の�
 city: 宮崎市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

@@ -4,7 +4,7 @@ description: 松山市の温暖な瀬戸内気候でも、エアコン内部の�
 city: 松山市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

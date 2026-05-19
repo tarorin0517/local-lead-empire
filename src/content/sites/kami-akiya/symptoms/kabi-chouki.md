@@ -5,7 +5,7 @@ city: 香美市
 niche: 空き家管理
 symptom: カビ・木材腐食・長期放置
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: symptom
 ---

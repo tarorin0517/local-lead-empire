@@ -5,8 +5,8 @@ city: 宇和島市
 niche: 浄化槽清掃
 area: 吉田
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
-author: 運営者本名（_meta.json または環境変数で上書き）
+updatedDate: 2026-05-19
+author: 野中倫太郎
 pageType: area
 ---
 

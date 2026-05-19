@@ -4,7 +4,7 @@ description: 瀬戸内の温暖気候と道後温泉の湯気・古民家の湿�
 city: 松山市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

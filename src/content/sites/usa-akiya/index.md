@@ -4,8 +4,8 @@ description: 宇佐市の空き家管理・空き家対策を月額5,000円〜�
 city: 宇佐市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
-author: 運営者本名（_meta.json または環境変数で上書き）
+updatedDate: 2026-05-19
+author: 野中倫太郎
 pageType: top
 faqs:
   - question: 宇佐市に住んでいないのに管理を依頼できますか？

@@ -4,7 +4,7 @@ description: 宮崎市でエアコン洗浄を終えた後の正しい使い方�
 city: 宮崎市
 niche: エアコン分解洗浄
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

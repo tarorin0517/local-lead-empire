@@ -4,7 +4,7 @@ description: 宇佐市で空き家を放置すると固定資産税の住宅用�
 city: 宇佐市
 niche: 空き家管理
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

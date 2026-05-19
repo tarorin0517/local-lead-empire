@@ -4,7 +4,7 @@ description: 宇和島市の浄化槽清掃料金を5人槽・7人槽・10人槽
 city: 宇和島市
 niche: 浄化槽清掃
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---

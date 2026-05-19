@@ -4,7 +4,7 @@ description: 益田市の浄化槽の臭い問題を農村・山間部・積雪�
 city: 益田市
 niche: 浄化槽清掃
 pubDate: 2026-05-13
-updatedDate: 2026-05-13
+updatedDate: 2026-05-19
 author: 野中倫太郎
 pageType: column
 ---
