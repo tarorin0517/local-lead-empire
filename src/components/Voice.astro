@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { site } = Astro.props;
-const voices = site.voices ?? [];
+const voices = (site.voices ?? []).filter((v) => !v.note?.includes('placeholder'));
 ---
 
 {voices.length > 0 && (
@@ -37,7 +37,7 @@ const voices = site.voices ?? [];
       </ul>
 
       <p class="mt-4 text-center text-[11px] text-ink-muted">
-        ※ 上記はサイト構成のためのプレースホルダ表示です。本物の口コミに差し替え後、出典・取得日・本人同意を確認のうえ掲載します。
+        ※ 掲載はお客様の同意を得たうえで、エリア・施工時期のみ表示しています。
       </p>
     </div>
   </section>

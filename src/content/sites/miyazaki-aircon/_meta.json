@@ -45,7 +45,7 @@
   "trustBadges": [
     { "label": "見積もり", "value": "無料" },
     { "label": "損害保険", "value": "加入済" },
-    { "label": "対応速度", "value": "即日対応可" }
+    { "label": "施工保証", "value": "30日間" }
   ],
 
   "worries": [

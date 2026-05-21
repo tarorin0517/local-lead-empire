@@ -1,11 +1,13 @@
 ---
 import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
 
 interface Props {
   site: SiteMeta;
 }
 
 const { site } = Astro.props;
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
 ---
 
 <section id="contact" class="bg-bg-section px-4 py-12 sm:py-16">
@@ -14,45 +16,158 @@ const { site } = Astro.props;
       お問い合わせ・無料お見積もり
     </h2>
     <p class="mt-2 text-center text-sm text-ink-muted">
-      症状・希望日・台数をお書き添えください。
-      受付時間内であれば、最短当日中に折り返しご連絡します。
+      症状・希望日・台数をお書き添えください。受付時間内であれば、最短当日中に折り返しご連絡します。
     </p>
 
-    <div class="mx-auto mt-6 max-w-xl rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm">
-      <p class="font-semibold text-amber-800">お問合せの際は下記をご記入ください</p>
-      <p class="mt-1 text-ink">
-        メッセージ欄の冒頭に
-        <code class="rounded bg-white px-2 py-0.5 font-mono text-primary-900">
-          【{site.siteKey}】
-        </code>
-        とご記入いただけますとスムーズです。
-      </p>
-    </div>
+    {formEndpoint ? (
+      <>
+        <form
+          id="contact-form"
+          data-endpoint={formEndpoint}
+          class="mt-8 mx-auto max-w-xl space-y-4"
+        >
+          <input type="hidden" name="siteKey" value={site.siteKey} />
+          <input type="hidden" name="siteName" value={site.siteName} />
+          <input type="hidden" name="_subject" value={`【${site.siteName}】お見積もり依頼`} />
+          <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
 
-    <div class="mt-8 flex justify-center">
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSeVrY9NOxR9IVv9cpjKLEOdGuJd4JqLw1tqKwa2D521qtTS3A/viewform?embedded=true"
-        class="w-full max-w-[640px]"
-        height="1046"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        loading="lazy"
-        title="お問い合わせフォーム"
-      >読み込んでいます…</iframe>
-    </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink" for="cf-name">
+              お名前 <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="cf-name"
+              name="name"
+              required
+              autocomplete="name"
+              placeholder="山田 太郎"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            />
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink" for="cf-phone">
+              電話番号 <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              id="cf-phone"
+              name="phone"
+              required
+              autocomplete="tel"
+              placeholder="090-0000-0000"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            />
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink" for="cf-units">
+              台数
+            </label>
+            <select
+              id="cf-units"
+              name="units"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            >
+              <option value="1台">1台</option>
+              <option value="2台">2台</option>
+              <option value="3台">3台</option>
+              <option value="4台以上">4台以上</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink" for="cf-message">
+              ご相談内容・症状・ご希望日
+            </label>
+            <textarea
+              id="cf-message"
+              name="message"
+              rows="4"
+              placeholder="例：カビ臭がする。壁掛け（お掃除機能なし）。来週末希望。"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            id="cf-submit"
+            class="w-full rounded-lg bg-primary-700 px-6 py-3 text-base font-bold text-white hover:bg-primary-900 disabled:opacity-60"
+          >
+            無料で見積もりを依頼する
+          </button>
+
+          <p class="text-center text-xs text-ink-muted">
+            送信後、受付時間内（{site.phoneHoursLabel ?? '9:00–19:00'}）であれば最短当日中にご連絡します。
+          </p>
+        </form>
+
+        <div
+          id="cf-success"
+          class="mx-auto mt-8 hidden max-w-xl rounded-xl border border-green-200 bg-green-50 p-6 text-center"
+        >
+          <p class="text-lg font-bold text-green-800">お問い合わせを受け付けました</p>
+          <p class="mt-2 text-sm text-green-700">
+            受付時間内（{site.phoneHoursLabel ?? '9:00–19:00'}）であれば最短当日中にご連絡します。
+            急ぎの場合は
+            <a href={telHref(site.phone)} class="font-bold underline">{site.phone}</a>
+            へ直接お電話ください。
+          </p>
+        </div>
+      </>
+    ) : (
+      <div class="mx-auto mt-8 max-w-xl rounded-xl border border-primary-200 bg-primary-50 p-6 text-center">
+        <p class="text-sm text-ink">お電話またはLINEでお気軽にご相談ください。</p>
+        <a href={telHref(site.phone)} class="mt-3 inline-block text-lg font-bold text-primary-700">
+          {site.phone}
+        </a>
+      </div>
+    )}
   </div>
 </section>
 
 <script>
-  document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', () => {
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'form_submit', {
-          event_category: 'conversion',
-          event_label: 'contact_form'
+  void (async () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form) return;
+
+    const endpoint = form.dataset.endpoint;
+    if (!endpoint) return;
+
+    const successEl = document.getElementById('cf-success');
+    const submitBtn = form.querySelector('[type="submit"]') as HTMLButtonElement | null;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '送信中...';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
         });
+
+        if (!res.ok) throw new Error('server error');
+
+        form.classList.add('hidden');
+        successEl?.classList.remove('hidden');
+        successEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const g = (window as { gtag?: (...args: unknown[]) => void }).gtag;
+        g?.('event', 'form_submit', {
+          event_category: 'conversion',
+          event_label: 'contact_form',
+        });
+      } catch {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '無料で見積もりを依頼する';
+        alert('送信に失敗しました。お手数ですが、お電話にてご連絡ください。');
       }
     });
-  });
+  })();
 </script>
