@@ -94,27 +94,29 @@ const mainClass = fullBleed
     />
 
     {/* Google Tag (gtag.js) - Google Ads コンバージョン計測
-        AW-IDの確認方法: Google広告 → 目標 → コンバージョン → 新しいコンバージョンアクション
-        → ウェブサイト → 「Googleタグを設置する」ステップに表示される AW-XXXXXXXXXX を下記に設定する
-        ※ 現在はプレースホルダー。実際のAW-IDに差し替えること。
+        AW-ID は環境変数 PUBLIC_GOOGLE_ADS_TAG で上書き可能。
+        未設定時は AW-16731567989（アカウント: 556-357-5990）を使用。
     */}
-    {import.meta.env.PUBLIC_GOOGLE_ADS_TAG && (
-      <Fragment>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GOOGLE_ADS_TAG}`}
-        ></script>
-        <script
-          is:inline
-          define:vars={{ gtagId: import.meta.env.PUBLIC_GOOGLE_ADS_TAG }}
-        >
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', gtagId);
-        </script>
-      </Fragment>
-    )}
+    {(() => {
+      const gtagId = import.meta.env.PUBLIC_GOOGLE_ADS_TAG || 'AW-16731567989';
+      return (
+        <Fragment>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+          ></script>
+          <script
+            is:inline
+            define:vars={{ gtagId }}
+          >
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', gtagId);
+          </script>
+        </Fragment>
+      );
+    })()}
   </head>
   <body class="has-sticky-cta min-h-screen bg-bg text-ink antialiased">
     <Header site={site} />
