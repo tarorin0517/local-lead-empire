@@ -159,9 +159,10 @@ const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
         successEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         const g = (window as { gtag?: (...args: unknown[]) => void }).gtag;
-        g?.('event', 'form_submit', {
-          event_category: 'conversion',
-          event_label: 'contact_form',
+        g?.('event', 'conversion', {
+          send_to: 'AW-16731567989/bZcqCO_H3rEcEPXunao-',
+          value: 1.0,
+          currency: 'JPY',
         });
       } catch {
         submitBtn.disabled = false;
