@@ -380,6 +380,7 @@ const trustBadges = site.trustBadges ?? [];
 .fvac-scene {
   position: absolute;
   inset: 0;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transform: translateZ(-100px) rotateX(8deg) rotateY(-22deg);
   transition: transform 0.05s linear;
@@ -390,6 +391,7 @@ const trustBadges = site.trustBadges ?? [];
   position: absolute;
   left: 50%;
   top: 50%;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   transition: transform 0.06s linear;
   will-change: transform;
@@ -400,6 +402,7 @@ const trustBadges = site.trustBadges ?? [];
   position: absolute;
   left: 0;
   top: 0;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   background: #fff;
   border: 1px solid rgba(11,74,114,.18);
@@ -773,10 +776,13 @@ const trustBadges = site.trustBadges ?? [];
   /* セクション全長を380vhに（SP専用座標系に合わせた値） */
   .fvac { height: 380vh; }
 
-  /* sticky: ヘッダー直下から開始、残り画面全体を占有 */
+  /* sticky: ヘッダー直下から開始、残り画面全体を占有
+     overflow: visible に戻す — iOS Safari では overflow:hidden/clip を sticky 要素に
+     設定するとスクロールコンテナが生成され window.scrollY が更新されない場合がある */
   .fvac-sticky {
     top: 66px;
     height: calc(100vh - 66px);
+    overflow: visible;
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: unset;
@@ -984,29 +990,53 @@ const trustBadges = site.trustBadges ?? [];
   // Apply initial transforms immediately
   partData.forEach(p => { p.el.style.transform = buildT(p.baseO); });
 
-  // Pre-compute root's absolute top offset from document origin (constant while layout is stable).
-  // Using scrollY + getBCR is accurate and avoids iOS returning stale BoundingClientRect
-  // values during active scroll momentum.
-  const rootAbsTop = root.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0);
-  const total      = root.offsetHeight - window.innerHeight;
-  if (total <= 0) return;
+  // ---- Debug overlay (activated by ?debug=1 in URL) ----
+  // Shows rect.top / scrolled / isSP on-screen so we can diagnose on real iOS devices.
+  const isDebug = location.search.includes('debug=1');
+  let debugEl = null;
+  if (isDebug) {
+    debugEl = document.createElement('div');
+    Object.assign(debugEl.style, {
+      position: 'fixed', bottom: '8px', left: '8px', zIndex: '9999',
+      background: 'rgba(0,0,0,.75)', color: '#0f0', fontFamily: 'monospace',
+      fontSize: '11px', padding: '6px 8px', borderRadius: '6px',
+      pointerEvents: 'none', lineHeight: '1.6',
+    });
+    document.body.appendChild(debugEl);
+  }
 
-  let lastScrollY = -1;
+  let lastRectTop = 99999;
   let lastStep    = -1;
+  let dbgFrame    = 0;
 
-  // Continuous rAF loop — reads window.scrollY every frame.
-  // iOS Safari / Chrome-iOS fire scroll events unreliably (throttled, deferred,
-  // or suppressed entirely when a sticky ancestor had overflow:hidden).
-  // Polling scrollY in rAF is the same pattern GSAP ScrollTrigger uses and is
-  // the most reliable approach across all iOS WebKit versions.
+  // ---- Continuous rAF loop ----
+  // We use getBoundingClientRect().top as the scroll indicator instead of
+  // window.scrollY. This is more direct and bypasses iOS WebKit issues where:
+  //   • window.scrollY may lag behind the visual scroll position
+  //   • overflow:hidden/clip on a sticky ancestor could intercept scroll
+  // getBCR().top in rAF always reflects the current layout-flush position,
+  // so it is the most reliable signal on all iOS versions.
   function tick() {
     requestAnimationFrame(tick); // always reschedule first
 
-    const scrollY = window.scrollY || window.pageYOffset || 0;
-    if (scrollY === lastScrollY) return; // no change — skip all work
-    lastScrollY = scrollY;
+    const rect    = root.getBoundingClientRect();
+    const rectTop = rect.top;
 
-    const scrolled = clamp((scrollY - rootAbsTop) / total);
+    // Change detection: skip if element hasn't moved (user is not scrolling)
+    if (Math.abs(rectTop - lastRectTop) < 0.05) {
+      if (isDebug) {
+        dbgFrame++;
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        debugEl.innerHTML = `top:${Math.round(rectTop)}<br>scrollY:${scrollY}<br>scrolled:—<br>isSP:${isSP}<br>f:${dbgFrame}`;
+      }
+      return;
+    }
+    lastRectTop = rectTop;
+
+    const total = root.offsetHeight - window.innerHeight;
+    if (total <= 0) return;
+
+    const scrolled = clamp(-rectTop / total);
 
     scene.style.transform = cameraTransform(scrolled);
 
@@ -1039,6 +1069,12 @@ const trustBadges = site.trustBadges ?? [];
     if (stage !== lastStep) {
       lastStep = stage;
       steps.forEach((el, i) => el.classList.toggle('fvac-step-on', i === stage));
+    }
+
+    if (isDebug) {
+      dbgFrame++;
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      debugEl.innerHTML = `top:${Math.round(rectTop)}<br>scrollY:${scrollY}<br>scrolled:${(scrolled*100).toFixed(1)}%<br>isSP:${isSP}<br>f:${dbgFrame}`;
     }
   }
 
