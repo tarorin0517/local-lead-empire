@@ -724,31 +724,79 @@ const trustBadges = site.trustBadges ?? [];
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — タブレット (≤1024px)
    ============================================================ */
 @media (max-width: 1024px) {
+  /* グリッド → フレックス縦積みに切り替え */
   .fvac-sticky {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: unset;
   }
   .fvac-copy {
-    padding: 80px 24px 0;
+    flex: 0 0 auto;
+    padding: 76px 28px 12px;
     max-width: 100%;
     justify-content: flex-start;
   }
-  .fvac-stage-wrap { height: 55vh; }
+  .fvac-stage-wrap {
+    flex: 1 1 0;
+    min-height: 0; /* flex shrink を許可 */
+  }
   .fvac-progress { display: none; }
-  .fvac-labels { display: none; }
-  .fvac-scroll-hint { left: 24px; }
-  .fvac-h1 { font-size: clamp(28px, 6vw, 42px); }
-  .fvac-badges { flex-wrap: wrap; gap: 12px; }
+  .fvac-labels   { display: none; }
+  .fvac-scroll-hint { left: 24px; bottom: 16px; }
+  .fvac-h1 { font-size: clamp(26px, 5.4vw, 40px); margin: 14px 0 12px; }
+  .fvac-lead { font-size: 14px; margin-bottom: 18px; max-width: 100%; }
+  .fvac-badges {
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    margin-top: 16px;
+    padding-top: 14px;
+  }
+  .fvac-badge-v { font-size: 17px; }
 }
 
+/* ============================================================
+   RESPONSIVE — スマホ (≤640px)
+   ============================================================ */
 @media (max-width: 640px) {
-  .fvac-copy { padding-top: 64px; }
-  .fvac-lead { font-size: 14px; }
-  .fvac-ctas { flex-direction: column; }
-  .fvac-btn-phone { flex-direction: row; gap: 12px; }
+  .fvac { height: 480vh; } /* スマホはスクロール量を短縮 */
+
+  .fvac-copy { padding: 62px 20px 10px; }
+  .fvac-tag  { font-size: 11px; padding: 6px 12px; }
+  .fvac-h1   { font-size: clamp(24px, 7.5vw, 36px); line-height: 1.25; }
+  .fvac-lead { font-size: 13px; line-height: 1.75; }
+
+  /* CTA: 横2ボタン並べる（電話 / フォーム） */
+  .fvac-ctas { gap: 8px; }
+  .fvac-btn-phone {
+    flex: 1;
+    flex-direction: column;
+    padding: 10px 12px;
+  }
+  .fvac-btn-form {
+    flex: 1;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  .fvac-btn-num { font-size: 16px; }
+
+  /* バッジは非表示（スペース確保） */
+  .fvac-badges { display: none; }
+
+  /* スクロールヒントを目立たせる */
+  .fvac-scroll-hint {
+    font-size: 10px;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .fvac-scroll-bar { width: 40px; }
 }
 
 /* prefers-reduced-motion: skip animation, show assembled state */
@@ -790,11 +838,33 @@ const trustBadges = site.trustBadges ?? [];
   function easeInOut(t) { return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
   function clamp(v, a = 0, b = 1) { return Math.max(a, Math.min(b, v)); }
 
-  function cameraTransform(p) {
+  /**
+   * ビューポート幅に応じた3Dシーン縮小スケールを返す。
+   * AC本体が760px幅の座標系で設計されているため、
+   * モバイルでは scale3d で viewport に収める。
+   */
+  function getScale() {
+    const w = window.innerWidth;
+    if (w <= 390) return 0.30;
+    if (w <= 480) return 0.35;
+    if (w <= 640) return 0.42;
+    if (w <= 768) return 0.52;
+    if (w <= 1024) return 0.64;
+    return 1;
+  }
+
+  /**
+   * カメラ変換文字列を返す。
+   * scale3d を先頭に置くことで、3D描画全体をスケールダウン。
+   * CSS transform は右から左へ適用されるため、
+   * scale3d が「最後に」掛かる（= スクリーン空間での縮小）。
+   */
+  function cameraTransform(p, scale) {
     const ry = -22 - p * 6;
-    const rx = 8 + p * 6;
+    const rx =   8 + p * 6;
     const tz = -100 - p * 80;
-    return `translateZ(${tz}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    const s  = scale.toFixed(4);
+    return `scale3d(${s},${s},1) translateZ(${tz}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   }
 
   // Respect prefers-reduced-motion
@@ -816,10 +886,21 @@ const trustBadges = site.trustBadges ?? [];
   })).filter(p => p.el);
 
   // Set initial transforms immediately
+  let currentScale = getScale();
   partData.forEach(p => { p.el.style.transform = buildT(p.baseO); });
 
   let raf = 0;
   let lastStep = -1;
+
+  // リサイズ時にスケールを更新（debounce 150ms）
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      currentScale = getScale();
+      onScroll();
+    }, 150);
+  }, { passive: true });
 
   function onScroll() {
     if (raf) return;
@@ -830,8 +911,8 @@ const trustBadges = site.trustBadges ?? [];
       if (total <= 0) return;
       const scrolled = clamp(-rect.top / total);
 
-      // camera
-      scene.style.transform = cameraTransform(scrolled);
+      // camera（スケール込み）
+      scene.style.transform = cameraTransform(scrolled, currentScale);
 
       // parts
       partData.forEach(p => {
