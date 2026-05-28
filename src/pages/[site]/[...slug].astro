@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import Hero from '../../components/Hero.astro';
+import HeroAircon from '../../components/HeroAircon.astro';
 import Worries from '../../components/Worries.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import Reasons from '../../components/Reasons.astro';
@@ -93,8 +94,11 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
 >
   {isTop ? (
     <>
-      {/* Section 1: Hero */}
-      <Hero site={site} />
+      {/* Section 1: Hero (aircon gets 3-D scroll animation, others get standard) */}
+      {site.niche === 'エアコン分解洗浄'
+        ? <HeroAircon site={site} />
+        : <Hero site={site} />
+      }
 
       {/* Section 2: Worries */}
       <Worries site={site} />
