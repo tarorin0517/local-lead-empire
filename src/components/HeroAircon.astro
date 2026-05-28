@@ -770,10 +770,10 @@ const trustBadges = site.trustBadges ?? [];
 @media (max-width: 640px) {
   .fvac { height: 480vh; }
 
-  /* sticky を絶対配置の起点に変更（ステージを全面に敷く） */
+  /* display:block に変更し grid を解除。position:sticky はベースCSSを維持。
+     sticky は absolute の containing block になれるためステージ全面配置に使える。 */
   .fvac-sticky {
     display: block;
-    position: relative;
     grid-template-columns: unset;
   }
 
