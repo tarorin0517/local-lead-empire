@@ -922,6 +922,18 @@ const trustBadges = site.trustBadges ?? [];
   .fvac-scroll-bar::after { animation: none; }
   .fvac-scroll-hint   { display: none; }
 }
+/* モバイルでは reduced-motion でもヘッダー(66px)分の余白を確保 */
+@media (prefers-reduced-motion: reduce) and (max-width: 640px) {
+  .fvac {
+    height: calc(100vh - 66px) !important;
+    height: calc(100svh - 66px) !important;
+  }
+  .fvac-sticky {
+    top: 66px !important;
+    height: calc(100vh - 66px) !important;
+    height: calc(100svh - 66px) !important;
+  }
+}
 </style>
 
 <script>
@@ -976,9 +988,6 @@ const trustBadges = site.trustBadges ?? [];
     return `translateZ(${-100 - p*80}px) rotateX(${8 + p*6}deg) rotateY(${-22 - p*6}deg)`;
   }
 
-  // prefers-reduced-motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
   const root  = document.getElementById('fvac-root');
   const scene = document.getElementById('fvac-scene');
   const steps = document.querySelectorAll('#fvac-progress .fvac-step');
@@ -993,8 +1002,11 @@ const trustBadges = site.trustBadges ?? [];
     labelEl: document.querySelector('[data-label-id="' + p.id + '"]'),
   })).filter(p => p.el);
 
-  // Apply initial transforms immediately
+  // Apply initial transforms immediately so AC appears assembled even for reduced-motion users
   partData.forEach(p => { p.el.style.transform = buildT(p.baseO); });
+
+  // prefers-reduced-motion: assembled state shown above, skip scroll animation
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   // ---- Debug overlay (activated by ?debug=1 in URL) ----
   // Shows rect.top / scrolled / isSP on-screen so we can diagnose on real iOS devices.
