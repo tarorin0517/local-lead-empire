@@ -1,0 +1,876 @@
+---
+/**
+ * HeroAircon — スクロール連動エアコン分解3Dアニメーション Hero
+ * エアコン分解洗浄ニッチのトップページ専用
+ * Claude Design LP (エアコン清掃LP.html) のファーストビューを移植
+ */
+import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+const phone = site.phone;
+const cta = site.ctaCopy;
+const trustBadges = site.trustBadges ?? [];
+---
+
+<section class="fvac" id="fvac-root">
+  <div class="fvac-sticky">
+
+    <!-- ===== Left: copy ===== -->
+    <div class="fvac-copy">
+      <span class="fvac-tag">
+        <span class="fvac-tag-dot"></span>
+        {site.city} / 完全脱着エアコン分解洗浄
+      </span>
+      <h1 class="fvac-h1">
+        <span class="fvac-h1-em">スクロール</span>するたび、<br/>
+        エアコンは<span class="fvac-h1-ul">隅々まで分解</span>される。
+      </h1>
+      <p class="fvac-lead">
+        {site.city}のエアコン内部に潜むカビ・ホコリは、表面拭きでは届きません。
+        プロが行う<strong>完全分解洗浄</strong>の工程を、スクロールで体験してください。
+      </p>
+      <div class="fvac-ctas">
+        <a href={telHref(phone)} class="fvac-btn-phone"
+          aria-label={`電話で相談する ${phone}`}>
+          <span class="fvac-btn-label">{cta?.phonePrimary ?? '電話で相談'}</span>
+          <span class="fvac-btn-num">{phone}</span>
+          <span class="fvac-btn-hours">{cta?.phoneSecondary ?? site.phoneHoursLabel}</span>
+        </a>
+        <a href="#contact" class="fvac-btn-form">
+          {cta?.formPrimary ?? '30秒で見積もり依頼'}
+        </a>
+      </div>
+      {trustBadges.length > 0 && (
+        <ul class="fvac-badges">
+          {trustBadges.map((b) => (
+            <li class="fvac-badge">
+              <span class="fvac-badge-k">{b.label}</span>
+              <span class="fvac-badge-v">{b.value}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <!-- ===== Right: 3-D stage ===== -->
+    <div class="fvac-stage-wrap">
+      <div class="fvac-stage" id="fvac-stage">
+
+        <!-- perspective root (JS rotates this) -->
+        <div class="fvac-scene" id="fvac-scene">
+          <div class="fvac-floor"></div>
+
+          <!-- 本体ケース (back case) -->
+          <div class="fvac-part fvac-p-case" id="fvac-p-case">
+            <div class="fvac-face fvac-case-front">
+              <div class="fvac-case-vents"></div>
+            </div>
+            <div class="fvac-face fvac-case-back"></div>
+            <div class="fvac-face fvac-case-bottom"></div>
+            <div class="fvac-face fvac-case-top"></div>
+            <div class="fvac-face fvac-case-left"></div>
+            <div class="fvac-face fvac-case-right"></div>
+          </div>
+
+          <!-- 基板/電装部 (control board) -->
+          <div class="fvac-part fvac-p-board" id="fvac-p-board">
+            <div class="fvac-face fvac-board-front">
+              <div class="fvac-chip fvac-chip-a"></div>
+              <div class="fvac-chip fvac-chip-b"></div>
+              <div class="fvac-chip fvac-chip-c"></div>
+            </div>
+          </div>
+
+          <!-- 前面パネル (front panel) -->
+          <div class="fvac-part fvac-p-front" id="fvac-p-front">
+            <div class="fvac-face fvac-fp-front">
+              <div class="fvac-fp-vent"></div>
+              <div class="fvac-fp-logo"><span>まちのプロ</span></div>
+              <div class="fvac-fp-indicator">
+                <span class="fvac-ind-on"></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- フィルター (air filter) -->
+          <div class="fvac-part fvac-p-filter" id="fvac-p-filter">
+            <div class="fvac-face fvac-filter-front">
+              <div class="fvac-filter-tab"></div>
+            </div>
+          </div>
+
+          <!-- フラップ (air louver) -->
+          <div class="fvac-part fvac-p-louver" id="fvac-p-louver">
+            <div class="fvac-face fvac-louver-front"></div>
+          </div>
+
+          <!-- 熱交換器 (heat exchanger) -->
+          <div class="fvac-part fvac-p-heat" id="fvac-p-heat">
+            <div class="fvac-face fvac-heat-front">
+              <div class="fvac-heat-pipes"><b></b><b></b></div>
+            </div>
+          </div>
+
+          <!-- シロッコファン (cross-flow fan) -->
+          <div class="fvac-part fvac-p-fan" id="fvac-p-fan">
+            <div class="fvac-fan-body"></div>
+            <div class="fvac-fan-cap fvac-fan-cap-l"></div>
+            <div class="fvac-fan-cap fvac-fan-cap-r"></div>
+          </div>
+
+          <!-- ドレンパン (drain pan) -->
+          <div class="fvac-part fvac-p-drain" id="fvac-p-drain">
+            <div class="fvac-face fvac-drain-front">
+              <div class="fvac-drain-hose"></div>
+            </div>
+          </div>
+        </div><!-- /fvac-scene -->
+
+        <!-- labels (show on scroll) -->
+        <div class="fvac-labels" aria-hidden="true">
+          <div class="fvac-label" data-label-id="board"
+               style="left:calc(50% + 180px);top:calc(50% + -180px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">基板/電装部</div><div class="fvac-label-en">CONTROL BOARD</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="front"
+               style="left:calc(50% + -140px);top:calc(50% + -260px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">前面パネル</div><div class="fvac-label-en">FRONT PANEL</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="filter"
+               style="left:calc(50% + -260px);top:calc(50% + -140px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">フィルター</div><div class="fvac-label-en">AIR FILTER</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="louver"
+               style="left:calc(50% + -240px);top:calc(50% + 220px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">フラップ</div><div class="fvac-label-en">AIR LOUVER</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="heat"
+               style="left:calc(50% + 240px);top:calc(50% + -160px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">熱交換器</div><div class="fvac-label-en">HEAT EXCHANGER</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="fan"
+               style="left:calc(50% + 260px);top:calc(50% + 40px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">シロッコファン</div><div class="fvac-label-en">CROSS-FLOW FAN</div></div>
+          </div>
+          <div class="fvac-label" data-label-id="drain"
+               style="left:calc(50% + 140px);top:calc(50% + 260px)">
+            <span class="fvac-label-dot"></span><span class="fvac-label-line"></span>
+            <div><div class="fvac-label-jp">ドレンパン</div><div class="fvac-label-en">DRAIN PAN</div></div>
+          </div>
+        </div>
+
+        <!-- stage progress indicator -->
+        <div class="fvac-progress" id="fvac-progress" aria-hidden="true">
+          <div class="fvac-step fvac-step-on" data-step="0">
+            <span class="fvac-step-pip"></span><span>ASSEMBLED</span>
+          </div>
+          <div class="fvac-step" data-step="1">
+            <span class="fvac-step-pip"></span><span>BOARD</span>
+          </div>
+          <div class="fvac-step" data-step="2">
+            <span class="fvac-step-pip"></span><span>FRONT &amp; FILTER</span>
+          </div>
+          <div class="fvac-step" data-step="3">
+            <span class="fvac-step-pip"></span><span>LOUVER &amp; HEAT-EX</span>
+          </div>
+          <div class="fvac-step" data-step="4">
+            <span class="fvac-step-pip"></span><span>BLOWER FAN</span>
+          </div>
+          <div class="fvac-step" data-step="5">
+            <span class="fvac-step-pip"></span><span>FULL DISASSEMBLY</span>
+          </div>
+        </div>
+      </div><!-- /fvac-stage -->
+
+      <div class="fvac-scroll-hint" aria-hidden="true">
+        <span>SCROLL TO DISASSEMBLE</span>
+        <span class="fvac-scroll-bar"></span>
+      </div>
+    </div><!-- /fvac-stage-wrap -->
+
+  </div><!-- /fvac-sticky -->
+</section>
+
+<style>
+/* ============================================================
+   TOKENS (inherit from site where possible, else override)
+   ============================================================ */
+.fvac {
+  --fvac-blue-1: #1e8fc9;
+  --fvac-blue-2: #0b4a72;
+  --fvac-blue-3: #d8edf8;
+  --fvac-blue-4: #f1f8fc;
+  --fvac-mint:   #7ed1c3;
+  --fvac-ink:    #0c1e2e;
+  --fvac-ink-2:  #4a6478;
+  --fvac-ink-3:  #87a0b3;
+  --fvac-line:   #dfeaf2;
+  --fvac-shadow: 0 10px 22px -6px rgba(30,143,201,.5);
+}
+
+/* ============================================================
+   SECTION SCROLL DRIVER
+   ============================================================ */
+.fvac {
+  position: relative;
+  height: 520vh; /* scroll-length for the disassembly */
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #e8f4fb, transparent 60%),
+    radial-gradient(900px 500px at 5% 30%, #eef7fc, transparent 65%),
+    linear-gradient(180deg, #f6fbfd 0%, #eef6fb 100%);
+}
+
+/* sticky viewport */
+.fvac-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+/* ============================================================
+   COPY SIDE
+   ============================================================ */
+.fvac-copy {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 0 0 80px;
+  max-width: 620px;
+}
+
+.fvac-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--fvac-blue-3);
+  color: var(--fvac-blue-2);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  width: max-content;
+  box-shadow: 0 4px 20px rgba(11,74,114,.06);
+}
+.fvac-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--fvac-mint);
+  box-shadow: 0 0 0 4px rgba(126,209,195,.25);
+  flex-shrink: 0;
+}
+
+.fvac-h1 {
+  font-weight: 800;
+  font-size: clamp(32px, 4.2vw, 58px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 20px 0 16px;
+  color: var(--fvac-ink);
+}
+.fvac-h1-em {
+  background: linear-gradient(120deg, #2ba6e0 30%, #0b4a72);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.fvac-h1-ul {
+  background-image: linear-gradient(transparent 70%, #c9e8f6 70%);
+  background-repeat: no-repeat;
+  padding: 0 2px;
+}
+
+.fvac-lead {
+  color: var(--fvac-ink-2);
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 24px;
+  max-width: 460px;
+}
+.fvac-lead strong { color: var(--fvac-blue-2); }
+
+/* CTAs */
+.fvac-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.fvac-btn-phone {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: var(--color-accent-500, #f07f3c);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 18px -4px rgba(240,127,60,.45);
+  transition: transform .15s, box-shadow .15s;
+}
+.fvac-btn-phone:hover { transform: translateY(-1px); box-shadow: 0 12px 22px -4px rgba(240,127,60,.5); }
+.fvac-btn-label  { font-size: 11px; opacity: .9; }
+.fvac-btn-num    { font-size: 18px; font-weight: 700; letter-spacing: .02em; }
+.fvac-btn-hours  { font-size: 10px; opacity: .85; }
+
+.fvac-btn-form {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: var(--fvac-blue-2);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--fvac-shadow);
+  transition: transform .15s, background .15s;
+}
+.fvac-btn-form:hover { transform: translateY(-1px); background: #083759; }
+
+/* trust badges */
+.fvac-badges {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid var(--fvac-line);
+  padding-top: 18px;
+}
+.fvac-badge { }
+.fvac-badge-k { font-size: 10px; color: var(--fvac-ink-2); letter-spacing: .08em; text-transform: uppercase; }
+.fvac-badge-v { font-weight: 700; font-size: 20px; color: var(--fvac-blue-2); }
+
+/* ============================================================
+   STAGE SIDE
+   ============================================================ */
+.fvac-stage-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fvac-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1600px;
+  perspective-origin: 55% 45%;
+}
+
+/* Scene: JS animates transform (camera rotation) */
+.fvac-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(-100px) rotateX(8deg) rotateY(-22deg);
+  transition: transform 0.05s linear;
+}
+
+/* All parts: JS translates these */
+.fvac-part {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.06s linear;
+  will-change: transform;
+}
+
+/* Generic face base */
+.fvac-face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  background: #fff;
+  border: 1px solid rgba(11,74,114,.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.6);
+}
+
+/* shadow floor below AC */
+.fvac-floor {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  width: 800px;
+  height: 80px;
+  transform: translateX(-50%) rotateX(90deg);
+  background: radial-gradient(ellipse at center, rgba(11,74,114,.18), transparent 60%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* ============================================================
+   3-D PARTS
+   (W760 × H230 × D300 unit footprint)
+   ============================================================ */
+
+/* ---- 本体ケース ---- */
+.fvac-p-case { width: 760px; height: 230px; }
+.fvac-case-front {
+  width: 760px; height: 230px;
+  transform: translateZ(150px);
+  background: linear-gradient(180deg, #fbfdff, #e7f1f8);
+}
+.fvac-case-vents {
+  position: absolute;
+  inset: 30px 40px;
+  background: repeating-linear-gradient(180deg, rgba(11,74,114,.07) 0 2px, transparent 2px 9px);
+  opacity: .6;
+  border-radius: 6px;
+}
+.fvac-case-back {
+  width: 760px; height: 230px;
+  transform: translateZ(-150px);
+  background: linear-gradient(180deg, #eaf3f9, #c6dde9);
+}
+.fvac-case-bottom {
+  width: 760px; height: 300px;
+  transform: rotateX(90deg) translateZ(115px);
+  background: linear-gradient(90deg, #dde9f1, #c4d8e3);
+}
+.fvac-case-top {
+  width: 760px; height: 300px;
+  transform: rotateX(90deg) translateZ(-115px);
+  background: linear-gradient(90deg, #fafdff, #ecf4fa);
+}
+.fvac-case-left {
+  width: 300px; height: 230px;
+  transform: rotateY(-90deg) translateZ(-380px) translateX(-300px);
+  background: linear-gradient(180deg, #ecf4fa, #cfe1ec);
+}
+.fvac-case-right {
+  width: 300px; height: 230px;
+  transform: rotateY(90deg) translateZ(380px);
+  background: linear-gradient(180deg, #ecf4fa, #cfe1ec);
+}
+
+/* ---- 基板/電装部 ---- */
+.fvac-p-board { width: 160px; height: 110px; }
+.fvac-board-front {
+  width: 160px; height: 110px;
+  background:
+    radial-gradient(circle at 20% 30%, #fff 1px, transparent 2px) 0 0/12px 12px,
+    radial-gradient(circle at 70% 60%, #fff 1px, transparent 2px) 0 0/16px 16px,
+    linear-gradient(135deg, #2a6f4a, #14422c);
+  border-radius: 6px;
+  border-color: #0a2618;
+}
+.fvac-chip { position: absolute; background: #0d1a13; border-radius: 2px; }
+.fvac-chip-a { left: 20px; top: 18px; width: 46px; height: 24px; }
+.fvac-chip-b { left: 80px; top: 54px; width: 36px; height: 20px; }
+.fvac-chip-c { left: 30px; top: 70px; width: 18px; height: 18px; border-radius: 50%; background: #3b8a64; }
+
+/* ---- 前面パネル ---- */
+.fvac-p-front { width: 760px; height: 230px; }
+.fvac-fp-front {
+  width: 760px; height: 230px;
+  background:
+    radial-gradient(60% 80% at 90% 50%, #f1f8fc, #ffffff 60%),
+    linear-gradient(180deg, #ffffff, #eaf3fa);
+  border-radius: 14px 14px 6px 6px;
+  border-color: rgba(11,74,114,.12);
+}
+.fvac-fp-vent {
+  position: absolute;
+  top: 28px; left: 40px; right: 40px; bottom: 78px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(180deg, rgba(11,74,114,.06) 0 2px, transparent 2px 9px);
+  opacity: .7;
+}
+.fvac-fp-logo {
+  position: absolute;
+  right: 32px; bottom: 28px;
+  display: flex; align-items: center; gap: 8px;
+  color: var(--fvac-blue-2);
+  font-size: 11px; letter-spacing: .16em; font-weight: 700; opacity: .55;
+}
+.fvac-fp-indicator {
+  position: absolute;
+  left: 28px; bottom: 22px;
+  display: flex; gap: 8px;
+}
+.fvac-fp-indicator span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #bcd6e4;
+  display: block;
+}
+.fvac-ind-on { background: #2ba6e0 !important; box-shadow: 0 0 8px #2ba6e0; }
+
+/* ---- フィルター ---- */
+.fvac-p-filter { width: 720px; height: 200px; }
+.fvac-filter-front {
+  width: 720px; height: 200px;
+  background:
+    repeating-linear-gradient(45deg, rgba(11,74,114,.18) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-45deg, rgba(11,74,114,.18) 0 1px, transparent 1px 7px),
+    rgba(255,255,255,.6);
+  border-radius: 10px;
+  border-color: rgba(11,74,114,.25);
+  backdrop-filter: blur(2px);
+}
+.fvac-filter-tab {
+  position: absolute;
+  left: 50%; top: -20px;
+  transform: translateX(-50%);
+  width: 90px; height: 22px;
+  background: linear-gradient(180deg, #fff, #e7f1f8);
+  border: 1px solid rgba(11,74,114,.18);
+  border-radius: 8px 8px 0 0;
+}
+
+/* ---- フラップ ---- */
+.fvac-p-louver { width: 720px; height: 36px; }
+.fvac-louver-front {
+  width: 720px; height: 36px;
+  background: linear-gradient(180deg, #fcfdfe, #e2eef6);
+  border-radius: 18px / 14px;
+  border-color: rgba(11,74,114,.18);
+}
+
+/* ---- 熱交換器 ---- */
+.fvac-p-heat { width: 700px; height: 170px; }
+.fvac-heat-front {
+  width: 700px; height: 170px;
+  background:
+    repeating-linear-gradient(90deg, #d6e3ec 0 2px, #b9cdda 2px 3px, #d6e3ec 3px 6px),
+    #c5d6e1;
+  border-radius: 6px;
+  border-color: rgba(11,74,114,.25);
+  box-shadow: inset 0 8px 14px rgba(11,74,114,.18), inset 0 -8px 14px rgba(11,74,114,.1);
+}
+.fvac-heat-pipes {
+  position: absolute;
+  left: -22px; top: 18px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.fvac-heat-pipes b {
+  display: block;
+  width: 44px; height: 22px;
+  border-radius: 22px 0 0 22px;
+  background: linear-gradient(180deg, #cdb78a, #8a6a36);
+  border: 1px solid #6e5325;
+}
+.fvac-heat-pipes b + b {
+  background: linear-gradient(180deg, #d9d9dd, #8a8d95);
+  border-color: #5e6168;
+}
+
+/* ---- シロッコファン ---- */
+.fvac-p-fan { width: 680px; height: 80px; }
+.fvac-fan-body {
+  position: absolute; inset: 0;
+  border-radius: 999px;
+  background:
+    repeating-linear-gradient(90deg, #2a3b48 0 4px, #475c6c 4px 5px, #2a3b48 5px 10px),
+    #2c3d4a;
+  box-shadow: inset 0 8px 14px rgba(0,0,0,.4), inset 0 -8px 14px rgba(255,255,255,.08);
+  border: 1px solid #1a2730;
+}
+.fvac-fan-cap {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #8aa0b0, #2c3d4a);
+  border: 2px solid #1a2730;
+}
+.fvac-fan-cap-l { left: -10px; }
+.fvac-fan-cap-r { right: -10px; }
+
+/* ---- ドレンパン ---- */
+.fvac-p-drain { width: 740px; height: 70px; }
+.fvac-drain-front {
+  width: 740px; height: 70px;
+  background: linear-gradient(180deg, #cfe5f1, #9bc4d8);
+  border-radius: 10px 10px 22px 22px;
+  border-color: rgba(11,74,114,.3);
+  box-shadow: inset 0 -10px 16px rgba(11,74,114,.18);
+}
+.fvac-drain-hose {
+  position: absolute; right: -10px; top: 50%;
+  transform: translateY(-50%);
+  width: 60px; height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #e7eef3, #aabac4);
+}
+
+/* ============================================================
+   LABELS
+   ============================================================ */
+.fvac-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.fvac-label {
+  position: absolute;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--fvac-blue-2);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(0, 8px);
+  transition: opacity .4s, transform .4s;
+  text-transform: uppercase;
+}
+.fvac-label.fvac-label-on { opacity: 1; transform: translate(0, 0); }
+.fvac-label-line {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, var(--fvac-blue-1), transparent);
+}
+.fvac-label-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--fvac-blue-1);
+  box-shadow: 0 0 0 4px rgba(30,143,201,.18);
+  flex-shrink: 0;
+}
+.fvac-label-jp {
+  color: var(--fvac-ink);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .02em;
+  text-transform: none;
+}
+.fvac-label-en { font-size: 10px; color: var(--fvac-ink-2); }
+
+/* ============================================================
+   STAGE PROGRESS
+   ============================================================ */
+.fvac-progress {
+  position: absolute;
+  right: 40px; top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 5;
+}
+.fvac-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--fvac-ink-3);
+  font-size: 11px;
+  letter-spacing: .08em;
+  font-family: "Manrope", system-ui, sans-serif;
+  transition: color .3s;
+}
+.fvac-step-pip {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #cbdce8;
+  transition: background .3s, transform .3s;
+  flex-shrink: 0;
+}
+.fvac-step-on { color: var(--fvac-blue-2); font-weight: 700; }
+.fvac-step-on .fvac-step-pip {
+  background: var(--fvac-blue-1);
+  transform: scale(1.6);
+  box-shadow: 0 0 0 4px rgba(30,143,201,.2);
+}
+
+/* ============================================================
+   SCROLL HINT
+   ============================================================ */
+.fvac-scroll-hint {
+  position: absolute;
+  bottom: 26px; left: 40px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--fvac-ink-2);
+  letter-spacing: .12em;
+}
+.fvac-scroll-bar {
+  width: 60px; height: 1px;
+  background: var(--fvac-ink-3);
+  position: relative;
+  overflow: hidden;
+}
+.fvac-scroll-bar::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--fvac-blue-2);
+  animation: fvac-scroll-bar-anim 1.6s ease-in-out infinite;
+}
+@keyframes fvac-scroll-bar-anim {
+  0%   { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .fvac-sticky {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .fvac-copy {
+    padding: 80px 24px 0;
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+  .fvac-stage-wrap { height: 55vh; }
+  .fvac-progress { display: none; }
+  .fvac-labels { display: none; }
+  .fvac-scroll-hint { left: 24px; }
+  .fvac-h1 { font-size: clamp(28px, 6vw, 42px); }
+  .fvac-badges { flex-wrap: wrap; gap: 12px; }
+}
+
+@media (max-width: 640px) {
+  .fvac-copy { padding-top: 64px; }
+  .fvac-lead { font-size: 14px; }
+  .fvac-ctas { flex-direction: column; }
+  .fvac-btn-phone { flex-direction: row; gap: 12px; }
+}
+
+/* prefers-reduced-motion: skip animation, show assembled state */
+@media (prefers-reduced-motion: reduce) {
+  .fvac-scene { transition: none; }
+  .fvac-part  { transition: none; }
+  .fvac { height: 100vh; }
+  .fvac-scroll-bar::after { animation: none; }
+  .fvac-scroll-hint { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  // Parts data: id, base transform string, explode transform string, scroll range
+  const PARTS = [
+    { id: 'case',   base: 't(-380,-115,-150)',                   ex: 't(0,0,-150)',           start: 0.00, end: 0.05 },
+    { id: 'board',  base: 't(220,-100,-130)',                    ex: 't(720,-100,-130)',       start: 0.10, end: 0.22 },
+    { id: 'front',  base: 't(-380,-115,150)',                    ex: 't(-380,-380,360)',       start: 0.18, end: 0.34 },
+    { id: 'filter', base: 't(-360,-100,110)',                    ex: 't(-360,-260,280)',       start: 0.30, end: 0.44 },
+    { id: 'louver', base: 't(-360,90,140)',                      ex: 't(-360,260,260)',        start: 0.40, end: 0.54 },
+    { id: 'heat',   base: 't(-350,-85,40) ry(-12)',              ex: 't(-350,-260,40) ry(-12)',start: 0.50, end: 0.66 },
+    { id: 'fan',    base: 't(-340,30,-20)',                      ex: 't(-340,30,260)',         start: 0.62, end: 0.78 },
+    { id: 'drain',  base: 't(-370,80,80)',                       ex: 't(-370,260,80)',         start: 0.74, end: 0.88 },
+  ];
+
+  function parseT(str) {
+    const o = { x: 0, y: 0, z: 0, rx: 0, ry: 0 };
+    if (!str) return o;
+    const t = str.match(/t\(([-\d.]+),([-\d.]+),([-\d.]+)\)/);
+    if (t) { o.x = +t[1]; o.y = +t[2]; o.z = +t[3]; }
+    const ry = str.match(/ry\(([-\d.]+)\)/); if (ry) o.ry = +ry[1];
+    const rx = str.match(/rx\(([-\d.]+)\)/); if (rx) o.rx = +rx[1];
+    return o;
+  }
+  function buildT(o) {
+    return `translate3d(${o.x}px,${o.y}px,${o.z}px) rotateX(${o.rx}deg) rotateY(${o.ry}deg)`;
+  }
+  function easeInOut(t) { return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+  function clamp(v, a = 0, b = 1) { return Math.max(a, Math.min(b, v)); }
+
+  function cameraTransform(p) {
+    const ry = -22 - p * 6;
+    const rx = 8 + p * 6;
+    const tz = -100 - p * 80;
+    return `translateZ(${tz}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  }
+
+  // Respect prefers-reduced-motion
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  const root    = document.getElementById('fvac-root');
+  const scene   = document.getElementById('fvac-scene');
+  const steps   = document.querySelectorAll('#fvac-progress .fvac-step');
+  if (!root || !scene) return;
+
+  // Pre-parse part data and cache DOM refs
+  const partData = PARTS.map(p => ({
+    ...p,
+    baseO: parseT(p.base),
+    exO:   parseT(p.ex),
+    el:    document.getElementById('fvac-p-' + p.id),
+    labelEl: document.querySelector('[data-label-id="' + p.id + '"]'),
+  })).filter(p => p.el);
+
+  // Set initial transforms immediately
+  partData.forEach(p => { p.el.style.transform = buildT(p.baseO); });
+
+  let raf = 0;
+  let lastStep = -1;
+
+  function onScroll() {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      const rect  = root.getBoundingClientRect();
+      const total = root.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      const scrolled = clamp(-rect.top / total);
+
+      // camera
+      scene.style.transform = cameraTransform(scrolled);
+
+      // parts
+      partData.forEach(p => {
+        const lp    = clamp((scrolled - p.start) / Math.max(0.001, p.end - p.start));
+        const eased = easeInOut(lp);
+        const o = {
+          x:  p.baseO.x  + (p.exO.x  - p.baseO.x)  * eased,
+          y:  p.baseO.y  + (p.exO.y  - p.baseO.y)  * eased,
+          z:  p.baseO.z  + (p.exO.z  - p.baseO.z)  * eased,
+          rx: p.baseO.rx + (p.exO.rx - p.baseO.rx) * eased,
+          ry: p.baseO.ry + (p.exO.ry - p.baseO.ry) * eased,
+        };
+        p.el.style.transform = buildT(o);
+
+        if (p.labelEl) {
+          const showFrom = p.start + (p.end - p.start) * 0.35;
+          const visible  = scrolled > showFrom && scrolled < 0.95;
+          p.labelEl.classList.toggle('fvac-label-on', visible);
+        }
+      });
+
+      // stage step indicator
+      let stage = 0;
+      if (scrolled > 0.05) stage = 1;
+      if (scrolled > 0.25) stage = 2;
+      if (scrolled > 0.45) stage = 3;
+      if (scrolled > 0.65) stage = 4;
+      if (scrolled > 0.85) stage = 5;
+
+      if (stage !== lastStep) {
+        lastStep = stage;
+        steps.forEach((el, i) => {
+          el.classList.toggle('fvac-step-on', i === stage);
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run once on load
+})();
+</script>
