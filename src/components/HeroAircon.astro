@@ -778,45 +778,43 @@ const trustBadges = site.trustBadges ?? [];
      非対応ブラウザは vh フォールバックを使用 */
   .fvac { height: 380vh; height: 380svh; }
 
-  /* sticky: ヘッダー直下から開始、残り画面全体を占有
+  /* sticky: 左コピー(55%) | 右3Dステージ(45%) の2カラム
      overflow:visible — iOS Safari の overflow:hidden/clip が sticky で
-     スクロールコンテナを生成する問題を回避
-     svh でビューポート高さを window.innerHeight と整合 */
+     スクロールコンテナを生成する問題を回避 */
   .fvac-sticky {
     top: 66px;
-    height: calc(100vh - 66px); /* フォールバック */
-    height: calc(100svh - 66px); /* iOS Safari 15.4+: 実視野高と整合 */
+    height: calc(100vh - 66px);
+    height: calc(100svh - 66px);
     overflow: visible;
     display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: unset;
+    grid-template-columns: 55% 45%;
+    grid-template-rows: 1fr;
+    align-items: center;
   }
 
-  /* コピー: グリッド上段（auto高さ） */
+  /* コピー: 左カラム — 縦中央揃え */
   .fvac-copy {
     position: relative;
     z-index: 5;
-    padding: 16px 20px 8px;
+    padding: 16px 8px 16px 16px;
     max-width: 100%;
-    justify-content: flex-start;
     background: none;
+    align-self: center;
   }
 
-  /* ステージ: グリッド下段（残り全部）
-     display:flex を廃止し .fvac-stage を absolute で充填する
-     → iOS Safari で flex child の height:100% が 0 に解決されるバグを回避 */
+  /* ステージラッパー: 右カラム、フルカラム高さ */
   .fvac-stage-wrap {
     position: relative;
-    inset: auto;
-    min-height: 0;
+    align-self: stretch;
   }
 
-  /* SP perspective: position:absolute で height 継承問題を回避
-     inset:0 で stage-wrap を確実に充填 (height:100% 不要) */
+  /* SP ステージ: inset:0 で充填 + scale(0.5) で縮小
+     transform-origin を列上方(-20%)に置くことでモデルを H1 レベルに配置 */
   .fvac-stage {
     position: absolute;
     inset: 0;
-    transform: none;
+    transform: scale(0.5);
+    transform-origin: 50% -20%;
     perspective: 1100px;
     perspective-origin: 50% 45%;
   }
@@ -896,20 +894,8 @@ const trustBadges = site.trustBadges ?? [];
   .fvac-btn-num   { font-size: 15px; }
   .fvac-btn-form  { flex: 1; font-size: 13px; padding: 10px; }
 
-  /* スクロールヒント: 下部中央 */
-  .fvac-scroll-hint {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-    z-index: 6;
-  }
-  .fvac-scroll-bar { width: 36px; }
+  /* スクロールヒント: SP では非表示 */
+  .fvac-scroll-hint { display: none; }
 }
 
 /* prefers-reduced-motion: skip animation, show assembled state */
