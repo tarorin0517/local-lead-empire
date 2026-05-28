@@ -778,7 +778,7 @@ const trustBadges = site.trustBadges ?? [];
      非対応ブラウザは vh フォールバックを使用 */
   .fvac { height: 6vh; height: 6svh; }
 
-  /* sticky: 左コピー(55%) | 右3Dステージ(45%) の2カラム
+  /* sticky: 1カラム2段 — 上段エアコン(3fr) | 下段コピー(2fr)
      overflow:visible — iOS Safari の overflow:hidden/clip が sticky で
      スクロールコンテナを生成する問題を回避 */
   .fvac-sticky {
@@ -787,35 +787,35 @@ const trustBadges = site.trustBadges ?? [];
     height: calc(100svh - 66px);
     overflow: visible;
     display: grid;
-    grid-template-columns: 55% 45%;
-    grid-template-rows: 1fr;
-    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr;
   }
 
-  /* コピー: 左カラム — 縦中央揃え */
+  /* コピー: グリッド下段 (HTML上は先に来るが grid-row: 2 で下に配置)
+     padding-bottom: 76px で画面下固定CTAバーとの重なりを回避 */
   .fvac-copy {
+    grid-row: 2;
     position: relative;
     z-index: 5;
-    padding: 16px 8px 16px 16px;
+    padding: 10px 16px 76px;
     max-width: 100%;
     background: none;
-    align-self: center;
   }
 
-  /* ステージラッパー: 右カラム、フルカラム高さ */
+  /* ステージラッパー: グリッド上段 (grid-row: 1 でエアコンを最上部に) */
   .fvac-stage-wrap {
+    grid-row: 1;
     position: relative;
     align-self: stretch;
   }
 
-  /* SP ステージ: inset:0 で充填 + scale(0.5) で縮小
-     transform-origin を列上方(-20%)に置くことでモデルを H1 レベルに配置 */
+  /* SP ステージ: フル幅・自然サイズ (scale 不要)
+     280px モデルが画面幅 390px に対して適度なマージンで収まる */
   .fvac-stage {
     position: absolute;
     inset: 0;
-    transform: scale(0.5);
-    transform-origin: 50% -20%;
-    perspective: 1100px;
+    transform: none;
+    perspective: 800px;
     perspective-origin: 50% 45%;
   }
   /* 初期カメラ位置を SP 値に */
@@ -882,17 +882,17 @@ const trustBadges = site.trustBadges ?? [];
   .fvac-progress { display: none; }
   .fvac-labels   { display: none; }
 
-  /* コピー文字サイズ */
-  .fvac-tag  { font-size: 11px; padding: 6px 12px; }
-  .fvac-h1   { font-size: clamp(22px, 6.5vw, 28px); line-height: 1.25; margin: 10px 0 8px; }
-  .fvac-lead { font-size: 13px; line-height: 1.8; margin-bottom: 10px; }
+  /* コピー文字サイズ (下段に凝縮) */
+  .fvac-tag  { font-size: 10px; padding: 5px 10px; }
+  .fvac-h1   { font-size: clamp(20px, 5.5vw, 26px); line-height: 1.2; margin: 8px 0 6px; }
+  .fvac-lead { font-size: 12px; line-height: 1.7; margin-bottom: 8px; }
   .fvac-badges { display: none; }
 
   /* CTA: 横2ボタン並び */
   .fvac-ctas { gap: 8px; }
-  .fvac-btn-phone { flex: 1; flex-direction: column; padding: 10px; }
-  .fvac-btn-num   { font-size: 15px; }
-  .fvac-btn-form  { flex: 1; font-size: 13px; padding: 10px; }
+  .fvac-btn-phone { flex: 1; flex-direction: column; padding: 8px; }
+  .fvac-btn-num   { font-size: 14px; }
+  .fvac-btn-form  { flex: 1; font-size: 12px; padding: 8px; }
 
   /* スクロールヒント: SP では非表示 */
   .fvac-scroll-hint { display: none; }
