@@ -237,7 +237,8 @@ const trustBadges = site.trustBadges ?? [];
   top: 0;
   height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow: hidden;          /* fallback */
+  overflow: clip;            /* iOS Safari fix: clip without creating scroll container */
   display: grid;
   grid-template-columns: 1fr 1.2fr;
 }
@@ -1030,7 +1031,11 @@ const trustBadges = site.trustBadges ?? [];
     });
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  // scroll: PC + iOS inertia
+  // touchmove: iOS Safari fallback (scroll event may not fire during active touch
+  //            when overflow:hidden on a sticky ancestor intercepts scroll)
+  window.addEventListener('scroll',    onScroll, { passive: true });
+  window.addEventListener('touchmove', onScroll, { passive: true });
   onScroll(); // initialize on load
 })();
 </script>
