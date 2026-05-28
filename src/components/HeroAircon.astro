@@ -773,15 +773,19 @@ const trustBadges = site.trustBadges ?? [];
    header は sticky top-0 で約66px のため top: 66px で確保。
    ============================================================ */
 @media (max-width: 640px) {
-  /* セクション全長を380vhに（SP専用座標系に合わせた値） */
-  .fvac { height: 380vh; }
+  /* セクション全長
+     svh = "small viewport height" = window.innerHeight と整合 (iOS Safari 15.4+)
+     非対応ブラウザは vh フォールバックを使用 */
+  .fvac { height: 380vh; height: 380svh; }
 
   /* sticky: ヘッダー直下から開始、残り画面全体を占有
-     overflow: visible に戻す — iOS Safari では overflow:hidden/clip を sticky 要素に
-     設定するとスクロールコンテナが生成され window.scrollY が更新されない場合がある */
+     overflow:visible — iOS Safari の overflow:hidden/clip が sticky で
+     スクロールコンテナを生成する問題を回避
+     svh でビューポート高さを window.innerHeight と整合 */
   .fvac-sticky {
     top: 66px;
-    height: calc(100vh - 66px);
+    height: calc(100vh - 66px); /* フォールバック */
+    height: calc(100svh - 66px); /* iOS Safari 15.4+: 実視野高と整合 */
     overflow: visible;
     display: grid;
     grid-template-rows: auto 1fr;
@@ -798,18 +802,20 @@ const trustBadges = site.trustBadges ?? [];
     background: none;
   }
 
-  /* ステージ: グリッド下段（残り全部） */
+  /* ステージ: グリッド下段（残り全部）
+     display:flex を廃止し .fvac-stage を absolute で充填する
+     → iOS Safari で flex child の height:100% が 0 に解決されるバグを回避 */
   .fvac-stage-wrap {
     position: relative;
     inset: auto;
     min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  /* SP perspective: 1100px / スケール不要 */
+  /* SP perspective: position:absolute で height 継承問題を回避
+     inset:0 で stage-wrap を確実に充填 (height:100% 不要) */
   .fvac-stage {
+    position: absolute;
+    inset: 0;
     transform: none;
     perspective: 1100px;
     perspective-origin: 50% 45%;
@@ -1034,7 +1040,10 @@ const trustBadges = site.trustBadges ?? [];
     lastRectTop = rectTop;
 
     const total = root.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
+    if (total <= 0) {
+      lastRectTop = 99999; // レイアウト未確定: 次フレームで再試行
+      return;
+    }
 
     const scrolled = clamp(-rectTop / total);
 
