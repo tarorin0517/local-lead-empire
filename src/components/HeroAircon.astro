@@ -984,58 +984,64 @@ const trustBadges = site.trustBadges ?? [];
   // Apply initial transforms immediately
   partData.forEach(p => { p.el.style.transform = buildT(p.baseO); });
 
-  let raf = 0;
-  let lastStep = -1;
+  // Pre-compute root's absolute top offset from document origin (constant while layout is stable).
+  // Using scrollY + getBCR is accurate and avoids iOS returning stale BoundingClientRect
+  // values during active scroll momentum.
+  const rootAbsTop = root.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0);
+  const total      = root.offsetHeight - window.innerHeight;
+  if (total <= 0) return;
 
-  function onScroll() {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = 0;
-      const rect  = root.getBoundingClientRect();
-      const total = root.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
-      const scrolled = clamp(-rect.top / total);
+  let lastScrollY = -1;
+  let lastStep    = -1;
 
-      scene.style.transform = cameraTransform(scrolled);
+  // Continuous rAF loop — reads window.scrollY every frame.
+  // iOS Safari / Chrome-iOS fire scroll events unreliably (throttled, deferred,
+  // or suppressed entirely when a sticky ancestor had overflow:hidden).
+  // Polling scrollY in rAF is the same pattern GSAP ScrollTrigger uses and is
+  // the most reliable approach across all iOS WebKit versions.
+  function tick() {
+    requestAnimationFrame(tick); // always reschedule first
 
-      partData.forEach(p => {
-        const lp    = clamp((scrolled - p.start) / Math.max(0.001, p.end - p.start));
-        const eased = easeInOut(lp);
-        const o = {
-          x:  p.baseO.x  + (p.exO.x  - p.baseO.x)  * eased,
-          y:  p.baseO.y  + (p.exO.y  - p.baseO.y)  * eased,
-          z:  p.baseO.z  + (p.exO.z  - p.baseO.z)  * eased,
-          rx: p.baseO.rx + (p.exO.rx - p.baseO.rx) * eased,
-          ry: p.baseO.ry + (p.exO.ry - p.baseO.ry) * eased,
-        };
-        p.el.style.transform = buildT(o);
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    if (scrollY === lastScrollY) return; // no change — skip all work
+    lastScrollY = scrollY;
 
-        if (p.labelEl) {
-          const showFrom = p.start + (p.end - p.start) * 0.35;
-          p.labelEl.classList.toggle('fvac-label-on', scrolled > showFrom && scrolled < 0.95);
-        }
-      });
+    const scrolled = clamp((scrollY - rootAbsTop) / total);
 
-      // stage progress indicator
-      let stage = 0;
-      if (scrolled > 0.05) stage = 1;
-      if (scrolled > 0.25) stage = 2;
-      if (scrolled > 0.45) stage = 3;
-      if (scrolled > 0.65) stage = 4;
-      if (scrolled > 0.85) stage = 5;
+    scene.style.transform = cameraTransform(scrolled);
 
-      if (stage !== lastStep) {
-        lastStep = stage;
-        steps.forEach((el, i) => el.classList.toggle('fvac-step-on', i === stage));
+    partData.forEach(p => {
+      const lp    = clamp((scrolled - p.start) / Math.max(0.001, p.end - p.start));
+      const eased = easeInOut(lp);
+      const o = {
+        x:  p.baseO.x  + (p.exO.x  - p.baseO.x)  * eased,
+        y:  p.baseO.y  + (p.exO.y  - p.baseO.y)  * eased,
+        z:  p.baseO.z  + (p.exO.z  - p.baseO.z)  * eased,
+        rx: p.baseO.rx + (p.exO.rx - p.baseO.rx) * eased,
+        ry: p.baseO.ry + (p.exO.ry - p.baseO.ry) * eased,
+      };
+      p.el.style.transform = buildT(o);
+
+      if (p.labelEl) {
+        const showFrom = p.start + (p.end - p.start) * 0.35;
+        p.labelEl.classList.toggle('fvac-label-on', scrolled > showFrom && scrolled < 0.95);
       }
     });
+
+    // stage progress indicator
+    let stage = 0;
+    if (scrolled > 0.05) stage = 1;
+    if (scrolled > 0.25) stage = 2;
+    if (scrolled > 0.45) stage = 3;
+    if (scrolled > 0.65) stage = 4;
+    if (scrolled > 0.85) stage = 5;
+
+    if (stage !== lastStep) {
+      lastStep = stage;
+      steps.forEach((el, i) => el.classList.toggle('fvac-step-on', i === stage));
+    }
   }
 
-  // scroll: PC + iOS inertia
-  // touchmove: iOS Safari fallback (scroll event may not fire during active touch
-  //            when overflow:hidden on a sticky ancestor intercepts scroll)
-  window.addEventListener('scroll',    onScroll, { passive: true });
-  window.addEventListener('touchmove', onScroll, { passive: true });
-  onScroll(); // initialize on load
+  requestAnimationFrame(tick); // kick off the loop
 })();
 </script>
