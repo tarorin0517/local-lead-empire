@@ -773,10 +773,10 @@ const trustBadges = site.trustBadges ?? [];
    header は sticky top-0 で約66px のため top: 66px で確保。
    ============================================================ */
 @media (max-width: 640px) {
-  /* セクション全長: 6svh ≈ フリック2〜4回で分解完了
+  /* セクション全長: 130svh ≈ フリック3〜5回で分解完了
      svh = "small viewport height" = window.innerHeight と整合 (iOS Safari 15.4+)
      非対応ブラウザは vh フォールバックを使用 */
-  .fvac { height: 6vh; height: 6svh; }
+  .fvac { height: 130vh; height: 130svh; }
 
   /* sticky: 1カラム2段 — 上段エアコン(3fr) | 下段コピー(2fr)
      overflow:visible — iOS Safari の overflow:hidden/clip が sticky で
@@ -802,11 +802,14 @@ const trustBadges = site.trustBadges ?? [];
     background: none;
   }
 
-  /* ステージラッパー: グリッド上段 (grid-row: 1 でエアコンを最上部に) */
+  /* ステージラッパー: グリッド上段 (grid-row: 1 でエアコンを最上部に)
+     overflow:clip — 爆発した3Dパーツが隣セクションに描画されるのを防ぐ
+     （sticky親の overflow:visible は維持するのでiOS Safari問題なし） */
   .fvac-stage-wrap {
     grid-row: 1;
     position: relative;
     align-self: stretch;
+    overflow: clip;
   }
 
   /* SP ステージ: フル幅・自然サイズ (scale 不要)
