@@ -1015,22 +1015,21 @@ const trustBadges = site.trustBadges ?? [];
   let lastRectTop = 99999;
   let lastStep    = -1;
   let dbgFrame    = 0;
+  let rafPending  = false;
 
-  // ---- Continuous rAF loop ----
-  // We use getBoundingClientRect().top as the scroll indicator instead of
-  // window.scrollY. This is more direct and bypasses iOS WebKit issues where:
-  //   • window.scrollY may lag behind the visual scroll position
-  //   • overflow:hidden/clip on a sticky ancestor could intercept scroll
-  // getBCR().top in rAF always reflects the current layout-flush position,
-  // so it is the most reliable signal on all iOS versions.
-  function tick() {
-    requestAnimationFrame(tick); // always reschedule first
+  // ---- Core animation update ----
+  // Called from both event listeners and rAF.
+  // iOS Safari の composited scroll では rAF 発火時点でまだ getBCR が
+  // 古い値を返すことがある。scroll / touchmove イベントはメインスレッドの
+  // レイアウト更新後に発火するため、それをトリガーにすることが最も確実。
+  function applyScroll() {
+    rafPending = false;
 
     const rect    = root.getBoundingClientRect();
     const rectTop = rect.top;
 
-    // Change detection: skip if element hasn't moved (user is not scrolling)
-    if (Math.abs(rectTop - lastRectTop) < 0.05) {
+    if (Math.abs(rectTop - lastRectTop) < 0.5) {
+      // 変化なし — 静止中
       if (isDebug) {
         dbgFrame++;
         const scrollY = window.scrollY || window.pageYOffset || 0;
@@ -1042,7 +1041,7 @@ const trustBadges = site.trustBadges ?? [];
 
     const total = root.offsetHeight - window.innerHeight;
     if (total <= 0) {
-      lastRectTop = 99999; // レイアウト未確定: 次フレームで再試行
+      lastRectTop = 99999; // レイアウト未確定: 次回再試行
       return;
     }
 
@@ -1068,14 +1067,12 @@ const trustBadges = site.trustBadges ?? [];
       }
     });
 
-    // stage progress indicator
     let stage = 0;
     if (scrolled > 0.05) stage = 1;
     if (scrolled > 0.25) stage = 2;
     if (scrolled > 0.45) stage = 3;
     if (scrolled > 0.65) stage = 4;
     if (scrolled > 0.85) stage = 5;
-
     if (stage !== lastStep) {
       lastStep = stage;
       steps.forEach((el, i) => el.classList.toggle('fvac-step-on', i === stage));
@@ -1088,6 +1085,28 @@ const trustBadges = site.trustBadges ?? [];
     }
   }
 
-  requestAnimationFrame(tick); // kick off the loop
+  // rAFスロットリング: イベントが連続発火しても1フレーム1回に抑える
+  function scheduleUpdate() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(applyScroll);
+  }
+
+  // ---- イベント駆動（iOS対応の本命） ----
+  // scroll  : iOS Safari 13+ でタッチ中・慣性スクロール中に発火。
+  //           メインスレッドのレイアウト更新後に呼ばれるため getBCR が正確。
+  // touchmove: タッチ継続中に毎フレーム発火。scroll の補完として機能。
+  window.addEventListener('scroll',    scheduleUpdate, { passive: true });
+  window.addEventListener('touchmove', scheduleUpdate, { passive: true });
+
+  // ---- rAFポーリング（デスクトップ & 慣性終了後の補完） ----
+  // scroll イベントが止まった後も慣性スクロールが続く場合に対応。
+  // iOS で getBCR が最新なら applyScroll 内で実際に更新される。
+  (function pollLoop() {
+    requestAnimationFrame(pollLoop);
+    scheduleUpdate();
+  })();
+
+  scheduleUpdate(); // 初期レンダリング
 })();
 </script>
