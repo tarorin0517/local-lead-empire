@@ -17,7 +17,7 @@ const { site } = Astro.props;
     href={telHref(site.phone)}
     class="flex flex-1 items-center justify-center gap-2 bg-accent-500 px-3 py-3 text-sm font-bold text-white"
     aria-label={`電話で相談する ${site.phone}`}
-    onclick="gtag && gtag('event','phone_click',{event_category:'cta',event_label:'sticky_cta'})"
+    onclick={`gtag && gtag('event','phone_click',{event_category:'cta',event_label:'sticky_cta',site_key:'${site.siteKey}'})`}
   >
     <span aria-hidden="true">📞</span>
     電話で相談
@@ -28,7 +28,7 @@ const { site } = Astro.props;
       target="_blank"
       rel="noopener noreferrer"
       class="flex flex-1 items-center justify-center gap-2 bg-[#06C755] px-3 py-3 text-sm font-bold text-white"
-      onclick="gtag && gtag('event','line_click',{event_category:'cta',event_label:'sticky_cta'})"
+      onclick={`gtag && gtag('event','line_click',{event_category:'cta',event_label:'sticky_cta',site_key:'${site.siteKey}'})`}
     >
       <span aria-hidden="true">💬</span>
       LINE相談
@@ -37,7 +37,7 @@ const { site } = Astro.props;
   <a
     href="#contact"
     class={`flex items-center justify-center gap-2 bg-primary-700 px-3 py-3 text-sm font-bold text-white ${site.lineUrl ? 'flex-1' : 'flex-1'}`}
-    onclick="gtag && gtag('event','form_click',{event_category:'cta',event_label:'sticky_cta'})"
+    onclick={`gtag && gtag('event','form_click',{event_category:'cta',event_label:'sticky_cta',site_key:'${site.siteKey}'})`}
   >
     <span aria-hidden="true">✉️</span>
     無料見積もり
