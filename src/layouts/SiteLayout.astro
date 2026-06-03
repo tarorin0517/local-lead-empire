@@ -93,26 +93,35 @@ const mainClass = fullBleed
       breadcrumbs={breadcrumbs}
     />
 
-    {/* Google Tag (gtag.js) - Google Ads コンバージョン計測
-        AW-ID は環境変数 PUBLIC_GOOGLE_ADS_TAG で上書き可能。
-        未設定時は AW-16731567989（アカウント: 556-357-5990）を使用。
+    {/* Google Tag (gtag.js) - GA4 + Google Ads コンバージョン計測
+        GA4 測定ID: G-N0D5LPF993（まちのプロ）
+        Ads AW-ID は環境変数 PUBLIC_GOOGLE_ADS_TAG で上書き可能。
     */}
     {(() => {
-      const gtagId = import.meta.env.PUBLIC_GOOGLE_ADS_TAG || 'AW-16731567989';
+      const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-N0D5LPF993';
+      const adsId = import.meta.env.PUBLIC_GOOGLE_ADS_TAG || 'AW-16731567989';
       return (
         <Fragment>
+          {/* GA4 + Ads を1つのスクリプトで読み込み（パフォーマンス最適化） */}
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
           ></script>
           <script
             is:inline
-            define:vars={{ gtagId }}
+            define:vars={{ ga4Id, adsId }}
           >
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }
             gtag('js', new Date());
-            gtag('config', gtagId);
+            // GA4
+            gtag('config', ga4Id, { send_page_view: true });
+            // Google Ads
+            gtag('config', adsId);
+            // コンバージョンイベント計測ヘルパー
+            window.trackConversion = function(eventName, params) {
+              gtag('event', eventName, params || {});
+            };
           </script>
         </Fragment>
       );

@@ -152,6 +152,14 @@ const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT
         successEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         const g = (window as { gtag?: (...args: unknown[]) => void }).gtag;
+        // GA4: フォーム送信イベント
+        g?.('event', 'generate_lead', {
+          event_category: 'contact_form',
+          event_label: (form.querySelector('[name="siteName"]') as HTMLInputElement)?.value || '',
+          value: 1,
+          currency: 'JPY',
+        });
+        // Google Ads コンバージョン
         g?.('event', 'conversion', {
           send_to: 'AW-16731567989/bZcqCO_H3rEcEPXunao-',
           value: 1.0,

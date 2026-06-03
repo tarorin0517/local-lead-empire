@@ -26,7 +26,7 @@ const { site } = Astro.props;
         href={telHref(site.phone)}
         class="hidden flex-col items-end leading-tight sm:flex"
         aria-label={`電話で相談する ${site.phone}`}
-        onclick="gtag && gtag('event','phone_click',{event_category:'cta',event_label:'header_desktop'})"
+        onclick="gtag && gtag('event','phone_click',{event_category:'cta',event_label:'header_desktop',event_callback:function(){}})"
       >
         <span class="text-[10px] text-ink-muted">{site.phoneHoursLabel ?? '受付時間内'}</span>
         <span class="text-lg font-bold text-primary-700">{site.phone}</span>
