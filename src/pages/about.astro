@@ -1,0 +1,91 @@
+---
+// シンプルな静的ページ（SiteLayoutは使わず独自レイアウト）
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>著者プロフィール：野中倫太郎 | まちのプロ</title>
+  <meta name="description" content="まちのプロ運営者・野中倫太郎のプロフィール。地域密着型ハウスサービスの普及を目指し、エアコン分解洗浄・浄化槽清掃・空き家管理のサービスを展開。" />
+  <meta property="og:title" content="著者プロフィール：野中倫太郎 | まちのプロ" />
+  <meta property="og:type" content="profile" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" />
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; color: #0F172A; background: #fff; margin: 0; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+    .role { color: #1E40AF; font-size: 0.95rem; margin-bottom: 32px; }
+    .bio { line-height: 1.9; margin-bottom: 32px; }
+    h2 { font-size: 1.15rem; font-weight: 700; border-bottom: 2px solid #DBEAFE; padding-bottom: 6px; margin-bottom: 16px; }
+    ul { padding-left: 1.4rem; line-height: 2; }
+    .schema { display: none; }
+    a { color: #1E40AF; }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "野中倫太郎",
+    "jobTitle": "まちのプロ 運営者",
+    "url": "https://machi-no-pro.com/about",
+    "sameAs": [],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "マチのプロ",
+      "url": "https://machi-no-pro.com"
+    },
+    "knowsAbout": ["エアコン分解洗浄", "浄化槽清掃", "空き家管理", "地域密着サービス", "ローカルビジネス"]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <nav style="margin-bottom:32px;font-size:0.85rem">
+      <a href="https://machi-no-pro.com/">← まちのプロ トップへ</a>
+    </nav>
+    <h1>野中倫太郎</h1>
+    <p class="role">まちのプロ 運営者 / 地域密着サービス専門家</p>
+
+    <div class="bio">
+      <p>鹿児島県在住。「地域の困りごとをプロがすぐ解決できる仕組みを作る」をミッションに、エアコン分解洗浄・浄化槽清掃・空き家管理の3分野で地域密着型サービスを展開しています。</p>
+      <p>各サービスエリアの地域特性（気候・産業・人口構造）を徹底調査した上で、地元の施工会社・管理業者と連携し、見積もり無料・即日対応を実現しています。</p>
+      <p>本サイト上のすべてのコラム記事は、実際の施工現場や行政資料をもとに執筆しており、正確な情報提供を第一に心がけています。</p>
+    </div>
+
+    <h2>専門分野</h2>
+    <ul>
+      <li>エアコン分解洗浄（壁掛け・天井埋込・業務用）</li>
+      <li>浄化槽清掃・法定点検・合併転換のサポート</li>
+      <li>空き家管理・定期巡回・遠方オーナー向けレポート</li>
+      <li>地域密着型サービスのマーケティングと品質管理</li>
+    </ul>
+
+    <h2>執筆方針</h2>
+    <ul>
+      <li>費用・期間は実際の相場データをもとに記載</li>
+      <li>法令（浄化槽法・空家法など）は最新の改正内容を確認の上で解説</li>
+      <li>地域名・気候・産業など固有情報を正確に記載</li>
+      <li>誇大表現・過度な不安喚起は行わない</li>
+    </ul>
+
+    <h2>運営サービス一覧</h2>
+    <ul>
+      <li><a href="/miyazaki/aircon-bunkai/">宮崎市 エアコン分解洗浄</a></li>
+      <li><a href="/matsuyama/aircon-bunkai/">松山市 エアコン分解洗浄</a></li>
+      <li><a href="/kurashiki/aircon-bunkai/">倉敷市 エアコン分解洗浄</a></li>
+      <li><a href="/oita/aircon-bunkai/">大分市 エアコン分解洗浄</a></li>
+      <li><a href="/masuda/jokasou/">益田市 浄化槽清掃</a></li>
+      <li><a href="/amakusa/jokasou/">天草市 浄化槽清掃</a></li>
+      <li><a href="/uwajima/jokasou/">宇和島市 浄化槽清掃</a></li>
+      <li><a href="/hagi/akiya-kanri/">萩市 空き家管理</a></li>
+      <li><a href="/kami/akiya-kanri/">香美市 空き家管理</a></li>
+      <li><a href="/usa/akiya-kanri/">宇佐市 空き家管理</a></li>
+    </ul>
+
+    <p style="margin-top:48px;font-size:0.85rem;color:#475569">
+      お問い合わせ: <a href="mailto:contact@machi-no-pro.com">contact@machi-no-pro.com</a>
+    </p>
+  </div>
+</body>
+</html>
