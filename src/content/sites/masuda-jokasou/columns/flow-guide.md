@@ -114,3 +114,12 @@ pageType: column
 電話：**050-8886-8241**（受付時間：平日 9:00〜18:00）
 
 ご不明な点はなんでもお電話でお気軽にどうぞ。
+
+---
+
+## 関連記事
+
+- [浄化槽清掃のベストタイミング](../columns/best-timing)
+- [浄化槽清掃料金相場と費用の内訳](../columns/cost-breakdown)
+- [業者を選ぶ4つのポイント](../columns/choose-service)
+- [浄化槽の異常サインと緊急トラブル対処法](../columns/trouble-signs)
