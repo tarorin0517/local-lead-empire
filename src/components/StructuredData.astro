@@ -91,7 +91,11 @@ const business = {
   ...(site.openingHours && site.openingHours.length > 0
     ? { openingHours: site.openingHours }
     : {}),
-  ...(site.sameAs && site.sameAs.length > 0 ? { sameAs: site.sameAs } : {}),
+  // Organization の sameAs（エンティティ強化）: site.sameAs と machi-no-pro.com をマージ
+  sameAs: [
+    ...(site.sameAs ?? []),
+    'https://machi-no-pro.com' + urlPath,
+  ],
   // AggregateRating: voicesデータから生成
   ...(site.voices && site.voices.length > 0
     ? {
@@ -118,6 +122,11 @@ const business = {
         })),
       }
     : {}),
+  // Speakable Schema（音声検索・AI検索エンジン対応）
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['h1', '.fvac-h1', 'h2', '.contact-section'],
+  },
 };
 
 const offers = (() => {
@@ -209,12 +218,54 @@ const breadcrumbList =
       }
     : null;
 
+const webPage =
+  kind === 'top'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': businessUrl + '#webpage',
+        url: businessUrl,
+        name: site.siteName,
+        description: site.tagline,
+        inLanguage: 'ja',
+        isPartOf: {
+          '@type': 'WebSite',
+          '@id': 'https://machi-no-pro.com/#website',
+          url: 'https://machi-no-pro.com',
+          name: 'まちのプロ',
+          inLanguage: 'ja',
+        },
+        about: {
+          '@type': 'Service',
+          name: site.niche,
+          areaServed: site.city,
+          provider: {
+            '@type': 'LocalBusiness',
+            name: site.siteName,
+          },
+        },
+        speakable: {
+          '@type': 'SpeakableSpecification',
+          cssSelector: ['h1', 'h2:first-of-type'],
+        },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: businessUrl + '#contact',
+          },
+          query: '見積もり依頼',
+        },
+      }
+    : null;
+
 const blocks = [
   business,
   service,
   article,
   faqPage,
   breadcrumbList,
+  webPage,
 ].filter((b): b is NonNullable<typeof b> => b !== null);
 ---
 

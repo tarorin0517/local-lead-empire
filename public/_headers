@@ -1,4 +1,4 @@
-# Cloudflare Pages: グローバル HTTP ヘッダ設定
+# Cloudflare Pages カスタムヘッダー（Core Web Vitals改善）
 # https://developers.cloudflare.com/pages/configuration/headers/
 #
 # 注意: _headers の path ルールはホスト名で分岐できない。
@@ -8,20 +8,30 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# フォント：長期キャッシュ
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# 画像系: 1日キャッシュ（差し替え運用しやすく）
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# OG画像：中期キャッシュ
 /og/*
   Cache-Control: public, max-age=86400
 
 /favicon.svg
   Cache-Control: public, max-age=86400
 
-# HTML はデフォルトのまま（Cloudflare 側で制御）
 # サイトマップ・ロボッツはキャッシュ短め
 /sitemap*.xml
   Cache-Control: public, max-age=3600
 
 /robots.txt
   Cache-Control: public, max-age=3600
+
+# HTMLページ：ストール時再検証 + セキュリティヘッダー
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

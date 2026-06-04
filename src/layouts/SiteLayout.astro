@@ -64,10 +64,21 @@ const mainClass = fullBleed
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {/* フォントを非同期ロード（render-blocking を排除してFCP/LCPを改善）
+        onload で rel を stylesheet に切り替えるパターン。
+        wght: 500 を削除して 400;700 の2ウェイトに絞りファイルサイズを削減。 */}
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <SEO
       title={title}

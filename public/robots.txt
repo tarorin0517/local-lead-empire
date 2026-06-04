@@ -9,6 +9,9 @@ Disallow: /
 User-agent: GPTBot
 Disallow: /
 
+User-agent: OAI-SearchBot
+Disallow: /
+
 User-agent: ClaudeBot
 Disallow: /
 
@@ -20,6 +23,15 @@ Disallow: /
 
 User-agent: PerplexityBot
 Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+# 許可するクローラ（明示的にブロックしない）
+# Googlebot, GoogleOther, Bingbot, DuckDuckBot → User-agent: * Allow: / が適用される
 
 # サイトマップ（SITE_URL に合わせて差し替え）
 Sitemap: https://machi-no-pro.com/sitemap-index.xml
