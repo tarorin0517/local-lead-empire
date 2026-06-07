@@ -26,7 +26,7 @@ const { site } = Astro.props;
         href={telHref(site.phone)}
         class="hidden flex-col items-end leading-tight sm:flex"
         aria-label={`電話で相談する ${site.phone}`}
-        onclick="gtag && gtag('event','phone_click',{event_category:'cta',event_label:'header_desktop',event_callback:function(){}})"
+        onclick="if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'header_desktop'});gtag('event','phone_click',{event_category:'cta',event_label:'header_desktop',event_callback:function(){}})}"
       >
         <span class="text-[10px] text-ink-muted">{site.phoneHoursLabel ?? '受付時間内'}</span>
         <span class="text-lg font-bold text-primary-700">{site.phone}</span>
@@ -35,7 +35,7 @@ const { site } = Astro.props;
         href={telHref(site.phone)}
         class="flex flex-col items-center justify-center rounded-md bg-primary-700 px-3 py-2 text-white shadow-sm hover:bg-primary-900 sm:hidden"
         aria-label={`電話で相談する ${site.phone}`}
-        onclick="gtag && gtag('event','phone_click',{event_category:'cta',event_label:'header_mobile'})"
+        onclick="if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'header_mobile'});gtag('event','phone_click',{event_category:'cta',event_label:'header_mobile'})}"
       >
         <span class="text-[9px] leading-none opacity-80">📞 タップで発信</span>
         <span class="text-xs font-bold leading-tight">{site.phone}</span>

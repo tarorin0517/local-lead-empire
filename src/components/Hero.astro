@@ -48,7 +48,7 @@ const trustBadges = site.trustBadges ?? [];
           href={telHref(phone)}
           class="inline-flex flex-col items-center justify-center rounded-lg bg-accent-500 px-5 py-3 text-center text-white shadow hover:bg-accent-600"
           aria-label={`電話で相談する ${phone}`}
-          onclick={`gtag && gtag('event','phone_click',{event_category:'cta',event_label:'hero',site_key:'${site.siteKey}'})`}
+          onclick={`if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'hero'});gtag('event','phone_click',{event_category:'cta',event_label:'hero',site_key:'${site.siteKey}'})}`}
         >
           <span class="text-xs">{cta?.phonePrimary ?? '電話で相談'}</span>
           <span class="text-lg font-bold">{phone}</span>

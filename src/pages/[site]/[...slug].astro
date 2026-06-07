@@ -191,7 +191,7 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
           <a
             href={`tel:${site.phone}`}
             class="inline-flex items-center gap-1 rounded-md border border-primary-700 px-4 py-2 text-sm font-bold text-primary-700 hover:bg-primary-100"
-            onclick={`gtag && gtag('event','phone_click',{event_category:'cta',event_label:'article_bottom'})`}
+            onclick={`if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'article_bottom'});gtag('event','phone_click',{event_category:'cta',event_label:'article_bottom'})}`}
           >
             📞 {site.phone}
           </a>

@@ -37,7 +37,7 @@ const trustBadges = site.trustBadges ?? [];
       <div class="fvac-ctas">
         <a href={telHref(phone)} class="fvac-btn-phone"
           aria-label={`電話で相談する ${phone}`}
-          onclick={`gtag && gtag('event','phone_click',{event_category:'cta',event_label:'hero',site_key:'${site.siteKey}'})`}>
+          onclick={`if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'hero'});gtag('event','phone_click',{event_category:'cta',event_label:'hero',site_key:'${site.siteKey}'})}`}>
           <span class="fvac-btn-label">{cta?.phonePrimary ?? '電話で相談'}</span>
           <span class="fvac-btn-num">{phone}</span>
           <span class="fvac-btn-hours">{cta?.phoneSecondary ?? site.phoneHoursLabel}</span>

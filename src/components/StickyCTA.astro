@@ -17,7 +17,7 @@ const { site } = Astro.props;
     href={telHref(site.phone)}
     class="flex flex-1 items-center justify-center gap-2 bg-accent-500 px-3 py-3 text-sm font-bold text-white"
     aria-label={`電話で相談する ${site.phone}`}
-    onclick={`gtag && gtag('event','phone_click',{event_category:'cta',event_label:'sticky_cta',site_key:'${site.siteKey}'})`}
+    onclick={`if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'sticky_cta'});gtag('event','phone_click',{event_category:'cta',event_label:'sticky_cta',site_key:'${site.siteKey}'})}`}
   >
     <span aria-hidden="true">📞</span>
     電話で相談
