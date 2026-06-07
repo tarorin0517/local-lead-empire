@@ -246,7 +246,7 @@ const webPage =
         },
         speakable: {
           '@type': 'SpeakableSpecification',
-          cssSelector: ['h1', 'h2:first-of-type'],
+          cssSelector: ['h1', 'h2:first-of-type', '.qa-fact-box'],
         },
         potentialAction: {
           '@type': 'SearchAction',
@@ -259,6 +259,37 @@ const webPage =
       }
     : null;
 
+// HowTo: 作業工程（AI検索エンジンが「〜の手順は？」に直接回答できるようにする）
+const howTo =
+  kind === 'top' && site.flow && site.flow.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: `${site.city}の${site.niche}の流れ`,
+        description: `${site.city}でプロが行う${site.niche}の詳細な手順です。`,
+        totalTime: 'PT2H',
+        step: site.flow.map((s, i) => ({
+          '@type': 'HowToStep',
+          position: i + 1,
+          name: s.title,
+          text: s.description,
+        })),
+      }
+    : null;
+
+// Person: 運営者（E-E-A-T強化・AI検索エンジンがエンティティとして認識できるようにする）
+const person =
+  kind === 'top'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        '@id': 'https://machi-no-pro.com/#owner',
+        name: site.owner.name,
+        email: site.owner.email,
+        worksFor: { '@id': businessId },
+      }
+    : null;
+
 const blocks = [
   business,
   service,
@@ -266,6 +297,8 @@ const blocks = [
   faqPage,
   breadcrumbList,
   webPage,
+  howTo,
+  person,
 ].filter((b): b is NonNullable<typeof b> => b !== null);
 ---
 

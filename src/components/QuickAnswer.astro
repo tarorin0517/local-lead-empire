@@ -1,0 +1,108 @@
+---
+/**
+ * QuickAnswer — AI検索エンジン向け事実ボックス（AEO対策）
+ *
+ * ChatGPT / Perplexity / Bing AI / Gemini などが「〇〇市のエアコン洗浄の料金は？」
+ * のような質問に回答する際、ページの先頭付近にある簡潔な Q&A ブロックを
+ * 引用・要約しやすい。このコンポーネントはその役割を担う。
+ *
+ * - .qa-fact-box は StructuredData の speakable cssSelector に登録済み
+ * - セマンティックな <dl>/<dt>/<dd> 構造で AI が key-value を認識しやすい形式
+ * - 視覚的にも「まず確認できる情報」として機能する
+ */
+import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
+
+interface Props {
+  site: SiteMeta;
+}
+
+const { site } = Astro.props;
+
+const basePrice = (() => {
+  const first = site.priceTable?.[0];
+  if (!first) return null;
+  return first.first ?? first.price ?? null;
+})();
+
+const areaText = (site.areaServed ?? [site.city]).join('・');
+---
+
+<section class="border-t border-b border-primary-100 bg-primary-50 px-4 py-8">
+  <div class="mx-auto max-w-3xl">
+    <h2 class="mb-5 text-lg font-bold text-primary-900">
+      {site.city}の{site.niche}｜よくある質問
+    </h2>
+
+    <dl class="qa-fact-box grid gap-4 sm:grid-cols-2">
+
+      <div class="rounded-lg bg-white p-4 shadow-sm">
+        <dt class="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+          サービスとは
+        </dt>
+        <dd class="mt-1 text-sm leading-relaxed text-ink">
+          {site.niche}とは、エアコン本体を完全に分解し、
+          フィルター清掃では届かない熱交換器・シロッコファン・ドレンパンの
+          カビや汚れを専用洗剤と高圧洗浄で除去するサービスです。
+          冷暖房の効率改善・嫌な臭いの解消に効果があります。
+        </dd>
+      </div>
+
+      {basePrice && (
+        <div class="rounded-lg bg-white p-4 shadow-sm">
+          <dt class="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+            料金
+          </dt>
+          <dd class="mt-1 text-sm text-ink">
+            壁掛けタイプ（お掃除機能なし）<strong class="text-primary-900">1台目 {basePrice}〜（税込）</strong>。
+            出張費・養生費・廃液処分費すべて込み。追加料金は原則なし。
+          </dd>
+        </div>
+      )}
+
+      <div class="rounded-lg bg-white p-4 shadow-sm">
+        <dt class="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+          対応エリア
+        </dt>
+        <dd class="mt-1 text-sm text-ink">
+          {areaText}
+        </dd>
+      </div>
+
+      <div class="rounded-lg bg-white p-4 shadow-sm">
+        <dt class="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+          予約・問い合わせ
+        </dt>
+        <dd class="mt-1 text-sm text-ink">
+          電話
+          <a href={telHref(site.phone)} class="font-bold text-primary-700 hover:underline">
+            {site.phone}
+          </a>
+          または下記フォームから。
+          {site.phoneHoursLabel && (
+            <span class="block text-xs text-ink-muted mt-0.5">{site.phoneHoursLabel}</span>
+          )}
+        </dd>
+      </div>
+
+      {site.trustBadges && site.trustBadges.length > 0 && (
+        <div class="rounded-lg bg-white p-4 shadow-sm sm:col-span-2">
+          <dt class="text-xs font-semibold text-primary-700 uppercase tracking-wide">
+            安心ポイント
+          </dt>
+          <dd class="mt-1 flex flex-wrap gap-3 text-sm text-ink">
+            {site.trustBadges.map((b) => (
+              <span>
+                <strong class="text-primary-900">{b.value}</strong>（{b.label}）
+              </span>
+            ))}
+            {site.insurance && site.insurance.map((ins) => (
+              <span>{ins}加入済</span>
+            ))}
+          </dd>
+        </div>
+      )}
+
+    </dl>
+  </div>
+</section>

@@ -14,6 +14,7 @@ import Voice from '../../components/Voice.astro';
 import FAQ from '../../components/FAQ.astro';
 import Company from '../../components/Company.astro';
 import ContactForm from '../../components/ContactForm.astro';
+import QuickAnswer from '../../components/QuickAnswer.astro';
 import {
   type SiteMeta,
   buildUrlPath,
@@ -99,6 +100,9 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
         ? <HeroAircon site={site} />
         : <Hero site={site} />
       }
+
+      {/* Section 1.5: QuickAnswer（AEO事実ボックス） */}
+      <QuickAnswer site={site} />
 
       {/* Section 2: Worries */}
       <Worries site={site} />

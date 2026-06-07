@@ -1,37 +1,5 @@
-# Googlebot 等の主要検索クローラは許可
+# AEO: AI検索エンジン（ChatGPT, Perplexity, Claude, Gemini等）に引用されるため全クローラ許可
 User-agent: *
 Allow: /
 
-# AI クローラは除外（任意・コメントアウトすると許可になる）
-User-agent: CCBot
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: OAI-SearchBot
-Disallow: /
-
-User-agent: ClaudeBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: PerplexityBot
-Disallow: /
-
-User-agent: YouBot
-Disallow: /
-
-User-agent: Applebot-Extended
-Disallow: /
-
-# 許可するクローラ（明示的にブロックしない）
-# Googlebot, GoogleOther, Bingbot, DuckDuckBot → User-agent: * Allow: / が適用される
-
-# サイトマップ（SITE_URL に合わせて差し替え）
 Sitemap: https://machi-no-pro.com/sitemap-index.xml

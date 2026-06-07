@@ -1,4 +1,4 @@
-# Cloudflare Pages カスタムヘッダー（Core Web Vitals改善）
+# Cloudflare Pages カスタムヘッダー（Core Web Vitals + セキュリティ改善）
 # https://developers.cloudflare.com/pages/configuration/headers/
 #
 # 注意: _headers の path ルールはホスト名で分岐できない。
@@ -35,3 +35,9 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
+  # HSTS: 1年間 HTTPS を強制（includeSubDomains は慎重に）
+  Strict-Transport-Security: max-age=31536000
+  # カメラ・マイク・位置情報など不要な API を無効化（ユーザー信頼性向上）
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  # 外部スクリプトはGA4/GTMのみ。style-src unsafe-inline はTailwind inline style対応
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com; frame-src https://docs.google.com; object-src 'none'; base-uri 'self'

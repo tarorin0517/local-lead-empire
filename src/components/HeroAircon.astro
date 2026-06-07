@@ -1094,20 +1094,31 @@ const trustBadges = site.trustBadges ?? [];
   }
 
   // ---- イベント駆動（iOS対応の本命） ----
-  // scroll  : iOS Safari 13+ でタッチ中・慣性スクロール中に発火。
-  //           メインスレッドのレイアウト更新後に呼ばれるため getBCR が正確。
-  // touchmove: タッチ継続中に毎フレーム発火。scroll の補完として機能。
   window.addEventListener('scroll',    scheduleUpdate, { passive: true });
   window.addEventListener('touchmove', scheduleUpdate, { passive: true });
 
-  // ---- rAFポーリング（デスクトップ & 慣性終了後の補完） ----
-  // scroll イベントが止まった後も慣性スクロールが続く場合に対応。
-  // iOS で getBCR が最新なら applyScroll 内で実際に更新される。
-  (function pollLoop() {
-    requestAnimationFrame(pollLoop);
+  // ---- IntersectionObserver でセクションが見えている間だけ rAF をポーリング ----
+  // スクロール通過後に無限 rAF を回し続けるとメインスレッドを常時占有し
+  // INP（Interaction to Next Paint）を悪化させるため、可視時のみ起動する。
+  let polling = false;
+  function pollLoop() {
     scheduleUpdate();
-  })();
+    if (polling) requestAnimationFrame(pollLoop);
+  }
 
-  scheduleUpdate(); // 初期レンダリング
+  const observer = new IntersectionObserver((entries) => {
+    const visible = entries.some((e) => e.isIntersecting);
+    if (visible && !polling) {
+      polling = true;
+      requestAnimationFrame(pollLoop);
+    } else if (!visible) {
+      polling = false;
+    }
+  }, { threshold: 0 });
+  observer.observe(root);
+
+  // 初期レンダリング（IntersectionObserver の初回コールバック前に実行）
+  polling = true;
+  requestAnimationFrame(pollLoop);
 })();
 </script>
