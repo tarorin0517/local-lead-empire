@@ -779,7 +779,7 @@ const trustBadges = site.trustBadges ?? [];
      非対応ブラウザは vh フォールバックを使用 */
   .fvac { height: 130vh; height: 130svh; }
 
-  /* sticky: 1カラム2段 — 上段エアコン(3fr) | 下段コピー(2fr)
+  /* sticky: 1カラム2段 — 上段コピー(auto) | 下段エアコン(1fr)
      overflow:visible — iOS Safari の overflow:hidden/clip が sticky で
      スクロールコンテナを生成する問題を回避 */
   .fvac-sticky {
@@ -789,25 +789,25 @@ const trustBadges = site.trustBadges ?? [];
     overflow: visible;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 3fr 2fr;
+    grid-template-rows: auto 1fr;
   }
 
-  /* コピー: グリッド下段 (HTML上は先に来るが grid-row: 2 で下に配置)
-     padding-bottom: 76px で画面下固定CTAバーとの重なりを回避 */
+  /* コピー: グリッド上段 (grid-row: 1 で見出し・CTAを最初に表示)
+     ファーストビューで価値訴求とCTAを即座に見せる */
   .fvac-copy {
-    grid-row: 2;
+    grid-row: 1;
     position: relative;
     z-index: 5;
-    padding: 10px 16px 76px;
+    padding: 16px 16px 8px;
     max-width: 100%;
     background: none;
   }
 
-  /* ステージラッパー: グリッド上段 (grid-row: 1 でエアコンを最上部に)
+  /* ステージラッパー: グリッド下段 (grid-row: 2 でアニメーションを下に)
      overflow:clip — 爆発した3Dパーツが隣セクションに描画されるのを防ぐ
      （sticky親の overflow:visible は維持するのでiOS Safari問題なし） */
   .fvac-stage-wrap {
-    grid-row: 1;
+    grid-row: 2;
     position: relative;
     align-self: stretch;
     overflow: clip;
