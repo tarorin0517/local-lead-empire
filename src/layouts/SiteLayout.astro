@@ -129,7 +129,10 @@ const mainClass = fullBleed
             define:vars={{ ga4Id, adsId }}
           >
             window.dataLayer = window.dataLayer || [];
+            // define:vars がスクリプトをIIFEで包むため、明示的にグローバルへ公開しないと
+            // 各CTAの onclick から gtag が見えない（generate_lead が発火しない）
             function gtag() { dataLayer.push(arguments); }
+            window.gtag = gtag;
             gtag('js', new Date());
             // GA4
             gtag('config', ga4Id, { send_page_view: true });
