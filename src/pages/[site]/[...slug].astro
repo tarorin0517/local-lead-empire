@@ -15,6 +15,7 @@ import FAQ from '../../components/FAQ.astro';
 import Company from '../../components/Company.astro';
 import ContactForm from '../../components/ContactForm.astro';
 import QuickAnswer from '../../components/QuickAnswer.astro';
+import ColumnList from '../../components/ColumnList.astro';
 import {
   type SiteMeta,
   buildUrlPath,
@@ -131,10 +132,13 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
       {/* Section 10: FAQ */}
       {data.faqs && data.faqs.length > 0 && <FAQ faqs={data.faqs} />}
 
-      {/* Section 11: Company */}
+      {/* Section 11: ColumnList（内部リンク） */}
+      <ColumnList site={site} />
+
+      {/* Section 12: Company */}
       <Company site={site} />
 
-      {/* Section 12: ContactForm（SiteLayout の自動描画は抑止済） */}
+      {/* Section 13: ContactForm（SiteLayout の自動描画は抑止済） */}
       <ContactForm site={site} />
 
       {/* トップページの本文 Markdown は冒頭リード文として目立たない位置に */}
