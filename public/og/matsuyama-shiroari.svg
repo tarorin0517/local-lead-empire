@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#16A34A"/><stop offset="100%" stop-color="#14532D"/>
+  </linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" rx="16"/>
+  <text x="600" y="240" text-anchor="middle" font-family="'Noto Sans JP','Hiragino Sans',sans-serif" font-size="48" font-weight="500" fill="rgba(255,255,255,0.85)">松山市・シロアリ防除</text>
+  <text x="600" y="340" text-anchor="middle" font-family="'Noto Sans JP','Hiragino Sans',sans-serif" font-size="72" font-weight="700" fill="#FFFFFF">床下調査 無料・5年保証付き</text>
+  <text x="600" y="430" text-anchor="middle" font-family="'Noto Sans JP','Hiragino Sans',sans-serif" font-size="36" font-weight="500" fill="rgba(255,255,255,0.85)">即日対応・損害保険加入・無料見積もり</text>
+  <text x="600" y="540" text-anchor="middle" font-family="'Noto Sans JP','Hiragino Sans',sans-serif" font-size="28" font-weight="700" fill="#FCD34D">まちのプロ｜松山シロアリ</text>
+</svg>
