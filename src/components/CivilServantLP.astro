@@ -1,0 +1,713 @@
+---
+/**
+ * CivilServantLP — 公務員不動産投資LP 専用セクション群
+ * RENOSY LP を参考に: Hero → 数字 → 強み → 安心基準 → フロー → 声 → FAQ → フォーム
+ */
+import type { SiteMeta } from '../lib/sites';
+import { telHref } from '../lib/sites';
+import HeroCivilRealestate from './HeroCivilRealestate.astro';
+import ContactForm from './ContactForm.astro';
+import FAQ from './FAQ.astro';
+
+interface FaqItem { question: string; answer: string; }
+
+interface Props {
+  site: SiteMeta;
+  faqs?: FaqItem[];
+}
+
+const { site, faqs = [] } = Astro.props;
+const phone = site.phone;
+const cta = site.ctaCopy;
+---
+
+<!-- ① Hero: 3D マンション分解アニメーション -->
+<HeroCivilRealestate site={site} />
+
+<!-- ② 数字でわかる安心感 (RENOSY 参考: 即座の信頼) -->
+<section class="cslp-stats" aria-label="実績数字">
+  <div class="cslp-stats-inner">
+    <div class="cslp-stat">
+      <div class="cslp-stat-num">9<span class="cslp-stat-unit">室以下</span></div>
+      <div class="cslp-stat-label">届出不要の基準</div>
+      <div class="cslp-stat-note">人事院規則14-8</div>
+    </div>
+    <div class="cslp-stat-div" aria-hidden="true"></div>
+    <div class="cslp-stat">
+      <div class="cslp-stat-num">0<span class="cslp-stat-unit">円</span></div>
+      <div class="cslp-stat-label">所属機関への<br/>届出費用</div>
+      <div class="cslp-stat-note">条件内なら不要</div>
+    </div>
+    <div class="cslp-stat-div" aria-hidden="true"></div>
+    <div class="cslp-stat">
+      <div class="cslp-stat-num">5<span class="cslp-stat-unit">〜8%</span></div>
+      <div class="cslp-stat-label">地方中古の<br/>想定利回り目安</div>
+      <div class="cslp-stat-note">※市場平均参考値</div>
+    </div>
+    <div class="cslp-stat-div" aria-hidden="true"></div>
+    <div class="cslp-stat">
+      <div class="cslp-stat-num">330<span class="cslp-stat-unit">万人+</span></div>
+      <div class="cslp-stat-label">活用できる<br/>全国の公務員数</div>
+      <div class="cslp-stat-note">総務省2023年調査</div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ 公務員だからこその3大強み -->
+<section class="cslp-merits" aria-labelledby="cslp-merits-h2">
+  <div class="cslp-wrap">
+    <p class="cslp-kicker">WHY CIVIL SERVANTS</p>
+    <h2 id="cslp-merits-h2" class="cslp-h2">なぜ公務員は<br/>不動産投資に向いているのか</h2>
+    <div class="cslp-merit-grid">
+
+      <article class="cslp-merit-card">
+        <div class="cslp-merit-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 6 L5 18 L43 18 Z" fill="currentColor"/>
+            <rect x="6" y="18" width="36" height="4" rx="1" fill="currentColor"/>
+            <rect x="6" y="38" width="36" height="4" rx="1" fill="currentColor"/>
+            <rect x="9"  y="22" width="5" height="16" fill="currentColor"/>
+            <rect x="21.5" y="22" width="5" height="16" fill="currentColor"/>
+            <rect x="34" y="22" width="5" height="16" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>銀行が最も好む借り手</h3>
+        <p>安定した収入・雇用継続性から、一般の給与所得者より<strong>有利な金利・高い融資枠</strong>を引き出せるケースが多い。この「信用力」こそ、公務員最大の投資資産。</p>
+      </article>
+
+      <article class="cslp-merit-card">
+        <div class="cslp-merit-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 5 L7 12 L7 24 C7 34 15 41 24 44 C33 41 41 34 41 24 L41 12 Z" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M16 25 L21 31 L32 19" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>9室以下なら届出ゼロ</h3>
+        <p>人事院規則14-8に基づき、<strong>9室以下・4棟以下・年収500万未満</strong>の3条件内なら所属機関への届出は不要。静かに、合法的に、資産を育てられる。</p>
+      </article>
+
+      <article class="cslp-merit-card">
+        <div class="cslp-merit-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2.5"/>
+            <rect x="22" y="4"  width="4" height="8" rx="2" fill="currentColor"/>
+            <rect x="22" y="36" width="4" height="8" rx="2" fill="currentColor"/>
+            <rect x="4"  y="22" width="8" height="4" rx="2" fill="currentColor"/>
+            <rect x="36" y="22" width="8" height="4" rx="2" fill="currentColor"/>
+            <rect x="9"  y="9"  width="4" height="8" rx="2" fill="currentColor" transform="rotate(45 11 13)"/>
+            <rect x="35" y="9"  width="4" height="8" rx="2" fill="currentColor" transform="rotate(-45 37 13)"/>
+            <rect x="9"  y="31" width="4" height="8" rx="2" fill="currentColor" transform="rotate(-45 11 35)"/>
+            <rect x="35" y="31" width="4" height="8" rx="2" fill="currentColor" transform="rotate(45 37 35)"/>
+          </svg>
+        </div>
+        <h3>本業ゼロ負担で運営できる</h3>
+        <p>入居者募集・家賃回収・修繕対応を<strong>管理会社にすべて委託</strong>。月次レポートを確認するだけで運営できる。忙しい公務員の生活に最適な仕組み。</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ④ 副業規制「届出不要ゾーン」の視覚化 -->
+<section class="cslp-compliance" aria-labelledby="cslp-compliance-h2">
+  <div class="cslp-wrap">
+    <p class="cslp-kicker">LEGAL COMPLIANCE</p>
+    <h2 id="cslp-compliance-h2" class="cslp-h2">「届出不要」の明確な3条件</h2>
+    <p class="cslp-compliance-lead">
+      以下3つの条件を<strong>すべて</strong>満たす場合、所属機関への届出は一切不要です（人事院規則14-8）
+    </p>
+    <div class="cslp-conditions">
+      <div class="cslp-condition">
+        <div class="cslp-cond-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="cslp-cond-body">
+          <div class="cslp-cond-num">9室<span>以下</span></div>
+          <div class="cslp-cond-desc">貸している部屋数の合計</div>
+        </div>
+      </div>
+      <div class="cslp-cond-sep" aria-hidden="true">AND</div>
+      <div class="cslp-condition">
+        <div class="cslp-cond-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="cslp-cond-body">
+          <div class="cslp-cond-num">4棟<span>以下</span></div>
+          <div class="cslp-cond-desc">保有する物件の棟数</div>
+        </div>
+      </div>
+      <div class="cslp-cond-sep" aria-hidden="true">AND</div>
+      <div class="cslp-condition">
+        <div class="cslp-cond-check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="cslp-cond-body">
+          <div class="cslp-cond-num">500万円<span>未満</span></div>
+          <div class="cslp-cond-desc">年間の不動産賃料収入</div>
+        </div>
+      </div>
+    </div>
+    <p class="cslp-compliance-note">
+      ※地方公務員は各自治体の条例・規則によります。詳細は個別にご相談ください。<br/>
+      ※3条件すべてクリアで「届出不要」。上回る場合は所属機関への承認申請が必要ですが、禁止ではありません。
+    </p>
+  </div>
+</section>
+
+<!-- ⑤ 始め方・4ステップ -->
+{(site.flow ?? []).length > 0 && (
+  <section class="cslp-flow" aria-labelledby="cslp-flow-h2">
+    <div class="cslp-wrap">
+      <p class="cslp-kicker">HOW IT WORKS</p>
+      <h2 id="cslp-flow-h2" class="cslp-h2">無料相談から始める<br/>かんたん4ステップ</h2>
+      <div class="cslp-steps">
+        {(site.flow ?? []).map((step, i) => (
+          <div class="cslp-step">
+            <div class="cslp-step-left">
+              <div class="cslp-step-num">STEP<br/><span>{i + 1}</span></div>
+              {i < (site.flow ?? []).length - 1 && <div class="cslp-step-line" aria-hidden="true"></div>}
+            </div>
+            <div class="cslp-step-body">
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ⑥ 先輩公務員の声 -->
+{(site.voices ?? []).length > 0 && (
+  <section class="cslp-voices" aria-labelledby="cslp-voices-h2">
+    <div class="cslp-wrap">
+      <p class="cslp-kicker">TESTIMONIALS</p>
+      <h2 id="cslp-voices-h2" class="cslp-h2">先輩公務員のリアルな声</h2>
+      <div class="cslp-voice-grid">
+        {(site.voices ?? []).map((v) => (
+          <article class="cslp-voice-card">
+            <div class="cslp-voice-quote" aria-hidden="true">"</div>
+            <p class="cslp-voice-body">{v.body}</p>
+            <footer class="cslp-voice-footer">
+              <div class="cslp-voice-avatar" aria-hidden="true">
+                {v.alias.charAt(0)}
+              </div>
+              <div>
+                <div class="cslp-voice-name">{v.alias}</div>
+                <div class="cslp-voice-date">{v.date}</div>
+              </div>
+            </footer>
+            {v.note && <p class="cslp-voice-note">{v.note}</p>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- ⑦ よくある不安・FAQ -->
+{faqs.length > 0 && (
+  <section class="cslp-faq" aria-labelledby="cslp-faq-h2">
+    <div class="cslp-wrap">
+      <p class="cslp-kicker">FAQ</p>
+      <h2 id="cslp-faq-h2" class="cslp-h2">よくある不安・疑問</h2>
+      <FAQ faqs={faqs} background="plain" />
+    </div>
+  </section>
+)}
+
+<!-- ⑧ 最終 CTA バナー -->
+<section class="cslp-cta-banner">
+  <div class="cslp-wrap cslp-cta-inner">
+    <div class="cslp-cta-copy">
+      <p class="cslp-kicker" style="color:rgba(255,255,255,.5)">FREE CONSULTATION</p>
+      <h2 class="cslp-cta-h2">まずは30分の無料相談から</h2>
+      <p class="cslp-cta-lead">
+        副業規定の確認から融資可能額の目安まで、<br class="cslp-br-pc"/>
+        一人ひとりの状況に合わせてご説明します。
+      </p>
+    </div>
+    <div class="cslp-cta-btns">
+      <a href={telHref(phone)} class="cslp-phone-btn"
+        aria-label={`電話で無料相談 ${phone}`}
+        onclick={`if(typeof gtag!=='undefined'){gtag('event','generate_lead',{method:'phone',event_label:'cta_banner'});}`}>
+        <span class="cslp-phone-label">{cta?.phonePrimary ?? '電話で無料相談'}</span>
+        <span class="cslp-phone-num">{phone}</span>
+        <span class="cslp-phone-hours">{cta?.phoneSecondary ?? site.phoneHoursLabel}</span>
+      </a>
+      <a href="#contact" class="cslp-form-btn">
+        {cta?.formPrimary ?? '無料相談を申込む'}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨ 相談フォーム -->
+<ContactForm site={site} />
+
+<style>
+/* =====================================================
+   SHARED
+   ===================================================== */
+.cslp-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.cslp-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: #c9982c;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+.cslp-h2 {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 800;
+  line-height: 1.25;
+  color: #0c1a2e;
+  margin: 0 0 48px;
+}
+
+/* =====================================================
+   ② STATS BAR
+   ===================================================== */
+.cslp-stats {
+  background: #0f2351;
+  padding: 56px 24px;
+}
+.cslp-stats-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.cslp-stat {
+  flex: 1 1 180px;
+  text-align: center;
+  padding: 16px 24px;
+}
+.cslp-stat-num {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  color: #c9982c;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.cslp-stat-unit {
+  font-size: 0.42em;
+  font-weight: 700;
+  color: #e8b84a;
+  letter-spacing: 0;
+  vertical-align: baseline;
+  margin-left: 2px;
+}
+.cslp-stat-label {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  color: rgba(255,255,255,.75);
+  line-height: 1.5;
+}
+.cslp-stat-note {
+  font-size: 10px;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .05em;
+}
+.cslp-stat-div {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255,255,255,.1);
+  margin: 12px 0;
+  flex-shrink: 0;
+}
+
+/* =====================================================
+   ③ MERITS
+   ===================================================== */
+.cslp-merits {
+  background: #fff;
+  padding: 96px 24px;
+}
+.cslp-merit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.cslp-merit-card {
+  background: #f5f7fc;
+  border-radius: 16px;
+  padding: 36px 28px;
+  border: 1px solid #dde4f0;
+  transition: transform .2s, box-shadow .2s;
+}
+.cslp-merit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(15,35,81,.12);
+}
+.cslp-merit-icon {
+  width: 56px; height: 56px;
+  background: #1e3a6e;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  color: #fff;
+  padding: 12px;
+}
+.cslp-merit-icon svg { width: 100%; height: 100%; }
+.cslp-merit-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0c1a2e;
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+.cslp-merit-card p {
+  font-size: 14px;
+  color: #3a5070;
+  line-height: 1.85;
+  margin: 0;
+}
+.cslp-merit-card p strong { color: #1e3a6e; }
+
+/* =====================================================
+   ④ COMPLIANCE
+   ===================================================== */
+.cslp-compliance {
+  background: #eff4ff;
+  padding: 96px 24px;
+  border-top: 1px solid #d8e2f8;
+  border-bottom: 1px solid #d8e2f8;
+}
+.cslp-compliance-lead {
+  font-size: 16px;
+  color: #3a5070;
+  line-height: 1.7;
+  margin: -32px 0 40px;
+  max-width: 640px;
+}
+.cslp-compliance-lead strong { color: #1e3a6e; }
+.cslp-conditions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.cslp-condition {
+  flex: 1 1 240px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 20px rgba(15,35,81,.07);
+  border: 1px solid #d0dcf8;
+}
+.cslp-cond-check {
+  width: 40px; height: 40px;
+  background: #1e3a6e;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: #c9982c;
+}
+.cslp-cond-check svg { width: 22px; height: 22px; }
+.cslp-cond-num {
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 900;
+  color: #0f2351;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+}
+.cslp-cond-num span {
+  font-size: .55em;
+  font-weight: 700;
+  color: #3a5070;
+}
+.cslp-cond-desc {
+  font-size: 12px;
+  color: #6a84a0;
+  margin-top: 4px;
+}
+.cslp-cond-sep {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: #1e3a6e;
+  background: #d4ddf5;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+.cslp-compliance-note {
+  font-size: 11px;
+  color: #7a92b0;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =====================================================
+   ⑤ FLOW
+   ===================================================== */
+.cslp-flow {
+  background: #f8f9fc;
+  padding: 96px 24px;
+}
+.cslp-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.cslp-step {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+.cslp-step-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cslp-step-num {
+  width: 64px;
+  background: #0f2351;
+  color: #c9982c;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  padding: 8px 4px 6px;
+  line-height: 1;
+}
+.cslp-step-num span {
+  display: block;
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+.cslp-step-line {
+  width: 2px;
+  flex: 1;
+  min-height: 40px;
+  background: linear-gradient(180deg, #1e3a6e, #dde4f0);
+  margin: 6px 0;
+}
+.cslp-step-body {
+  padding: 8px 0 44px;
+}
+.cslp-step:last-child .cslp-step-body { padding-bottom: 0; }
+.cslp-step-body h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0c1a2e;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.cslp-step-body p {
+  font-size: 14px;
+  color: #4a6478;
+  line-height: 1.85;
+  margin: 0;
+}
+
+/* =====================================================
+   ⑥ VOICES
+   ===================================================== */
+.cslp-voices {
+  background: #fff;
+  padding: 96px 24px;
+}
+.cslp-voice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.cslp-voice-card {
+  background: #f5f7fc;
+  border-radius: 16px;
+  padding: 32px 28px;
+  border: 1px solid #dde4f0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.cslp-voice-quote {
+  font-size: 64px;
+  line-height: .8;
+  color: #c9982c;
+  font-family: Georgia, serif;
+  margin-bottom: 12px;
+  opacity: .5;
+}
+.cslp-voice-body {
+  font-size: 14px;
+  color: #2a3a50;
+  line-height: 1.9;
+  margin: 0 0 20px;
+  flex: 1;
+}
+.cslp-voice-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #d8e2f0;
+  padding-top: 16px;
+}
+.cslp-voice-avatar {
+  width: 40px; height: 40px;
+  background: #1e3a6e;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cslp-voice-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0c1a2e;
+}
+.cslp-voice-date {
+  font-size: 11px;
+  color: #7a92b0;
+  margin-top: 2px;
+}
+.cslp-voice-note {
+  font-size: 10px;
+  color: #9aacbe;
+  margin: 10px 0 0;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   ⑦ FAQ
+   ===================================================== */
+.cslp-faq {
+  background: #f5f7fc;
+  padding: 96px 24px;
+}
+.cslp-faq .cslp-wrap {
+  max-width: 800px;
+}
+
+/* =====================================================
+   ⑧ CTA BANNER
+   ===================================================== */
+.cslp-cta-banner {
+  background: linear-gradient(135deg, #0f2351 0%, #1e3a6e 100%);
+  padding: 80px 24px;
+}
+.cslp-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.cslp-cta-h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+.cslp-cta-lead {
+  font-size: 15px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.8;
+  margin: 0;
+}
+.cslp-br-pc { display: inline; }
+.cslp-cta-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+  min-width: 220px;
+}
+.cslp-phone-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: #c9982c;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(201,152,44,.4);
+  transition: transform .15s, box-shadow .15s;
+  text-align: center;
+}
+.cslp-phone-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 24px rgba(201,152,44,.5); }
+.cslp-phone-label { font-size: 11px; opacity: .9; }
+.cslp-phone-num   { font-size: 20px; font-weight: 800; letter-spacing: .02em; }
+.cslp-phone-hours { font-size: 10px; opacity: .8; }
+.cslp-form-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,.4);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+  text-align: center;
+}
+.cslp-form-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.7); }
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 768px) {
+  .cslp-stats-inner  { gap: 8px; }
+  .cslp-stat-div     { display: none; }
+  .cslp-stat         { flex: 1 1 140px; padding: 12px 12px; }
+
+  .cslp-merit-grid   { grid-template-columns: 1fr; gap: 16px; }
+  .cslp-merits       { padding: 64px 16px; }
+
+  .cslp-conditions   { flex-direction: column; gap: 12px; }
+  .cslp-cond-sep     { margin: 0; align-self: flex-start; margin-left: 12px; }
+  .cslp-compliance   { padding: 64px 16px; }
+  .cslp-compliance-lead { margin-bottom: 28px; }
+
+  .cslp-flow         { padding: 64px 16px; }
+
+  .cslp-voice-grid   { grid-template-columns: 1fr; gap: 16px; }
+  .cslp-voices       { padding: 64px 16px; }
+
+  .cslp-faq          { padding: 64px 16px; }
+
+  .cslp-cta-banner   { padding: 56px 16px; }
+  .cslp-cta-inner    { flex-direction: column; gap: 32px; }
+  .cslp-cta-btns     { width: 100%; }
+  .cslp-br-pc        { display: none; }
+
+  .cslp-h2           { margin-bottom: 32px; }
+}
+
+@media (max-width: 480px) {
+  .cslp-stat-num     { font-size: 28px; }
+  .cslp-stat-label   { font-size: 11px; }
+}
+</style>

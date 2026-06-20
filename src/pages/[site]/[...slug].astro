@@ -4,6 +4,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 import Hero from '../../components/Hero.astro';
 import HeroAircon from '../../components/HeroAircon.astro';
 import HeroCivilRealestate from '../../components/HeroCivilRealestate.astro';
+import CivilServantLP from '../../components/CivilServantLP.astro';
 import Worries from '../../components/Worries.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import Reasons from '../../components/Reasons.astro';
@@ -96,13 +97,14 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
   lastUpdated={lastUpdated}
 >
   {isTop ? (
+    site.niche === '公務員不動産投資' ? (
+      <CivilServantLP site={site} faqs={data.faqs} />
+    ) : (
     <>
       {/* Section 1: Hero (ニッチ別に専用アニメーションを使い分け) */}
       {site.niche === 'エアコン分解洗浄'
         ? <HeroAircon site={site} />
-        : site.niche === '公務員不動産投資'
-          ? <HeroCivilRealestate site={site} />
-          : <Hero site={site} />
+        : <Hero site={site} />
       }
 
       {/* Section 1.5: QuickAnswer（AEO事実ボックス） */}
@@ -151,6 +153,7 @@ const lastUpdated = data.updatedDate ?? data.pubDate;
         </div>
       </section>
     </>
+    )
   ) : (
     <>
       <nav aria-label="パンくずリスト" class="text-xs text-ink-muted">
