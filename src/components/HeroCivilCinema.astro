@@ -611,14 +611,23 @@ const { site } = Astro.props;
 }
 .hcc-badge-val { color: #c9982c; font-weight: 700; }
 
-/* ===== SP ===== */
+/* ===== SP =====
+   モバイルはスクロールアニメーションをOFFにし、静的ヒーローとして表示。
+   LPコンテンツ（数字・メリット・フローなど）に最初から到達できる。
+*/
 @media (max-width: 640px) {
-  .hcc-root { height: 260vh; }
+  /* スクロール領域を1画面分に限定 → 下のLPセクションが直後に現れる */
+  .hcc-root { height: 100svh; }
+  /* テキストをCSSで常時表示（JSのスクロール依存opacity=0を上書き） */
+  .hcc-text-wrap {
+    opacity: 1 !important;
+    padding: 9svh 6vw 14svh;
+    justify-content: flex-end;
+  }
   .hcc-svg-far  { width: 360vw; }
   .hcc-svg-mid  { width: 420vw; }
   .hcc-svg-near { width: 300vw; }
   .hcc-bar-top, .hcc-bar-bottom { height: 8svh; }
-  .hcc-text-wrap { padding: 9svh 6vw 14svh; justify-content: flex-end; }
   .hcc-headline { font-size: clamp(20px, 5.5vw, 30px); }
 }
 </style>
