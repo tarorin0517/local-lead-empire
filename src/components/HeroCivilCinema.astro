@@ -1,0 +1,482 @@
+---
+/**
+ * HeroCivilCinema — 映画のワンシーン風シネマティック Hero
+ * スーツ姿の人物が都会のオフィス街を歩くスクロール連動アニメーション
+ */
+import type { SiteMeta } from '../lib/sites';
+interface Props { site: SiteMeta; }
+const { site } = Astro.props;
+---
+
+<div class="hcc-root" id="hcc-root">
+  <div class="hcc-sticky" id="hcc-sticky">
+
+    <!-- 空 -->
+    <div class="hcc-sky" aria-hidden="true"></div>
+
+    <!-- ビル遠景レイヤー（最も遅い） -->
+    <div class="hcc-layer" id="hcc-far" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-far" viewBox="0 0 2400 560" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hcc-wa" x="0" y="0" width="14" height="12" patternUnits="userSpaceOnUse">
+            <rect x="2" y="2" width="8" height="6" fill="#bf7a08" opacity="0.55"/>
+          </pattern>
+          <pattern id="hcc-wb" x="0" y="0" width="16" height="14" patternUnits="userSpaceOnUse">
+            <rect x="2" y="2" width="10" height="8" fill="#4e88c0" opacity="0.40"/>
+          </pattern>
+        </defs>
+        <!-- far buildings: dark silhouettes with window patterns -->
+        <rect x="0"    y="200" width="120" height="360" fill="#0b1724"/>
+        <rect x="5"    y="205" width="110" height="350" fill="url(#hcc-wa)"/>
+        <rect x="140"  y="60"  width="105" height="500" fill="#091420"/>
+        <rect x="145"  y="65"  width="95"  height="490" fill="url(#hcc-wb)"/>
+        <rect x="270"  y="130" width="155" height="430" fill="#0d1927"/>
+        <rect x="275"  y="135" width="145" height="420" fill="url(#hcc-wa)"/>
+        <rect x="450"  y="50"  width="125" height="510" fill="#0a1520"/>
+        <rect x="455"  y="55"  width="115" height="500" fill="url(#hcc-wb)"/>
+        <rect x="610"  y="160" width="145" height="400" fill="#0e1c2a"/>
+        <rect x="615"  y="165" width="135" height="390" fill="url(#hcc-wa)"/>
+        <rect x="790"  y="80"  width="115" height="480" fill="#0c1826"/>
+        <rect x="795"  y="85"  width="105" height="470" fill="url(#hcc-wb)"/>
+        <rect x="940"  y="170" width="135" height="390" fill="#091420"/>
+        <rect x="945"  y="175" width="125" height="380" fill="url(#hcc-wa)"/>
+        <rect x="1110" y="40"  width="110" height="520" fill="#0d1927"/>
+        <rect x="1115" y="45"  width="100" height="510" fill="url(#hcc-wb)"/>
+        <rect x="1260" y="130" width="160" height="430" fill="#0a1520"/>
+        <rect x="1265" y="135" width="150" height="420" fill="url(#hcc-wa)"/>
+        <rect x="1460" y="70"  width="130" height="490" fill="#0c1826"/>
+        <rect x="1465" y="75"  width="120" height="480" fill="url(#hcc-wb)"/>
+        <rect x="1640" y="150" width="145" height="410" fill="#0e1c2a"/>
+        <rect x="1645" y="155" width="135" height="400" fill="url(#hcc-wa)"/>
+        <rect x="1830" y="60"  width="120" height="500" fill="#091420"/>
+        <rect x="1835" y="65"  width="110" height="490" fill="url(#hcc-wb)"/>
+        <rect x="2010" y="110" width="150" height="450" fill="#0d1927"/>
+        <rect x="2015" y="115" width="140" height="440" fill="url(#hcc-wa)"/>
+        <rect x="2210" y="80"  width="135" height="480" fill="#0a1520"/>
+        <rect x="2215" y="85"  width="125" height="470" fill="url(#hcc-wb)"/>
+      </svg>
+    </div>
+
+    <!-- ビル中景レイヤー（中間速度） -->
+    <div class="hcc-layer" id="hcc-mid" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-mid" viewBox="0 0 2800 460" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hcc-wc" x="0" y="0" width="18" height="16" patternUnits="userSpaceOnUse">
+            <rect x="3" y="3" width="10" height="8" fill="#e09a20" opacity="0.70"/>
+          </pattern>
+          <pattern id="hcc-wd" x="0" y="0" width="20" height="18" patternUnits="userSpaceOnUse">
+            <rect x="3" y="3" width="12" height="9" fill="#5b9bd5" opacity="0.55"/>
+          </pattern>
+        </defs>
+        <!-- mid buildings: slightly larger, more visible windows -->
+        <rect x="0"    y="240" width="180" height="220" fill="#111f30"/>
+        <rect x="5"    y="245" width="170" height="210" fill="url(#hcc-wc)"/>
+        <rect x="200"  y="160" width="130" height="300" fill="#0e1b2a"/>
+        <rect x="205"  y="165" width="120" height="290" fill="url(#hcc-wd)"/>
+        <rect x="360"  y="200" width="190" height="260" fill="#121e2e"/>
+        <rect x="365"  y="205" width="180" height="250" fill="url(#hcc-wc)"/>
+        <rect x="580"  y="140" width="150" height="320" fill="#0e1b2a"/>
+        <rect x="585"  y="145" width="140" height="310" fill="url(#hcc-wd)"/>
+        <rect x="760"  y="190" width="170" height="270" fill="#111f30"/>
+        <rect x="765"  y="195" width="160" height="260" fill="url(#hcc-wc)"/>
+        <rect x="970"  y="160" width="140" height="300" fill="#0e1b2a"/>
+        <rect x="975"  y="165" width="130" height="290" fill="url(#hcc-wd)"/>
+        <rect x="1150" y="180" width="180" height="280" fill="#121e2e"/>
+        <rect x="1155" y="185" width="170" height="270" fill="url(#hcc-wc)"/>
+        <rect x="1380" y="150" width="155" height="310" fill="#0e1b2a"/>
+        <rect x="1385" y="155" width="145" height="300" fill="url(#hcc-wd)"/>
+        <rect x="1580" y="190" width="175" height="270" fill="#111f30"/>
+        <rect x="1585" y="195" width="165" height="260" fill="url(#hcc-wc)"/>
+        <rect x="1800" y="160" width="145" height="300" fill="#0e1b2a"/>
+        <rect x="1805" y="165" width="135" height="290" fill="url(#hcc-wd)"/>
+        <rect x="2000" y="180" width="185" height="280" fill="#121e2e"/>
+        <rect x="2005" y="185" width="175" height="270" fill="url(#hcc-wc)"/>
+        <rect x="2240" y="150" width="160" height="310" fill="#0e1b2a"/>
+        <rect x="2245" y="155" width="150" height="300" fill="url(#hcc-wd)"/>
+        <rect x="2460" y="170" width="175" height="290" fill="#111f30"/>
+        <rect x="2465" y="175" width="165" height="280" fill="url(#hcc-wc)"/>
+        <rect x="2700" y="140" width="150" height="320" fill="#0e1b2a"/>
+        <rect x="2705" y="145" width="140" height="310" fill="url(#hcc-wd)"/>
+      </svg>
+    </div>
+
+    <!-- 光芒（ビルの間から差す朝日） -->
+    <div class="hcc-light" id="hcc-light" aria-hidden="true"></div>
+
+    <!-- 地面・道路 -->
+    <div class="hcc-ground" aria-hidden="true">
+      <div class="hcc-road-line" aria-hidden="true"></div>
+    </div>
+
+    <!-- 歩行人物 -->
+    <div class="hcc-person-wrap" id="hcc-person" aria-hidden="true">
+      <svg class="hcc-walker" viewBox="0 0 48 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- 頭 -->
+        <circle cx="24" cy="9" r="7.5" fill="#0a1820"/>
+        <!-- 体（スーツ） -->
+        <rect x="16" y="17" width="16" height="26" rx="3" fill="#0d1e2c"/>
+        <!-- ネクタイ -->
+        <polygon points="23,18 25,18 26,36 22,36" fill="#06101a"/>
+        <!-- 右腕 -->
+        <g id="hcc-arm-r">
+          <rect x="11" y="19" width="6" height="20" rx="3" fill="#0d1e2c"/>
+        </g>
+        <!-- 左腕 + ブリーフケース -->
+        <g id="hcc-arm-l">
+          <rect x="31" y="19" width="6" height="20" rx="3" fill="#0d1e2c"/>
+          <rect x="30" y="37" width="13" height="9" rx="2" fill="#152234"/>
+          <rect x="33" y="34" width="7" height="4" rx="1.5" fill="#152234"/>
+        </g>
+        <!-- 右脚 -->
+        <g id="hcc-leg-r">
+          <rect x="16" y="43" width="7" height="28" rx="3.5" fill="#0d1e2c"/>
+          <ellipse cx="19" cy="72" rx="9" ry="4" fill="#07101a"/>
+        </g>
+        <!-- 左脚 -->
+        <g id="hcc-leg-l">
+          <rect x="25" y="43" width="7" height="28" rx="3.5" fill="#0d1e2c"/>
+          <ellipse cx="28" cy="72" rx="9" ry="4" fill="#07101a"/>
+        </g>
+        <!-- バックライトリム（逆光シルエット強調） -->
+        <circle cx="24" cy="9" r="7.5" fill="none" stroke="#c9982c" stroke-width="1.2" opacity="0.35"/>
+      </svg>
+      <!-- 地面の影 -->
+      <div class="hcc-person-shadow" aria-hidden="true"></div>
+    </div>
+
+    <!-- ビル近景レイヤー（最も速い・ぼかし） -->
+    <div class="hcc-layer hcc-layer-near" id="hcc-near" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-near" viewBox="0 0 2000 380" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0"    y="80"  width="240" height="300" fill="#0c1d2e"/>
+        <rect x="260"  y="160" width="200" height="220" fill="#0f2035"/>
+        <rect x="480"  y="100" width="180" height="280" fill="#0c1d2e"/>
+        <rect x="1340" y="120" width="220" height="260" fill="#0c1d2e"/>
+        <rect x="1580" y="80"  width="200" height="300" fill="#0f2035"/>
+        <rect x="1800" y="140" width="200" height="240" fill="#0c1d2e"/>
+      </svg>
+    </div>
+
+    <!-- フィルムグレイン -->
+    <div class="hcc-grain" aria-hidden="true"></div>
+
+    <!-- シネマスコープ レターボックス -->
+    <div class="hcc-bar hcc-bar-top"    aria-hidden="true"></div>
+    <div class="hcc-bar hcc-bar-bottom" aria-hidden="true"></div>
+
+    <!-- テキストオーバーレイ -->
+    <div class="hcc-text-wrap" id="hcc-text">
+      <p class="hcc-eyebrow">公務員の信用力を武器に</p>
+      <h1 class="hcc-headline">{site.tagline}</h1>
+      <p class="hcc-sub">9室以下・届出不要・全国オンライン対応</p>
+      <div class="hcc-badges">
+        {(site.trustBadges ?? []).map(b => (
+          <span class="hcc-badge">{b.label}<span class="hcc-badge-val">{b.value}</span></span>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ===== ROOT ===== */
+.hcc-root {
+  position: relative;
+  height: 300vh;
+  width: 100%;
+}
+.hcc-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: #040a12;
+}
+
+/* ===== SKY ===== */
+.hcc-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #020810 0%,
+    #061220 35%,
+    #0a1a34 65%,
+    #102248 100%
+  );
+}
+
+/* ===== BUILDING LAYERS ===== */
+.hcc-layer {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  will-change: transform;
+}
+.hcc-svg { display: block; }
+.hcc-svg-far  { width: 240vw; height: auto; }
+.hcc-svg-mid  { width: 280vw; height: auto; }
+.hcc-svg-near { width: 200vw; height: auto; }
+
+.hcc-layer-near {
+  filter: blur(7px);
+  bottom: 16%;
+  opacity: 0.85;
+}
+
+/* ===== LIGHT RAYS ===== */
+.hcc-light {
+  position: absolute;
+  top: 0;
+  width: 480px;
+  height: 100%;
+  pointer-events: none;
+  will-change: opacity, transform;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 160px 280px at 50% 28%, rgba(201,152,44,.14) 0%, transparent 60%),
+    radial-gradient(ellipse 80px  480px at 52% 0%,   rgba(201,152,44,.07) 0%, transparent 80%);
+  transition: opacity .4s ease;
+}
+
+/* ===== GROUND ===== */
+.hcc-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to bottom, #0a1825 0%, #050d18 100%);
+  overflow: hidden;
+}
+.hcc-ground::before {
+  /* 濡れた路面の反射 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 20%,
+    rgba(201,152,44,.025) 50%,
+    transparent 80%
+  );
+}
+.hcc-road-line {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px 40px,
+    rgba(255,255,255,.05) 40px 80px
+  );
+}
+
+/* ===== WALKING PERSON ===== */
+.hcc-person-wrap {
+  position: absolute;
+  bottom: 19.5%;
+  left: 0;
+  will-change: transform;
+  transform-origin: 0 100%;
+}
+.hcc-walker {
+  width: 72px;
+  height: 135px;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(201,152,44,.18));
+}
+.hcc-person-shadow {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 10px;
+  background: radial-gradient(ellipse, rgba(0,0,0,.55) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+/* --- 歩行アニメーション --- */
+#hcc-leg-r { transform-box: fill-box; transform-origin: 50% 0%; animation: hccLegR 0.62s ease-in-out infinite; }
+#hcc-leg-l { transform-box: fill-box; transform-origin: 50% 0%; animation: hccLegL 0.62s ease-in-out infinite; }
+#hcc-arm-r { transform-box: fill-box; transform-origin: 50% 0%; animation: hccArmR 0.62s ease-in-out infinite; }
+#hcc-arm-l { transform-box: fill-box; transform-origin: 50% 0%; animation: hccArmL 0.62s ease-in-out infinite; }
+.hcc-walker { animation: hccBob 0.31s ease-in-out infinite alternate; }
+
+@keyframes hccLegR {
+  0%, 100% { transform: rotate(-23deg); }
+  50%       { transform: rotate(23deg);  }
+}
+@keyframes hccLegL {
+  0%, 100% { transform: rotate(23deg);  }
+  50%       { transform: rotate(-23deg); }
+}
+@keyframes hccArmR {
+  0%, 100% { transform: rotate(18deg);  }
+  50%       { transform: rotate(-18deg); }
+}
+@keyframes hccArmL {
+  0%, 100% { transform: rotate(-18deg); }
+  50%       { transform: rotate(18deg);  }
+}
+@keyframes hccBob {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-3px); }
+}
+
+/* ===== FILM GRAIN ===== */
+.hcc-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* ===== LETTERBOX BARS ===== */
+.hcc-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: #000;
+  z-index: 20;
+}
+.hcc-bar-top    { top: 0;    height: 10svh; }
+.hcc-bar-bottom { bottom: 0; height: 10svh; }
+
+/* ===== TEXT OVERLAY ===== */
+.hcc-text-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12svh 7vw 16svh;
+  z-index: 10;
+  pointer-events: none;
+  will-change: opacity;
+  opacity: 0;
+  max-width: 680px;
+}
+.hcc-eyebrow {
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: .22em;
+  color: #c9982c;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.hcc-headline {
+  font-size: clamp(22px, 3.8vw, 48px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.22;
+  margin: 0 0 18px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.85);
+}
+.hcc-sub {
+  font-size: clamp(12px, 1.3vw, 15px);
+  color: rgba(255,255,255,.65);
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+.hcc-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hcc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 5px 10px;
+  border: 1px solid rgba(201,152,44,.45);
+  border-radius: 4px;
+  color: rgba(255,255,255,.8);
+  letter-spacing: .04em;
+}
+.hcc-badge-val {
+  color: #c9982c;
+  font-weight: 700;
+}
+
+/* ===== SP ===== */
+@media (max-width: 640px) {
+  .hcc-root { height: 260vh; }
+  .hcc-svg-far  { width: 360vw; }
+  .hcc-svg-mid  { width: 420vw; }
+  .hcc-svg-near { width: 300vw; }
+  .hcc-walker { width: 52px; height: 98px; }
+  .hcc-bar-top, .hcc-bar-bottom { height: 8svh; }
+  .hcc-text-wrap { padding: 9svh 6vw 14svh; justify-content: flex-end; }
+  .hcc-headline { font-size: clamp(20px, 5.5vw, 30px); }
+}
+</style>
+
+<script>
+(function () {
+  var root   = document.getElementById('hcc-root');
+  var far    = document.getElementById('hcc-far');
+  var mid    = document.getElementById('hcc-mid');
+  var near   = document.getElementById('hcc-near');
+  var person = document.getElementById('hcc-person');
+  var light  = document.getElementById('hcc-light');
+  var text   = document.getElementById('hcc-text');
+  if (!root || !far || !mid || !near || !person || !light || !text) return;
+
+  var W = window.innerWidth;
+  var rafId = 0;
+  var active = false;
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+  function norm(v, lo, hi)  { return clamp((v - lo) / (hi - lo), 0, 1); }
+  function ease(t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+  function update() {
+    var rect  = root.getBoundingClientRect();
+    var total = root.offsetHeight - window.innerHeight;
+    var p     = total > 0 ? clamp(-rect.top, 0, total) / total : 0;
+
+    /* 視差スクロール — 遠景が最も遅く、近景が最も速い */
+    far.style.transform  = 'translateX(' + (-p * W * 0.55) + 'px)';
+    mid.style.transform  = 'translateX(' + (-p * W * 1.05) + 'px)';
+    near.style.transform = 'translateX(' + (-p * W * 1.80) + 'px)';
+
+    /* 人物: 左端 8vw → 中央 44vw まで歩行 */
+    var pPerson = ease(norm(p, 0, 0.82));
+    var personX = W * (0.08 + pPerson * 0.36);
+    var scale   = 1 + pPerson * 0.14;   /* 手前に向かってくる微妙な大きさ変化 */
+    person.style.transform       = 'translateX(' + personX + 'px) scale(' + scale + ')';
+    person.style.transformOrigin = '0 100%';
+
+    /* 光芒: p=0.30〜0.80 で表示 */
+    var lightOp = norm(p, 0.30, 0.48) - norm(p, 0.74, 0.92);
+    light.style.opacity   = String(clamp(lightOp, 0, 1));
+    light.style.transform = 'translateX(' + (W * 0.28 + p * W * 0.18) + 'px)';
+
+    /* テキスト: p=0.62 から出現 */
+    text.style.opacity = String(ease(norm(p, 0.62, 0.88)));
+  }
+
+  function tick() {
+    update();
+    if (active) rafId = requestAnimationFrame(tick);
+  }
+
+  var io = new IntersectionObserver(function(entries) {
+    active = entries[0].isIntersecting;
+    if (active) { rafId = requestAnimationFrame(tick); }
+    else         { cancelAnimationFrame(rafId); }
+  }, { threshold: 0 });
+  io.observe(root);
+
+  update();
+})();
+</script>

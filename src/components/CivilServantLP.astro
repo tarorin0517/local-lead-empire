@@ -5,7 +5,7 @@
  */
 import type { SiteMeta } from '../lib/sites';
 import { telHref } from '../lib/sites';
-import HeroCivilRealestate from './HeroCivilRealestate.astro';
+import HeroCivilCinema from './HeroCivilCinema.astro';
 import ContactForm from './ContactForm.astro';
 import FAQ from './FAQ.astro';
 
@@ -21,8 +21,8 @@ const phone = site.phone;
 const cta = site.ctaCopy;
 ---
 
-<!-- ① Hero: 3D マンション分解アニメーション -->
-<HeroCivilRealestate site={site} />
+<!-- ① Hero: シネマティック都市歩行アニメーション -->
+<HeroCivilCinema site={site} />
 
 <!-- ② 数字でわかる安心感 (RENOSY 参考: 即座の信頼) -->
 <section class="cslp-stats" aria-label="実績数字">
