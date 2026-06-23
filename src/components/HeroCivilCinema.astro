@@ -1,0 +1,680 @@
+---
+/**
+ * HeroCivilCinema — 映画的シネマティック Hero（都市景観パン）
+ * 人物なし。リアルなオフィス街のスクロール視差アニメーション。
+ */
+import type { SiteMeta } from '../lib/sites';
+interface Props { site: SiteMeta; }
+const { site } = Astro.props;
+---
+
+<div class="hcc-root" id="hcc-root">
+  <div class="hcc-sticky" id="hcc-sticky">
+
+    <!-- 夜明け前の空 -->
+    <div class="hcc-sky" aria-hidden="true"></div>
+    <!-- 地平線の夜明けグロー -->
+    <div class="hcc-horizon" aria-hidden="true"></div>
+
+    <!-- ビル遠景レイヤー -->
+    <div class="hcc-layer" id="hcc-far" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-far" viewBox="0 0 2400 560" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- 温色窓（稼働中オフィス） -->
+          <pattern id="hcc-wa" x="0" y="0" width="16" height="13" patternUnits="userSpaceOnUse">
+            <rect x="2" y="2" width="9" height="6" fill="#c87808" opacity="0.60"/>
+          </pattern>
+          <!-- 冷色窓（ガラスカーテンウォール） -->
+          <pattern id="hcc-wb" x="0" y="0" width="18" height="15" patternUnits="userSpaceOnUse">
+            <rect x="3" y="3" width="10" height="7" fill="#4880b8" opacity="0.44"/>
+          </pattern>
+          <!-- 消灯気味の窓 -->
+          <pattern id="hcc-woff" x="0" y="0" width="22" height="18" patternUnits="userSpaceOnUse">
+            <rect x="4" y="4" width="12" height="8" fill="#2a4a70" opacity="0.18"/>
+          </pattern>
+        </defs>
+
+        <!-- B1: 低層ブロック -->
+        <rect x="0"    y="330" width="88"  height="230" fill="#0a1522"/>
+        <rect x="4"    y="334" width="80"  height="222" fill="url(#hcc-wa)"/>
+        <!-- B2: 中高層タワー -->
+        <rect x="95"   y="180" width="68"  height="380" fill="#07101b"/>
+        <rect x="99"   y="184" width="60"  height="372" fill="url(#hcc-wb)"/>
+        <rect x="128"  y="143" width="4"   height="41"  fill="#05090f"/>
+        <circle cx="130" cy="141" r="2.5" fill="#cc2020" opacity="0.80"/>
+        <!-- B3: スリムタワー -->
+        <rect x="170"  y="100" width="44"  height="460" fill="#07101c"/>
+        <rect x="173"  y="104" width="38"  height="452" fill="url(#hcc-wb)"/>
+        <rect x="190"  y="64"  width="4"   height="40"  fill="#05090f"/>
+        <circle cx="192" cy="62" r="2.5" fill="#cc2020" opacity="0.75"/>
+        <!-- B4: 幅広低層 -->
+        <rect x="220"  y="300" width="100" height="260" fill="#0b1522"/>
+        <rect x="224"  y="304" width="92"  height="252" fill="url(#hcc-wa)"/>
+        <!-- B5: 段付きタワー（setback） -->
+        <rect x="328"  y="240" width="110" height="320" fill="#08111c"/>
+        <rect x="332"  y="244" width="102" height="312" fill="url(#hcc-wb)"/>
+        <rect x="348"  y="120" width="74"  height="125" fill="#07101b"/>
+        <rect x="352"  y="124" width="66"  height="117" fill="url(#hcc-wb)"/>
+        <rect x="382"  y="68"  width="4"   height="56"  fill="#05090f"/>
+        <circle cx="384" cy="66" r="2.5" fill="#cc2020" opacity="0.80"/>
+        <!-- B6: 中層 温色 -->
+        <rect x="445"  y="200" width="88"  height="360" fill="#0a1520"/>
+        <rect x="449"  y="204" width="80"  height="352" fill="url(#hcc-wa)"/>
+        <!-- B7: スリム消灯気味 -->
+        <rect x="540"  y="170" width="50"  height="390" fill="#07101b"/>
+        <rect x="543"  y="174" width="44"  height="382" fill="url(#hcc-woff)"/>
+        <!-- B8: 大型ガラスタワー -->
+        <rect x="598"  y="70"  width="115" height="490" fill="#060f1a"/>
+        <rect x="602"  y="74"  width="107" height="482" fill="url(#hcc-wb)"/>
+        <rect x="652"  y="36"  width="5"   height="38"  fill="#040810"/>
+        <circle cx="654" cy="34" r="3" fill="#cc2020" opacity="0.85"/>
+        <!-- B9: 低層ブロック -->
+        <rect x="722"  y="340" width="92"  height="220" fill="#0b1521"/>
+        <rect x="726"  y="344" width="84"  height="212" fill="url(#hcc-wa)"/>
+        <!-- B10: 中高層 -->
+        <rect x="823"  y="140" width="78"  height="420" fill="#07101b"/>
+        <rect x="827"  y="144" width="70"  height="412" fill="url(#hcc-wb)"/>
+        <rect x="860"  y="100" width="4"   height="44"  fill="#05090f"/>
+        <circle cx="862" cy="98" r="2.5" fill="#cc2020" opacity="0.75"/>
+        <!-- B11: 段付き中型 -->
+        <rect x="910"  y="260" width="108" height="300" fill="#08121d"/>
+        <rect x="914"  y="264" width="100" height="292" fill="url(#hcc-wa)"/>
+        <rect x="930"  y="150" width="76"  height="115" fill="#07101b"/>
+        <rect x="934"  y="154" width="68"  height="107" fill="url(#hcc-wa)"/>
+        <!-- B12: 超高層スリム -->
+        <rect x="1028" y="50"  width="60"  height="510" fill="#060e19"/>
+        <rect x="1031" y="54"  width="54"  height="502" fill="url(#hcc-wb)"/>
+        <rect x="1055" y="14"  width="5"   height="40"  fill="#040810"/>
+        <circle cx="1057" cy="12" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- B13: 中層消灯 -->
+        <rect x="1096" y="230" width="85"  height="330" fill="#0a1520"/>
+        <rect x="1100" y="234" width="77"  height="322" fill="url(#hcc-woff)"/>
+        <!-- B14: 標準タワー -->
+        <rect x="1190" y="110" width="95"  height="450" fill="#07101b"/>
+        <rect x="1194" y="114" width="87"  height="442" fill="url(#hcc-wb)"/>
+        <rect x="1234" y="74"  width="4"   height="40"  fill="#05090f"/>
+        <circle cx="1236" cy="72" r="2.5" fill="#cc2020" opacity="0.80"/>
+        <!-- B15: 幅狭 -->
+        <rect x="1294" y="290" width="72"  height="270" fill="#0b1521"/>
+        <rect x="1298" y="294" width="64"  height="262" fill="url(#hcc-wa)"/>
+        <!-- B16: ガラスタワー -->
+        <rect x="1375" y="130" width="105" height="430" fill="#08121e"/>
+        <rect x="1379" y="134" width="97"  height="422" fill="url(#hcc-wb)"/>
+        <rect x="1424" y="90"  width="5"   height="44"  fill="#040810"/>
+        <circle cx="1426" cy="88" r="2.5" fill="#cc2020" opacity="0.80"/>
+        <!-- B17: 段付き大型 -->
+        <rect x="1490" y="200" width="120" height="360" fill="#07101b"/>
+        <rect x="1494" y="204" width="112" height="352" fill="url(#hcc-wa)"/>
+        <rect x="1510" y="90"  width="88"  height="115" fill="#07101b"/>
+        <rect x="1514" y="94"  width="80"  height="107" fill="url(#hcc-wa)"/>
+        <!-- B18: スリム明 -->
+        <rect x="1620" y="160" width="55"  height="400" fill="#07101c"/>
+        <rect x="1623" y="164" width="49"  height="392" fill="url(#hcc-wb)"/>
+        <rect x="1644" y="126" width="4"   height="38"  fill="#05090f"/>
+        <!-- B19: 中層 消灯 -->
+        <rect x="1685" y="270" width="90"  height="290" fill="#0a1520"/>
+        <rect x="1689" y="274" width="82"  height="282" fill="url(#hcc-woff)"/>
+        <!-- B20: 高層 -->
+        <rect x="1785" y="80"  width="85"  height="480" fill="#060f1a"/>
+        <rect x="1789" y="84"  width="77"  height="472" fill="url(#hcc-wb)"/>
+        <rect x="1824" y="44"  width="5"   height="40"  fill="#040810"/>
+        <circle cx="1826" cy="42" r="3" fill="#cc2020" opacity="0.85"/>
+        <!-- B21: 低層右端 -->
+        <rect x="1880" y="320" width="95"  height="240" fill="#0b1522"/>
+        <rect x="1884" y="324" width="87"  height="232" fill="url(#hcc-wa)"/>
+        <!-- B22: 標準タワー -->
+        <rect x="1985" y="150" width="88"  height="410" fill="#07101b"/>
+        <rect x="1989" y="154" width="80"  height="402" fill="url(#hcc-wb)"/>
+        <rect x="2025" y="112" width="4"   height="42"  fill="#05090f"/>
+        <circle cx="2027" cy="110" r="2.5" fill="#cc2020" opacity="0.75"/>
+        <!-- B23: 段付き -->
+        <rect x="2082" y="230" width="100" height="330" fill="#08121d"/>
+        <rect x="2086" y="234" width="92"  height="322" fill="url(#hcc-wa)"/>
+        <rect x="2100" y="130" width="72"  height="104" fill="#07101b"/>
+        <rect x="2104" y="134" width="64"  height="96"  fill="url(#hcc-wa)"/>
+        <!-- B24: 超高層右端 -->
+        <rect x="2192" y="40"  width="78"  height="520" fill="#060e19"/>
+        <rect x="2196" y="44"  width="70"  height="512" fill="url(#hcc-wb)"/>
+        <rect x="2227" y="6"   width="5"   height="38"  fill="#040810"/>
+        <circle cx="2229" cy="4" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- B25: 右端埋め -->
+        <rect x="2280" y="200" width="120" height="360" fill="#0a1520"/>
+        <rect x="2284" y="204" width="112" height="352" fill="url(#hcc-wa)"/>
+
+        <!-- 散在する個別点灯窓 -->
+        <rect x="340"  y="255" width="10" height="6"  fill="#f0b030" opacity="0.85"/>
+        <rect x="365"  y="285" width="10" height="6"  fill="#f0b030" opacity="0.70"/>
+        <rect x="614"  y="120" width="12" height="7"  fill="#c0d8f0" opacity="0.90"/>
+        <rect x="638"  y="185" width="12" height="7"  fill="#c0d8f0" opacity="0.75"/>
+        <rect x="1040" y="94"  width="10" height="6"  fill="#c0d8f0" opacity="0.85"/>
+        <rect x="1206" y="160" width="10" height="6"  fill="#c0d8f0" opacity="0.80"/>
+        <rect x="1392" y="205" width="12" height="7"  fill="#d0e8f8" opacity="0.70"/>
+        <rect x="1516" y="124" width="10" height="6"  fill="#f0b030" opacity="0.80"/>
+        <rect x="1800" y="130" width="12" height="7"  fill="#c0d8f0" opacity="0.85"/>
+        <rect x="2002" y="198" width="10" height="6"  fill="#c0d8f0" opacity="0.80"/>
+        <rect x="2205" y="80"  width="12" height="7"  fill="#c0d8f0" opacity="0.90"/>
+
+        <!-- ===== スカイツリー風タワー（遠景・中央寄り） ===== -->
+        <!-- 夜間ブルー照明グロー -->
+        <ellipse cx="1600" cy="350" rx="40" ry="195" fill="#0048b0" opacity="0.040"/>
+        <!-- 基部：末広がりの3本脚（2D側面表現） -->
+        <polygon points="1565,560 1592,485 1608,485 1635,560" fill="#09182e"/>
+        <!-- 基部左補助脚 -->
+        <polygon points="1565,560 1590,560 1592,485 1580,485" fill="#0a1c34" opacity="0.60"/>
+        <!-- メインシャフト（わずかにテーパー） -->
+        <polygon points="1592,485 1595,110 1605,110 1608,485" fill="#0a1a32"/>
+        <!-- 第1展望台 Tembo Deck（y≈265） -->
+        <rect x="1582" y="254" width="36" height="15" rx="3.5" fill="#091830"/>
+        <rect x="1582" y="252" width="36" height="5"  rx="2"   fill="#1244b0" opacity="0.55"/>
+        <!-- 第2展望台 Tembo Galleria（y≈174） -->
+        <rect x="1587" y="165" width="26" height="12" rx="3"   fill="#091830"/>
+        <rect x="1587" y="163" width="26" height="4"  rx="2"   fill="#1040a0" opacity="0.45"/>
+        <!-- 上部マスト -->
+        <rect x="1597" y="26" width="6" height="88" fill="#08162c"/>
+        <!-- アンテナ先端 -->
+        <polygon points="1597,26 1600,12 1603,26" fill="#07122a"/>
+        <!-- 航空障害灯 -->
+        <circle cx="1600" cy="14"  r="3"   fill="#ff2020" opacity="0.92"/>
+        <circle cx="1600" cy="110" r="2"   fill="#ff2020" opacity="0.55"/>
+        <circle cx="1600" cy="258" r="1.5" fill="#3060ff" opacity="0.65"/>
+      </svg>
+    </div>
+
+    <!-- ビル中景レイヤー -->
+    <div class="hcc-layer" id="hcc-mid" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-mid" viewBox="0 0 2800 460" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="hcc-wc" x="0" y="0" width="20" height="17" patternUnits="userSpaceOnUse">
+            <rect x="3" y="3" width="11" height="8" fill="#d88a12" opacity="0.72"/>
+          </pattern>
+          <pattern id="hcc-wd" x="0" y="0" width="22" height="19" patternUnits="userSpaceOnUse">
+            <rect x="4" y="4" width="12" height="9" fill="#5898d0" opacity="0.58"/>
+          </pattern>
+          <pattern id="hcc-we" x="0" y="0" width="26" height="22" patternUnits="userSpaceOnUse">
+            <rect x="5" y="5" width="14" height="10" fill="#7ab0e0" opacity="0.30"/>
+          </pattern>
+        </defs>
+
+        <!-- M1: 低層幅広 -->
+        <rect x="0"    y="240" width="140" height="220" fill="#111f30"/>
+        <rect x="5"    y="245" width="130" height="210" fill="url(#hcc-wc)"/>
+        <!-- M2: 段付き大型タワー -->
+        <rect x="150"  y="160" width="165" height="300" fill="#0e1b2a"/>
+        <rect x="155"  y="165" width="155" height="290" fill="url(#hcc-wd)"/>
+        <rect x="170"  y="60"  width="130" height="105" fill="#0e1b2a"/>
+        <rect x="175"  y="65"  width="120" height="95"  fill="url(#hcc-wd)"/>
+        <rect x="232"  y="20"  width="5"   height="44"  fill="#08111c"/>
+        <circle cx="234" cy="18" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- M3: 中層 -->
+        <rect x="325"  y="200" width="120" height="260" fill="#121e2e"/>
+        <rect x="330"  y="205" width="110" height="250" fill="url(#hcc-wc)"/>
+        <!-- M4: 超高層スリム -->
+        <rect x="455"  y="40"  width="80"  height="420" fill="#0b1826"/>
+        <rect x="459"  y="44"  width="72"  height="412" fill="url(#hcc-wd)"/>
+        <rect x="492"  y="6"   width="5"   height="38"  fill="#07101c"/>
+        <circle cx="494" cy="4" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- M5: ガラスカーテンウォール（薄窓） -->
+        <rect x="545"  y="190" width="145" height="270" fill="#101d2c"/>
+        <rect x="550"  y="195" width="135" height="260" fill="url(#hcc-we)"/>
+        <!-- M6: 段付きガラスタワー -->
+        <rect x="700"  y="140" width="130" height="320" fill="#0e1b2a"/>
+        <rect x="705"  y="145" width="120" height="310" fill="url(#hcc-wd)"/>
+        <rect x="720"  y="50"  width="90"  height="95"  fill="#0d1929"/>
+        <rect x="725"  y="55"  width="80"  height="85"  fill="url(#hcc-wd)"/>
+        <rect x="762"  y="14"  width="5"   height="40"  fill="#08111c"/>
+        <circle cx="764" cy="12" r="3" fill="#cc2020" opacity="0.85"/>
+        <!-- M7: 中層 -->
+        <rect x="840"  y="210" width="110" height="250" fill="#121e2e"/>
+        <rect x="845"  y="215" width="100" height="240" fill="url(#hcc-wc)"/>
+        <!-- M8: 幅広低層 -->
+        <rect x="960"  y="280" width="190" height="180" fill="#111f30"/>
+        <rect x="965"  y="285" width="180" height="170" fill="url(#hcc-wc)"/>
+        <!-- M9: 高層ガラス -->
+        <rect x="1160" y="100" width="120" height="360" fill="#0e1b2a"/>
+        <rect x="1165" y="105" width="110" height="350" fill="url(#hcc-wd)"/>
+        <rect x="1217" y="64"  width="5"   height="40"  fill="#07101c"/>
+        <circle cx="1219" cy="62" r="3" fill="#cc2020" opacity="0.85"/>
+        <!-- M10: 段付き中型 -->
+        <rect x="1290" y="180" width="150" height="280" fill="#101d2c"/>
+        <rect x="1295" y="185" width="140" height="270" fill="url(#hcc-wc)"/>
+        <rect x="1310" y="80"  width="110" height="104" fill="#0e1b2a"/>
+        <rect x="1315" y="85"  width="100" height="94"  fill="url(#hcc-wc)"/>
+        <!-- M11: ガラスタワー高層 -->
+        <rect x="1450" y="60"  width="100" height="400" fill="#0c1826"/>
+        <rect x="1454" y="64"  width="92"  height="392" fill="url(#hcc-wd)"/>
+        <rect x="1497" y="24"  width="5"   height="40"  fill="#07101c"/>
+        <circle cx="1499" cy="22" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- M12: 低中層 薄窓 -->
+        <rect x="1560" y="220" width="125" height="240" fill="#111f30"/>
+        <rect x="1565" y="225" width="115" height="230" fill="url(#hcc-we)"/>
+        <!-- M13: 幅広低層 -->
+        <rect x="1695" y="250" width="175" height="210" fill="#121e2e"/>
+        <rect x="1700" y="255" width="165" height="200" fill="url(#hcc-wc)"/>
+        <!-- M14: 高層タワー -->
+        <rect x="1880" y="80"  width="110" height="380" fill="#0e1b2a"/>
+        <rect x="1885" y="85"  width="100" height="370" fill="url(#hcc-wd)"/>
+        <rect x="1932" y="44"  width="5"   height="40"  fill="#07101c"/>
+        <circle cx="1934" cy="42" r="3" fill="#cc2020" opacity="0.85"/>
+        <!-- M15: 段付き -->
+        <rect x="2000" y="170" width="140" height="290" fill="#101d2c"/>
+        <rect x="2005" y="175" width="130" height="280" fill="url(#hcc-wc)"/>
+        <rect x="2020" y="70"  width="100" height="104" fill="#0e1b2a"/>
+        <rect x="2025" y="75"  width="90"  height="94"  fill="url(#hcc-wc)"/>
+        <!-- M16: 超高層 -->
+        <rect x="2150" y="20"  width="90"  height="440" fill="#0b1826"/>
+        <rect x="2154" y="24"  width="82"  height="432" fill="url(#hcc-wd)"/>
+        <rect x="2190" y="0"   width="5"   height="24"  fill="#07101c"/>
+        <circle cx="2192" cy="0" r="3" fill="#cc2020" opacity="0.90"/>
+        <!-- M17: 中層 -->
+        <rect x="2250" y="200" width="130" height="260" fill="#111f30"/>
+        <rect x="2255" y="205" width="120" height="250" fill="url(#hcc-wc)"/>
+        <!-- M18: 右端タワー -->
+        <rect x="2390" y="140" width="155" height="320" fill="#0e1b2a"/>
+        <rect x="2395" y="145" width="145" height="310" fill="url(#hcc-wd)"/>
+        <rect x="2464" y="100" width="5"   height="44"  fill="#07101c"/>
+        <circle cx="2466" cy="98" r="3" fill="#cc2020" opacity="0.80"/>
+        <!-- M19: 低層薄窓 -->
+        <rect x="2555" y="230" width="140" height="230" fill="#121e2e"/>
+        <rect x="2560" y="235" width="130" height="220" fill="url(#hcc-we)"/>
+        <!-- M20: 右端 -->
+        <rect x="2705" y="160" width="115" height="300" fill="#0e1b2a"/>
+        <rect x="2710" y="165" width="105" height="290" fill="url(#hcc-wd)"/>
+
+        <!-- 散在する個別点灯窓 -->
+        <rect x="165"  y="90"  width="14" height="8" fill="#f0c040" opacity="0.90"/>
+        <rect x="462"  y="82"  width="12" height="7" fill="#c0d8f0" opacity="0.90"/>
+        <rect x="714"  y="82"  width="12" height="7" fill="#d0e8f8" opacity="0.85"/>
+        <rect x="1170" y="144" width="14" height="8" fill="#c0d8f0" opacity="0.85"/>
+        <rect x="1304" y="110" width="12" height="7" fill="#f0c040" opacity="0.80"/>
+        <rect x="1458" y="102" width="14" height="8" fill="#c0d8f0" opacity="0.90"/>
+        <rect x="1890" y="122" width="12" height="7" fill="#d0e8f8" opacity="0.80"/>
+        <rect x="2160" y="62"  width="14" height="8" fill="#c0d8f0" opacity="0.90"/>
+
+        <!-- ===== 東京タワー風鉄塔 ===== -->
+        <!-- 夜間オレンジ照明の環境グロー -->
+        <ellipse cx="1360" cy="300" rx="80" ry="175" fill="#d06010" opacity="0.048"/>
+        <!-- 左脚（広がり） -->
+        <polygon points="1308,460 1334,380 1342,380 1323,460" fill="#c84000"/>
+        <!-- 右脚（広がり） -->
+        <polygon points="1412,460 1397,460 1378,380 1386,380" fill="#c84000"/>
+        <!-- 下部ボディ（脚結合〜第1展望台） -->
+        <polygon points="1334,380 1339,295 1381,295 1386,380" fill="#bf3c00"/>
+        <!-- 構造横桁 -->
+        <line x1="1315" y1="422" x2="1405" y2="422" stroke="#9c3000" stroke-width="2.5"/>
+        <line x1="1320" y1="402" x2="1400" y2="402" stroke="#9c3000" stroke-width="2.0"/>
+        <line x1="1326" y1="382" x2="1394" y2="382" stroke="#9c3000" stroke-width="1.8"/>
+        <line x1="1331" y1="362" x2="1389" y2="362" stroke="#903000" stroke-width="1.4"/>
+        <line x1="1334" y1="342" x2="1386" y2="342" stroke="#903000" stroke-width="1.2"/>
+        <line x1="1335" y1="322" x2="1385" y2="322" stroke="#883000" stroke-width="1.0"/>
+        <!-- 第1展望台プラットフォーム -->
+        <rect x="1318" y="284" width="84" height="13" rx="2.5" fill="#9c3000"/>
+        <rect x="1318" y="282" width="84" height="4"  fill="#c84000"/>
+        <!-- 中部ボディ（第1〜第2展望台） -->
+        <polygon points="1339,284 1344,190 1376,190 1381,284" fill="#bf3c00"/>
+        <!-- 中部横桁 -->
+        <line x1="1337" y1="266" x2="1383" y2="266" stroke="#903000" stroke-width="1.2"/>
+        <line x1="1339" y1="248" x2="1381" y2="248" stroke="#883000" stroke-width="1.0"/>
+        <line x1="1340" y1="228" x2="1380" y2="228" stroke="#883000" stroke-width="0.9"/>
+        <line x1="1342" y1="210" x2="1378" y2="210" stroke="#802c00" stroke-width="0.8"/>
+        <!-- 第2展望台プラットフォーム -->
+        <rect x="1330" y="179" width="60" height="13" rx="2" fill="#9c3000"/>
+        <rect x="1330" y="177" width="60" height="4"  fill="#c04000"/>
+        <!-- 上部ボディ（第2展望台〜アンテナ基部） -->
+        <polygon points="1344,179 1350,80 1370,80 1376,179" fill="#bf3c00"/>
+        <!-- 上部横桁 -->
+        <line x1="1343" y1="162" x2="1377" y2="162" stroke="#882c00" stroke-width="0.9"/>
+        <line x1="1345" y1="144" x2="1375" y2="144" stroke="#882c00" stroke-width="0.8"/>
+        <line x1="1347" y1="126" x2="1373" y2="126" stroke="#802800" stroke-width="0.7"/>
+        <line x1="1348" y1="108" x2="1372" y2="108" stroke="#802800" stroke-width="0.6"/>
+        <!-- アンテナポール -->
+        <rect x="1356" y="17" width="8" height="67" fill="#9c3000"/>
+        <!-- アンテナ先端 -->
+        <polygon points="1356,17 1360,3 1364,17" fill="#883000"/>
+        <!-- 航空障害灯（赤点滅） -->
+        <circle cx="1360" cy="5"   r="3.5" fill="#ff2020" opacity="0.92"/>
+        <circle cx="1360" cy="88"  r="2.5" fill="#ff2020" opacity="0.65"/>
+        <circle cx="1360" cy="184" r="2.0" fill="#ff4020" opacity="0.48"/>
+      </svg>
+    </div>
+
+    <!-- 朝日の光芒 -->
+    <div class="hcc-light" id="hcc-light" aria-hidden="true"></div>
+
+    <!-- 地面（濡れたアスファルト） -->
+    <div class="hcc-ground" aria-hidden="true">
+      <div class="hcc-reflect" aria-hidden="true"></div>
+      <div class="hcc-marking" aria-hidden="true"></div>
+    </div>
+
+    <!-- ビル近景（暗いシルエット＋ぼかし） -->
+    <div class="hcc-layer hcc-layer-near" id="hcc-near" aria-hidden="true">
+      <svg class="hcc-svg hcc-svg-near" viewBox="0 0 2000 380" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <!-- 近景は暗い不透明シルエット -->
+        <rect x="0"    y="60"  width="220" height="320" fill="#0b1d2e"/>
+        <rect x="230"  y="130" width="180" height="250" fill="#091828"/>
+        <rect x="420"  y="80"  width="155" height="300" fill="#0b1d2e"/>
+        <!-- 中央：道路方向の開口（奥行き感） -->
+        <rect x="1280" y="100" width="200" height="280" fill="#0b1d2e"/>
+        <rect x="1490" y="60"  width="175" height="320" fill="#091828"/>
+        <rect x="1680" y="110" width="155" height="270" fill="#0b1d2e"/>
+        <rect x="1850" y="75"  width="150" height="305" fill="#091828"/>
+      </svg>
+    </div>
+
+    <!-- 大気散乱ヘイズ -->
+    <div class="hcc-haze" aria-hidden="true"></div>
+
+    <!-- フィルムグレイン -->
+    <div class="hcc-grain" aria-hidden="true"></div>
+
+    <!-- シネマスコープ レターボックス -->
+    <div class="hcc-bar hcc-bar-top"    aria-hidden="true"></div>
+    <div class="hcc-bar hcc-bar-bottom" aria-hidden="true"></div>
+
+    <!-- テキストオーバーレイ -->
+    <div class="hcc-text-wrap" id="hcc-text">
+      <p class="hcc-eyebrow">公務員の信用力を武器に</p>
+      <h1 class="hcc-headline">{site.tagline}</h1>
+      <p class="hcc-sub">9室以下・届出不要・全国オンライン対応</p>
+      <div class="hcc-badges">
+        {(site.trustBadges ?? []).map(b => (
+          <span class="hcc-badge">{b.label}<span class="hcc-badge-val">{b.value}</span></span>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ===== ROOT ===== */
+.hcc-root {
+  position: relative;
+  height: 300vh;
+  width: 100%;
+}
+.hcc-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: #040a12;
+}
+
+/* ===== SKY ===== */
+.hcc-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #020710 0%,
+    #05101e 30%,
+    #081830 60%,
+    #0d2040 100%
+  );
+}
+/* 地平線の夜明けグロー */
+.hcc-horizon {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(180, 85, 15, 0.20) 0%,
+    rgba(130, 60, 10, 0.09) 40%,
+    transparent 100%
+  );
+}
+
+/* ===== LAYERS ===== */
+.hcc-layer {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  will-change: transform;
+}
+.hcc-svg { display: block; }
+.hcc-svg-far  { width: 240vw; height: auto; }
+.hcc-svg-mid  { width: 280vw; height: auto; }
+.hcc-svg-near { width: 200vw; height: auto; }
+
+.hcc-layer-near {
+  filter: blur(6px);
+  bottom: 16%;
+  opacity: 0.90;
+}
+
+/* ===== LIGHT RAYS ===== */
+.hcc-light {
+  position: absolute;
+  top: 0;
+  width: 520px;
+  height: 100%;
+  pointer-events: none;
+  will-change: opacity, transform;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 200px 360px at 50% 32%, rgba(210,130,30,.16) 0%, transparent 60%),
+    radial-gradient(ellipse 90px  500px at 52% 0%,  rgba(210,130,30,.08) 0%, transparent 80%),
+    radial-gradient(ellipse 400px 100px at 50% 40%, rgba(180,100,20,.06) 0%, transparent 70%);
+}
+
+/* ===== GROUND（濡れアスファルト） ===== */
+.hcc-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(
+    to bottom,
+    #08141f 0%,
+    #040c16 60%,
+    #020810 100%
+  );
+  overflow: hidden;
+}
+/* ビルの光の路面反射 */
+.hcc-reflect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  background: linear-gradient(
+    to right,
+    transparent 5%,
+    rgba(210,130,30,.04) 28%,
+    rgba(90,140,210,.06) 50%,
+    rgba(210,130,30,.04) 72%,
+    transparent 95%
+  );
+}
+/* 白線 */
+.hcc-marking {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px 36px,
+    rgba(255,255,255,.055) 36px 72px
+  );
+}
+.hcc-ground::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  background: linear-gradient(
+    to right,
+    transparent 10%,
+    rgba(80,130,200,.04) 40%,
+    rgba(80,130,200,.04) 60%,
+    transparent 90%
+  );
+}
+
+/* ===== HAZE（大気散乱） ===== */
+.hcc-haze {
+  position: absolute;
+  bottom: 14%;
+  left: 0;
+  width: 100%;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(6,16,28,.60) 0%,
+    rgba(6,16,28,.22) 50%,
+    transparent 100%
+  );
+}
+
+/* ===== FILM GRAIN ===== */
+.hcc-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .036;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* ===== LETTERBOX ===== */
+.hcc-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: #000;
+  z-index: 20;
+}
+.hcc-bar-top    { top: 0;    height: 10svh; }
+.hcc-bar-bottom { bottom: 0; height: 10svh; }
+
+/* ===== TEXT OVERLAY ===== */
+.hcc-text-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12svh 7vw 16svh;
+  z-index: 10;
+  pointer-events: none;
+  will-change: opacity;
+  opacity: 0;
+  max-width: 680px;
+}
+.hcc-eyebrow {
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: .22em;
+  color: #c9982c;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.hcc-headline {
+  font-size: clamp(22px, 3.8vw, 48px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.22;
+  margin: 0 0 18px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.85);
+}
+.hcc-sub {
+  font-size: clamp(12px, 1.3vw, 15px);
+  color: rgba(255,255,255,.65);
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+.hcc-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.hcc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 5px 10px;
+  border: 1px solid rgba(201,152,44,.45);
+  border-radius: 4px;
+  color: rgba(255,255,255,.8);
+  letter-spacing: .04em;
+}
+.hcc-badge-val { color: #c9982c; font-weight: 700; }
+
+/* ===== SP =====
+   モバイルはスクロールアニメーションをOFFにし、静的ヒーローとして表示。
+   LPコンテンツ（数字・メリット・フローなど）に最初から到達できる。
+*/
+@media (max-width: 640px) {
+  /* 160vh：60vh分のアニメーション後すぐLPへ到達できる */
+  .hcc-root { height: 160vh; }
+  .hcc-text-wrap { padding: 9svh 6vw 14svh; justify-content: flex-end; }
+  .hcc-svg-far  { width: 360vw; }
+  .hcc-svg-mid  { width: 420vw; }
+  .hcc-svg-near { width: 300vw; }
+  .hcc-bar-top, .hcc-bar-bottom { height: 8svh; }
+  .hcc-headline { font-size: clamp(20px, 5.5vw, 30px); }
+}
+</style>
+
+<script>
+(function () {
+  var root  = document.getElementById('hcc-root');
+  var far   = document.getElementById('hcc-far');
+  var mid   = document.getElementById('hcc-mid');
+  var near  = document.getElementById('hcc-near');
+  var light = document.getElementById('hcc-light');
+  var text  = document.getElementById('hcc-text');
+  if (!root || !far || !mid || !near || !light || !text) return;
+
+  var W = window.innerWidth;
+  var rafId = 0;
+  var active = false;
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+  function norm(v, lo, hi)  { return clamp((v - lo) / (hi - lo), 0, 1); }
+  function ease(t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+  function update() {
+    var rect  = root.getBoundingClientRect();
+    var total = root.offsetHeight - window.innerHeight;
+    var p     = total > 0 ? clamp(-rect.top, 0, total) / total : 0;
+
+    var mob = W <= 640;
+    far.style.transform  = 'translateX(' + (-p * W * (mob ? 1.80 : 0.55)) + 'px)';
+    mid.style.transform  = 'translateX(' + (-p * W * (mob ? 3.00 : 1.05)) + 'px)';
+    near.style.transform = 'translateX(' + (-p * W * (mob ? 4.50 : 1.80)) + 'px)';
+
+    var lightOp = norm(p, 0.18, 0.42) - norm(p, 0.72, 0.92);
+    light.style.opacity   = String(clamp(lightOp, 0, 1));
+    light.style.transform = 'translateX(' + (W * 0.32 + p * W * 0.20) + 'px)';
+
+    var textIn = window.innerWidth <= 640 ? norm(p, 0.30, 0.60) : norm(p, 0.58, 0.84);
+    text.style.opacity = String(ease(textIn));
+  }
+
+  function tick() {
+    update();
+    if (active) rafId = requestAnimationFrame(tick);
+  }
+
+  var io = new IntersectionObserver(function(entries) {
+    active = entries[0].isIntersecting;
+    if (active) { rafId = requestAnimationFrame(tick); }
+    else         { cancelAnimationFrame(rafId); }
+  }, { threshold: 0 });
+  io.observe(root);
+
+  update();
+})();
+</script>
