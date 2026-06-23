@@ -25,7 +25,6 @@ const { site } = Astro.props;
             <rect x="2" y="2" width="10" height="8" fill="#4e88c0" opacity="0.40"/>
           </pattern>
         </defs>
-        <!-- far buildings: dark silhouettes with window patterns -->
         <rect x="0"    y="200" width="120" height="360" fill="#0b1724"/>
         <rect x="5"    y="205" width="110" height="350" fill="url(#hcc-wa)"/>
         <rect x="140"  y="60"  width="105" height="500" fill="#091420"/>
@@ -57,7 +56,7 @@ const { site } = Astro.props;
       </svg>
     </div>
 
-    <!-- ビル中景レイヤー（中間速度） -->
+    <!-- ビル中景レイヤー -->
     <div class="hcc-layer" id="hcc-mid" aria-hidden="true">
       <svg class="hcc-svg hcc-svg-mid" viewBox="0 0 2800 460" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -68,7 +67,6 @@ const { site } = Astro.props;
             <rect x="3" y="3" width="12" height="9" fill="#5b9bd5" opacity="0.55"/>
           </pattern>
         </defs>
-        <!-- mid buildings: slightly larger, more visible windows -->
         <rect x="0"    y="240" width="180" height="220" fill="#111f30"/>
         <rect x="5"    y="245" width="170" height="210" fill="url(#hcc-wc)"/>
         <rect x="200"  y="160" width="130" height="300" fill="#0e1b2a"/>
@@ -100,7 +98,7 @@ const { site } = Astro.props;
       </svg>
     </div>
 
-    <!-- 光芒（ビルの間から差す朝日） -->
+    <!-- 朝日の光芒 -->
     <div class="hcc-light" id="hcc-light" aria-hidden="true"></div>
 
     <!-- 地面・道路 -->
@@ -108,43 +106,161 @@ const { site } = Astro.props;
       <div class="hcc-road-line" aria-hidden="true"></div>
     </div>
 
-    <!-- 歩行人物 -->
+    <!-- 歩行人物（リアルシルエット） -->
     <div class="hcc-person-wrap" id="hcc-person" aria-hidden="true">
-      <svg class="hcc-walker" viewBox="0 0 48 90" xmlns="http://www.w3.org/2000/svg">
-        <!-- 頭 -->
-        <circle cx="24" cy="9" r="7.5" fill="#0a1820"/>
-        <!-- 体（スーツ） -->
-        <rect x="16" y="17" width="16" height="26" rx="3" fill="#0d1e2c"/>
+
+      <!--
+        viewBox: 0 0 72 144
+        人体 y座標:
+          頭頂   y=2
+          頭中心 y=14  (ry=12)
+          首     y=24-32
+          肩     y=33
+          胴体下 y=82
+          股関節 y=82
+          膝     y=112 (大腿長=30)
+          足首   y=134 (脛長=22)
+          靴底   y=142
+      -->
+      <svg class="hcc-walker" viewBox="0 0 72 144" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- スーツグラデーション（左から右へ暗く＝側面陰影） -->
+          <linearGradient id="hcc-sg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#1c3048"/>
+            <stop offset="50%"  stop-color="#0e1f30"/>
+            <stop offset="100%" stop-color="#07111c"/>
+          </linearGradient>
+          <!-- ズボングラデーション -->
+          <linearGradient id="hcc-pg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#1a2c40"/>
+            <stop offset="50%"  stop-color="#0c1c2c"/>
+            <stop offset="100%" stop-color="#060f1a"/>
+          </linearGradient>
+          <!-- バックライトグロー -->
+          <filter id="hcc-glow">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- ===== 奥側（遠い側）を先に描画 ===== -->
+
+        <!-- 奥側 大腿+脛 (左脚) -->
+        <g class="hcc-thigh-l">
+          <!-- 大腿 -->
+          <rect x="41" y="82" width="12" height="30" rx="5" fill="url(#hcc-pg)"/>
+          <!-- ズボン折り目 -->
+          <line x1="47" y1="84" x2="47" y2="111" stroke="#060f1a" stroke-width="0.9" opacity="0.6"/>
+          <!-- 脛（膝から回転する入れ子グループ） -->
+          <g class="hcc-calf-l">
+            <rect x="42" y="112" width="10" height="22" rx="4" fill="url(#hcc-pg)"/>
+            <!-- 靴（左） -->
+            <path d="M34 134 C36 138 42 140 50 140 C58 140 62 137 62 134 L62 132 C58 133 50 134 44 133 C40 132 36 131 34 132 Z" fill="#040c14"/>
+            <line x1="42" y1="134" x2="58" y2="134" stroke="#060e18" stroke-width="0.8" opacity="0.4"/>
+          </g>
+        </g>
+
+        <!-- 奥側 上腕（左腕＋ブリーフケース） -->
+        <g class="hcc-arm-l">
+          <!-- 上腕 -->
+          <rect x="53" y="33" width="9" height="24" rx="4.5" fill="url(#hcc-sg)"/>
+          <!-- 前腕（袖口） -->
+          <rect x="54" y="57" width="8" height="18" rx="3.5" fill="url(#hcc-sg)"/>
+          <!-- 袖口カフ -->
+          <rect x="54" y="72" width="8" height="3" rx="1.5" fill="#1e3454"/>
+          <!-- 手 -->
+          <ellipse cx="58" cy="77" rx="5.5" ry="4" fill="#0c1e30"/>
+          <!-- ブリーフケース本体 -->
+          <rect x="50" y="76" width="18" height="13" rx="2.5" fill="#122035"/>
+          <!-- ブリーフケース金具 -->
+          <rect x="56" y="74" width="8" height="5" rx="2" fill="#122035"/>
+          <!-- 留め具 -->
+          <rect x="57" y="81" width="6" height="3" rx="1" fill="#1e3454"/>
+          <!-- ステッチ線 -->
+          <rect x="51" y="77" width="16" height="11" rx="2" fill="none" stroke="#0d1a28" stroke-width="0.8"/>
+        </g>
+
+        <!-- ===== 胴体・頭部（中間層） ===== -->
+
+        <!-- ジャケット本体（肩から股まで） -->
+        <path d="M 20 33 Q 14 50 14 65 Q 14 76 18 82 L 54 82 Q 58 76 58 65 Q 58 50 52 33 Z"
+              fill="url(#hcc-sg)"/>
+        <!-- 左ラペル（手前側） -->
+        <path d="M 36 36 L 44 43 L 40 64 L 36 60 Z" fill="#0a1824" opacity="0.65"/>
+        <!-- 右ラペル（奥側） -->
+        <path d="M 36 36 L 28 43 L 32 64 L 36 60 Z" fill="#07111e" opacity="0.45"/>
+        <!-- シャツ白い三角 -->
+        <path d="M 33 37 L 36 42 L 39 37 L 40 60 L 36 63 L 32 60 Z" fill="#0c1c2e"/>
         <!-- ネクタイ -->
-        <polygon points="23,18 25,18 26,36 22,36" fill="#06101a"/>
-        <!-- 右腕 -->
-        <g id="hcc-arm-r">
-          <rect x="11" y="19" width="6" height="20" rx="3" fill="#0d1e2c"/>
+        <path d="M 34.5 39 L 36 41 L 37.5 39 L 38.5 67 L 36 70 L 33.5 67 Z" fill="#060d1a"/>
+        <!-- ジャケットボタン -->
+        <circle cx="36" cy="73" r="1.5" fill="#0c1c2e"/>
+        <!-- ポケットチーフ（左胸） -->
+        <path d="M 42 40 L 48 38 L 48 46 L 44 47 Z" fill="#0f1e30" opacity="0.7"/>
+        <!-- 体の側面陰影ライン -->
+        <line x1="19" y1="38" x2="19" y2="80" stroke="#060f1a" stroke-width="1.2" opacity="0.3"/>
+
+        <!-- 首 -->
+        <rect x="32" y="24" width="8" height="10" rx="3" fill="#0c1e2e"/>
+        <!-- Yシャツ衿 -->
+        <path d="M 32 28 L 36 25 L 40 28" fill="none" stroke="#1a3050" stroke-width="1.5" stroke-linecap="round"/>
+
+        <!-- 髪（頭の上に重なる楕円） -->
+        <ellipse cx="36" cy="10" rx="13.5" ry="9" fill="#050d18"/>
+        <!-- 頭部 -->
+        <ellipse cx="36" cy="15" rx="11.5" ry="12" fill="#0d1e2e"/>
+        <!-- 耳 -->
+        <ellipse cx="24.5" cy="15" rx="2.5" ry="3.5" fill="#0a1828"/>
+        <!-- 逆光リムライト（ゴールドアウトライン） -->
+        <ellipse cx="36" cy="15" rx="11.5" ry="12"
+                 fill="none" stroke="#c9982c" stroke-width="1.8" opacity="0.32"
+                 filter="url(#hcc-glow)"/>
+        <!-- 頭頂部ハイライト（朝日反射） -->
+        <ellipse cx="38" cy="8" rx="5" ry="3" fill="rgba(201,152,44,0.08)"/>
+
+        <!-- ===== 手前側（近い側）を最後に描画 ===== -->
+
+        <!-- 手前側 大腿+脛 (右脚) -->
+        <g class="hcc-thigh-r">
+          <!-- 大腿 -->
+          <rect x="19" y="82" width="12" height="30" rx="5" fill="url(#hcc-pg)"/>
+          <!-- ズボン折り目 -->
+          <line x1="25" y1="84" x2="25" y2="111" stroke="#060f1a" stroke-width="0.9" opacity="0.6"/>
+          <!-- 脛（膝から回転する入れ子グループ） -->
+          <g class="hcc-calf-r">
+            <rect x="20" y="112" width="10" height="22" rx="4" fill="url(#hcc-pg)"/>
+            <!-- 靴（右：手前側なのでより詳細） -->
+            <path d="M10 134 C12 138 20 140 28 140 C36 140 40 137 40 134 L40 132 C36 133 28 134 22 133 C18 132 14 131 11 132 Z" fill="#040c14"/>
+            <!-- 靴底ライン -->
+            <line x1="12" y1="134" x2="38" y2="134" stroke="#060e18" stroke-width="0.8" opacity="0.5"/>
+            <!-- ソールの厚み -->
+            <path d="M10 134 C10 136 12 138 20 140 C28 140 38 138 40 136 L40 134" fill="none" stroke="#050c16" stroke-width="1"/>
+          </g>
         </g>
-        <!-- 左腕 + ブリーフケース -->
-        <g id="hcc-arm-l">
-          <rect x="31" y="19" width="6" height="20" rx="3" fill="#0d1e2c"/>
-          <rect x="30" y="37" width="13" height="9" rx="2" fill="#152234"/>
-          <rect x="33" y="34" width="7" height="4" rx="1.5" fill="#152234"/>
+
+        <!-- 手前側 上腕（右腕） -->
+        <g class="hcc-arm-r">
+          <!-- 上腕 -->
+          <rect x="10" y="33" width="9" height="24" rx="4.5" fill="url(#hcc-sg)"/>
+          <!-- 前腕 -->
+          <rect x="11" y="57" width="8" height="18" rx="3.5" fill="url(#hcc-sg)"/>
+          <!-- 袖口カフ -->
+          <rect x="11" y="72" width="8" height="3" rx="1.5" fill="#1e3454"/>
+          <!-- 手 -->
+          <ellipse cx="15" cy="77" rx="5.5" ry="4" fill="#0c1e30"/>
         </g>
-        <!-- 右脚 -->
-        <g id="hcc-leg-r">
-          <rect x="16" y="43" width="7" height="28" rx="3.5" fill="#0d1e2c"/>
-          <ellipse cx="19" cy="72" rx="9" ry="4" fill="#07101a"/>
-        </g>
-        <!-- 左脚 -->
-        <g id="hcc-leg-l">
-          <rect x="25" y="43" width="7" height="28" rx="3.5" fill="#0d1e2c"/>
-          <ellipse cx="28" cy="72" rx="9" ry="4" fill="#07101a"/>
-        </g>
-        <!-- バックライトリム（逆光シルエット強調） -->
-        <circle cx="24" cy="9" r="7.5" fill="none" stroke="#c9982c" stroke-width="1.2" opacity="0.35"/>
+
+        <!-- 肩のラインを強調（上腕の付け根をなじませる） -->
+        <ellipse cx="15" cy="35" rx="6" ry="4" fill="url(#hcc-sg)"/>
+        <ellipse cx="57" cy="35" rx="6" ry="4" fill="url(#hcc-sg)"/>
+
       </svg>
+
       <!-- 地面の影 -->
       <div class="hcc-person-shadow" aria-hidden="true"></div>
     </div>
 
-    <!-- ビル近景レイヤー（最も速い・ぼかし） -->
+    <!-- ビル近景レイヤー（最速・ぼかし） -->
     <div class="hcc-layer hcc-layer-near" id="hcc-near" aria-hidden="true">
       <svg class="hcc-svg hcc-svg-near" viewBox="0 0 2000 380" preserveAspectRatio="xMinYMax meet" xmlns="http://www.w3.org/2000/svg">
         <rect x="0"    y="80"  width="240" height="300" fill="#0c1d2e"/>
@@ -207,7 +323,7 @@ const { site } = Astro.props;
   );
 }
 
-/* ===== BUILDING LAYERS ===== */
+/* ===== LAYERS ===== */
 .hcc-layer {
   position: absolute;
   bottom: 18%;
@@ -237,7 +353,6 @@ const { site } = Astro.props;
   background:
     radial-gradient(ellipse 160px 280px at 50% 28%, rgba(201,152,44,.14) 0%, transparent 60%),
     radial-gradient(ellipse 80px  480px at 52% 0%,   rgba(201,152,44,.07) 0%, transparent 80%);
-  transition: opacity .4s ease;
 }
 
 /* ===== GROUND ===== */
@@ -251,7 +366,6 @@ const { site } = Astro.props;
   overflow: hidden;
 }
 .hcc-ground::before {
-  /* 濡れた路面の反射 */
   content: '';
   position: absolute;
   inset: 0;
@@ -278,54 +392,112 @@ const { site } = Astro.props;
 /* ===== WALKING PERSON ===== */
 .hcc-person-wrap {
   position: absolute;
-  bottom: 19.5%;
+  bottom: 19%;
   left: 0;
   will-change: transform;
   transform-origin: 0 100%;
 }
 .hcc-walker {
-  width: 72px;
-  height: 135px;
+  width: 90px;
+  height: 180px;
   display: block;
-  filter: drop-shadow(0 0 6px rgba(201,152,44,.18));
+  /* 逆光の雰囲気を強調するフィルタ */
+  filter: drop-shadow(0 0 8px rgba(201,152,44,.22)) drop-shadow(0 4px 12px rgba(0,0,0,.6));
 }
 .hcc-person-shadow {
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  width: 56px;
-  height: 10px;
+  width: 70px;
+  height: 12px;
   background: radial-gradient(ellipse, rgba(0,0,0,.55) 0%, transparent 70%);
   border-radius: 50%;
 }
 
-/* --- 歩行アニメーション --- */
-#hcc-leg-r { transform-box: fill-box; transform-origin: 50% 0%; animation: hccLegR 0.62s ease-in-out infinite; }
-#hcc-leg-l { transform-box: fill-box; transform-origin: 50% 0%; animation: hccLegL 0.62s ease-in-out infinite; }
-#hcc-arm-r { transform-box: fill-box; transform-origin: 50% 0%; animation: hccArmR 0.62s ease-in-out infinite; }
-#hcc-arm-l { transform-box: fill-box; transform-origin: 50% 0%; animation: hccArmL 0.62s ease-in-out infinite; }
-.hcc-walker { animation: hccBob 0.31s ease-in-out infinite alternate; }
+/* ===== 歩行アニメーション =====
+   大腿は股関節で回転、脛は大腿グループ内で膝関節から回転。
+   transform-box: fill-box → 要素自身のバウンディングボックスを基準に
+   transform-origin: 50% 0% → バウンディングボックスの上端中央 = 関節位置
+*/
 
-@keyframes hccLegR {
-  0%, 100% { transform: rotate(-23deg); }
-  50%       { transform: rotate(23deg);  }
+/* 大腿 */
+.hcc-thigh-r {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccThighR 0.64s ease-in-out infinite;
 }
-@keyframes hccLegL {
-  0%, 100% { transform: rotate(23deg);  }
-  50%       { transform: rotate(-23deg); }
+.hcc-thigh-l {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccThighL 0.64s ease-in-out infinite;
+}
+/* 脛（大腿グループ内で追加回転 → ひざの曲げ伸ばし） */
+.hcc-calf-r {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccCalfR 0.64s ease-in-out infinite;
+}
+.hcc-calf-l {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccCalfL 0.64s ease-in-out infinite;
+}
+/* 腕 */
+.hcc-arm-r {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccArmR 0.64s ease-in-out infinite;
+}
+.hcc-arm-l {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: hccArmL 0.64s ease-in-out infinite;
+}
+/* 全身の上下ボブ */
+.hcc-walker {
+  animation: hccBob 0.32s ease-in-out infinite alternate;
+}
+
+@keyframes hccThighR {
+  0%, 100% { transform: rotate(-24deg); }
+  50%       { transform: rotate(24deg);  }
+}
+@keyframes hccThighL {
+  0%, 100% { transform: rotate(24deg);  }
+  50%       { transform: rotate(-24deg); }
+}
+/*
+  脛のひざ曲げ：
+  前振り時（大腿が前に出るとき）= ひざが曲がって脛が後ろ気味 → 負の角度を大きく
+  体の真下（着地）= ひざほぼ伸びる → 角度ゼロ付近
+  後振り時 = 少しだけ曲がる
+*/
+@keyframes hccCalfR {
+  0%   { transform: rotate(-14deg); }
+  20%  { transform: rotate(-2deg);  }
+  50%  { transform: rotate(-10deg); }
+  80%  { transform: rotate(-2deg);  }
+  100% { transform: rotate(-14deg); }
+}
+@keyframes hccCalfL {
+  0%   { transform: rotate(-10deg); }
+  20%  { transform: rotate(-2deg);  }
+  50%  { transform: rotate(-14deg); }
+  80%  { transform: rotate(-2deg);  }
+  100% { transform: rotate(-10deg); }
 }
 @keyframes hccArmR {
   0%, 100% { transform: rotate(18deg);  }
   50%       { transform: rotate(-18deg); }
 }
 @keyframes hccArmL {
-  0%, 100% { transform: rotate(-18deg); }
-  50%       { transform: rotate(18deg);  }
+  0%, 100% { transform: rotate(-14deg); }
+  50%       { transform: rotate(14deg);  }
 }
 @keyframes hccBob {
   from { transform: translateY(0px); }
-  to   { transform: translateY(-3px); }
+  to   { transform: translateY(-4px); }
 }
 
 /* ===== FILM GRAIN ===== */
@@ -333,13 +505,13 @@ const { site } = Astro.props;
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: .035;
+  opacity: .038;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   mix-blend-mode: overlay;
 }
 
-/* ===== LETTERBOX BARS ===== */
+/* ===== LETTERBOX ===== */
 .hcc-bar {
   position: absolute;
   left: 0;
@@ -386,11 +558,7 @@ const { site } = Astro.props;
   margin: 0 0 24px;
   line-height: 1.7;
 }
-.hcc-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+.hcc-badges { display: flex; flex-wrap: wrap; gap: 8px; }
 .hcc-badge {
   display: inline-flex;
   align-items: center;
@@ -402,10 +570,7 @@ const { site } = Astro.props;
   color: rgba(255,255,255,.8);
   letter-spacing: .04em;
 }
-.hcc-badge-val {
-  color: #c9982c;
-  font-weight: 700;
-}
+.hcc-badge-val { color: #c9982c; font-weight: 700; }
 
 /* ===== SP ===== */
 @media (max-width: 640px) {
@@ -413,7 +578,7 @@ const { site } = Astro.props;
   .hcc-svg-far  { width: 360vw; }
   .hcc-svg-mid  { width: 420vw; }
   .hcc-svg-near { width: 300vw; }
-  .hcc-walker { width: 52px; height: 98px; }
+  .hcc-walker { width: 64px; height: 128px; }
   .hcc-bar-top, .hcc-bar-bottom { height: 8svh; }
   .hcc-text-wrap { padding: 9svh 6vw 14svh; justify-content: flex-end; }
   .hcc-headline { font-size: clamp(20px, 5.5vw, 30px); }
@@ -444,24 +609,20 @@ const { site } = Astro.props;
     var total = root.offsetHeight - window.innerHeight;
     var p     = total > 0 ? clamp(-rect.top, 0, total) / total : 0;
 
-    /* 視差スクロール — 遠景が最も遅く、近景が最も速い */
     far.style.transform  = 'translateX(' + (-p * W * 0.55) + 'px)';
     mid.style.transform  = 'translateX(' + (-p * W * 1.05) + 'px)';
     near.style.transform = 'translateX(' + (-p * W * 1.80) + 'px)';
 
-    /* 人物: 左端 8vw → 中央 44vw まで歩行 */
     var pPerson = ease(norm(p, 0, 0.82));
     var personX = W * (0.08 + pPerson * 0.36);
-    var scale   = 1 + pPerson * 0.14;   /* 手前に向かってくる微妙な大きさ変化 */
+    var scale   = 1 + pPerson * 0.14;
     person.style.transform       = 'translateX(' + personX + 'px) scale(' + scale + ')';
     person.style.transformOrigin = '0 100%';
 
-    /* 光芒: p=0.30〜0.80 で表示 */
     var lightOp = norm(p, 0.30, 0.48) - norm(p, 0.74, 0.92);
     light.style.opacity   = String(clamp(lightOp, 0, 1));
     light.style.transform = 'translateX(' + (W * 0.28 + p * W * 0.18) + 'px)';
 
-    /* テキスト: p=0.62 から出現 */
     text.style.opacity = String(ease(norm(p, 0.62, 0.88)));
   }
 
