@@ -650,9 +650,10 @@ const { site } = Astro.props;
     var total = root.offsetHeight - window.innerHeight;
     var p     = total > 0 ? clamp(-rect.top, 0, total) / total : 0;
 
-    far.style.transform  = 'translateX(' + (-p * W * 0.55) + 'px)';
-    mid.style.transform  = 'translateX(' + (-p * W * 1.05) + 'px)';
-    near.style.transform = 'translateX(' + (-p * W * 1.80) + 'px)';
+    var mob = W <= 640;
+    far.style.transform  = 'translateX(' + (-p * W * (mob ? 1.80 : 0.55)) + 'px)';
+    mid.style.transform  = 'translateX(' + (-p * W * (mob ? 3.00 : 1.05)) + 'px)';
+    near.style.transform = 'translateX(' + (-p * W * (mob ? 4.50 : 1.80)) + 'px)';
 
     var lightOp = norm(p, 0.18, 0.42) - norm(p, 0.72, 0.92);
     light.style.opacity   = String(clamp(lightOp, 0, 1));
