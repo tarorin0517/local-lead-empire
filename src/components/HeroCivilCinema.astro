@@ -616,14 +616,9 @@ const { site } = Astro.props;
    LPコンテンツ（数字・メリット・フローなど）に最初から到達できる。
 */
 @media (max-width: 640px) {
-  /* スクロール領域を1画面分に限定 → 下のLPセクションが直後に現れる */
-  .hcc-root { height: 100svh; }
-  /* テキストをCSSで常時表示（JSのスクロール依存opacity=0を上書き） */
-  .hcc-text-wrap {
-    opacity: 1 !important;
-    padding: 9svh 6vw 14svh;
-    justify-content: flex-end;
-  }
+  /* 160vh：60vh分のアニメーション後すぐLPへ到達できる */
+  .hcc-root { height: 160vh; }
+  .hcc-text-wrap { padding: 9svh 6vw 14svh; justify-content: flex-end; }
   .hcc-svg-far  { width: 360vw; }
   .hcc-svg-mid  { width: 420vw; }
   .hcc-svg-near { width: 300vw; }
@@ -663,7 +658,8 @@ const { site } = Astro.props;
     light.style.opacity   = String(clamp(lightOp, 0, 1));
     light.style.transform = 'translateX(' + (W * 0.32 + p * W * 0.20) + 'px)';
 
-    text.style.opacity = String(ease(norm(p, 0.58, 0.84)));
+    var textIn = window.innerWidth <= 640 ? norm(p, 0.30, 0.60) : norm(p, 0.58, 0.84);
+    text.style.opacity = String(ease(textIn));
   }
 
   function tick() {
