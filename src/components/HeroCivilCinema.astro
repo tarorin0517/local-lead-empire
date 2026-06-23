@@ -153,6 +153,30 @@ const { site } = Astro.props;
         <rect x="1800" y="130" width="12" height="7"  fill="#c0d8f0" opacity="0.85"/>
         <rect x="2002" y="198" width="10" height="6"  fill="#c0d8f0" opacity="0.80"/>
         <rect x="2205" y="80"  width="12" height="7"  fill="#c0d8f0" opacity="0.90"/>
+
+        <!-- ===== スカイツリー風タワー（遠景・中央寄り） ===== -->
+        <!-- 夜間ブルー照明グロー -->
+        <ellipse cx="1600" cy="350" rx="40" ry="195" fill="#0048b0" opacity="0.040"/>
+        <!-- 基部：末広がりの3本脚（2D側面表現） -->
+        <polygon points="1565,560 1592,485 1608,485 1635,560" fill="#09182e"/>
+        <!-- 基部左補助脚 -->
+        <polygon points="1565,560 1590,560 1592,485 1580,485" fill="#0a1c34" opacity="0.60"/>
+        <!-- メインシャフト（わずかにテーパー） -->
+        <polygon points="1592,485 1595,110 1605,110 1608,485" fill="#0a1a32"/>
+        <!-- 第1展望台 Tembo Deck（y≈265） -->
+        <rect x="1582" y="254" width="36" height="15" rx="3.5" fill="#091830"/>
+        <rect x="1582" y="252" width="36" height="5"  rx="2"   fill="#1244b0" opacity="0.55"/>
+        <!-- 第2展望台 Tembo Galleria（y≈174） -->
+        <rect x="1587" y="165" width="26" height="12" rx="3"   fill="#091830"/>
+        <rect x="1587" y="163" width="26" height="4"  rx="2"   fill="#1040a0" opacity="0.45"/>
+        <!-- 上部マスト -->
+        <rect x="1597" y="26" width="6" height="88" fill="#08162c"/>
+        <!-- アンテナ先端 -->
+        <polygon points="1597,26 1600,12 1603,26" fill="#07122a"/>
+        <!-- 航空障害灯 -->
+        <circle cx="1600" cy="14"  r="3"   fill="#ff2020" opacity="0.92"/>
+        <circle cx="1600" cy="110" r="2"   fill="#ff2020" opacity="0.55"/>
+        <circle cx="1600" cy="258" r="1.5" fill="#3060ff" opacity="0.65"/>
       </svg>
     </div>
 
